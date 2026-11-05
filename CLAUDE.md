@@ -34,9 +34,30 @@ decisiones `D-n` en `docs/DECISIONS.md` (la más reciente arriba y **manda sobre
 - `proxy/`, `servidor/`, `.github/workflows/`: proxy nginx del 80, instalación y despliegue (`desplegar.sh`
   comprueba `/proyectos/`, `/proyectos/galeria`, `/proyectos/entrar` y `/proyectos/api/salud`), Actions
   (`validar-pr.yml`, `desplegar.yml`).
-- `factory/`: configuración (`config.json`), `backlog.md`, métricas; `factory/jobs/` es estado de ejecución (ignorado).
-  `.claude/agents/` y `.claude/skills/` son la fábrica; su documentación completa está en
-  `factory-doc/DOCUMENTACION.md` del repo `mikeldalmauc/factory-boilerplate`.
+- `e2e/`: pruebas de extremo a extremo con Playwright (Chromium, escritorio y móvil) contra la pila de Docker
+  levantada: `tests/*.spec.js` (portada, galería, reacciones, sesión, rutas y API, idioma, calidad, capturas),
+  `tests/datos.js` (cuentas y proyectos de ejemplo que usan), `preparar.setup.js` (importa `alumnos.ejemplo.csv`,
+  vacía reacciones y guarda una sesión), `docker-compose.yml` + `Dockerfile` (imagen oficial de Playwright, se une a
+  la red `pi_default` y habla con `http://proxy/proyectos/`). Salida en `e2e/salida/` (ignorada). Guía: `e2e/LEEME.md`.
+- `factory/`: configuración (`config.json`), `backlog.md` (la cola: una línea por feature; `/factory next` coge la
+  primera sin marcar), `metrics.py` (`python -I factory/metrics.py`, tabla por job), `renumerar.py` (numera `D-NEW` al
+  fusionar), `dashboard/` (`node factory/dashboard/server.mjs` → `http://127.0.0.1:8989`; `--examples` enseña los
+  jobs de muestra de `factory/examples/`; su botón "Aprobar y fusionar" escribe `factory/approvals/<job>` y el de
+  pausa `factory/PAUSED`, que ejecuta el cron), `cron/factory-next.sh` (Linux: fusiona lo aprobado y lanza
+  `/factory next` según `modo` e `intervalo_min`). `factory/jobs/`, `approvals/`, `PAUSED` y `metrics.json` son
+  estado de ejecución (ignorados). `docker/` es el contenedor para correr la fábrica desatendida
+  (`docker compose -f docker/compose.yaml run --rm factory`), distinto del `docker-compose.yml` de la raíz, que es
+  la aplicación. `.claude/agents/` y `.claude/skills/` son la fábrica; documentación en `factory-doc/DOCUMENTACION.md`
+  y el contrato de datos que siguen dashboard y cron en `factory-doc/DATOS.md` (copiados de
+  `mikeldalmauc/factory-boilerplate`, `origin/main`).
+
+## Mapa del código
+
+Grafo de conocimiento del repo hecho con graphify (`graphify-out/`, 5/11/2026): `GRAPH_REPORT.md` (nodos centrales,
+conexiones entre comunidades, preguntas sugeridas), `graph.html` (interactivo, se abre sin servidor) y `graph.json`.
+Antes de buscar a ciegas con grep, pregunta al grafo desde la raíz del repo: `graphify query "<pregunta>"`,
+`graphify path "<A>" "<B>"`, `graphify explain "<nodo>"`. Tras cambiar ficheros: `graphify update` (reextrae solo
+lo que cambió). Los 66 ficheros de código entran por AST sin coste; los 58 documentos los leen subagentes.
 
 ## Preparar un checkout nuevo
 
@@ -66,6 +87,10 @@ y `http://localhost/proyectos/`.
 - Build: `npm --prefix apps/proyectos/web run build`
 - Validador de proyectos (lo mismo que corre en cada PR): `node scripts/validar-proyectos.js proyectos/WG/reservas-talleres`
 - API: arrancarla como arriba y `curl -s localhost:<puerto-api>/api/salud` (`invalidos` debe ser `[]`).
+- Extremo a extremo (con la pila de Docker levantada desde la raíz, `docker compose up -d --build --wait`):
+  `docker compose -f e2e/docker-compose.yml run --rm --build e2e`. Informe HTML en `e2e/salida/informe/`, capturas de
+  cada página en `e2e/salida/capturas/`. Ojo con el límite de 10 inicios de sesión por IP cada 10 min: si la API
+  devuelve 429, `docker compose restart proyectos-api`.
 - Lint y formato: No aplica (no hay eslint ni prettier configurados; no añadirlos sin preguntar).
 
 ## Convenciones

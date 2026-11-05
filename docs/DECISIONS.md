@@ -3,6 +3,115 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-17 · Portada como la referencia: campo índigo plano y título partido · 2026-11-05 · vigente
+Mikel manda una captura (WhatsApp, 5/11 14:43) con la paleta de D-04 y una portada que le gusta ("una página web de
+ejemplo con los colores que quiero y un estilo de página principal que me gusta"): héroe de índigo eléctrico plano,
+título enorme en condensada partido a los dos lados de un retrato en duotono, una palabra en serif itálica por línea,
+botón menta en píldora, lista corta con filetes a la derecha y fila de logos abajo. Se aplica así:
+- **Colores**: vuelven los valores de D-04 para fondo, superficies y bordes (ónice `#01010D`…); D-15 queda solo en
+  la menta (`#70FBB7`, más saturada). Lo que faltaba de azul no era el fondo sino un campo índigo grande: el héroe.
+- **Héroe**: `bg-indigo` plano, sin degradado (sustituye a D-09) y sin LiquidEther (sale de la lista de D-07; el
+  fichero se queda en `reactbits/` por si vuelve). Título partido: "PROYECTOS / *intermodulares*" a la izquierda y
+  "26·27 / *Zornotza LHII*" a la derecha (Impact + Instrument Serif itálica, Google Fonts; el `h1` sigue siendo
+  "Proyectos intermodulares 26-27", D-05, en `sr-only`). En medio, la portada del proyecto destacado teñida de
+  índigo con `mix-blend-luminosity` y una máscara radial: la foto cambia en cada visita, como el destacado.
+  Debajo, la entradilla y los dos botones (textos de D-05), la lista de lo que se pide a cada grupo (`hero_1..4`) y
+  las cifras como fila de cierre. BlurText deja de usarse en la portada.
+- **Botones en píldora** (`rounded-full`) en toda la web, como los chips y las reacciones; variante `claro` (borde
+  blanco) para el índigo.
+- La captura no entra en el repo (es una pantalla de un vídeo ajeno con una persona); queda en Descargas de Mikel.
+- Segunda vuelta, con la primera versión a la vista: "las secciones de héroes quedan muy poco memorables, tienen poca
+  altura, las imágenes no se están integrando bien y el texto tampoco se ve bien porque las letras de Impact están
+  demasiado juntas y brillan mucho". Héroe a pantalla completa (`100vh` menos la cabecera), título a 9,5 vw con
+  `tracking 0.03em` y blanco al 90 %, la foto grande detrás del título (46 vw, máscara radial amplia, las letras pisan
+  sus bordes), tracking global de h1-h3 a 0.025em, y la franja de la galería a 46 vh con su título a tamaño de
+  portada. El job del backlog que pedía bajar esa franja a la mitad se retira: Mikel decide lo contrario.
+- Tercera vuelta: "Reemplaza la imagen esa por la de img/patata y agrega un par de gradientes onyx desde abajo, ahora
+  se ve azul plano la página principal", "que no tiene sentido que esté ahí". La foto del destacado sale del héroe;
+  en su lugar, la mascota `img/patata.png` (recorte 3D con fondo transparente, ya en índigo y menta; copiada a
+  `apps/proyectos/web/public/img/`), sin máscara ni mezcla, detrás del título. Y dos degradados de ónice desde
+  abajo (uno vertical y otro radial desde la esquina inferior izquierda): la regla "sin degradado" de arriba queda
+  anulada por Mikel. El PNG pesa 890 KB; conviene pasarlo a WebP cuando se cierre la mascota. Mikel manda después otro recorte
+  ("reemplaza por esta", mismas medidas, 748 KB), que sustituye al anterior.
+- Cabecera: "haz que la cabecera sea transparente y cuando deje de verse por el scroll esta aparece desde arriba con
+  una animación, ease-in", "al volver a subir esta desaparece y deja ver la cabecera transparente". `Cabecera.jsx`
+  escucha el scroll: en reposo es transparente y el héroe sube hasta debajo (`-mt-20 pt-20` en escritorio); pasada
+  su altura, la misma cabecera se vuelve fija con fondo ónice y entra con `animate-bajar` (0,35 s, ease-in; sin
+  animación con `prefers-reduced-motion`), dejando un hueco de su alto para que la página no salte; al volver arriba
+  deja de ser fija y vuelve la transparente.
+- Cuarta vuelta, con las capturas a la vista: "Las partes no se funden bien" (la costura entre el héroe y la sección
+  siguiente). El degradado vertical acababa en ónice al 92 %, con lo que la última fila del héroe quedaba violácea
+  sobre el fondo ónice puro; ahora acaba en ónice opaco y el héroe se funde con la página.
+- Quinta vuelta: "El gradiente está bien, que no sea lineal, pero la patata tiene que ser más grande y estar más
+  abajo, casi fundiéndose con la parte negra (…) casi el doble grande". El degradado vertical pasa a curva en S (seis
+  paradas: arranca despacio, acelera en el centro, remata en ónice opaco). La mascota deja de centrarse en el bloque
+  del título: ocupa el alto del héroe (`100vh - 40px`, tope 1040 px, ancho automático), con la cola bajo la
+  cabecera transparente y las patas en la zona oscura, justo encima de la fila de cifras. A 1080p mide 832 px de
+  ancho (1,8 veces los 460 de antes); a 900 px de alto, 688. En móvil no cambia. Después, "Mueven un poco más
+  abajo": 64 px más abajo, y la fila de cifras baja otros 64 (`md:mt-16`) para que las patas no la pisen.
+- Sexta vuelta: "agrega alguno de los efectos de React Bits sin afectar al mood o al tono general". Entran en la lista
+  de D-07 dos componentes sin dependencias, copiados de `src/tailwind/` del repo: **Noise** (grano de película sobre
+  el héroe, `soft-light` al 14 %, 12 fps, quieto con `prefers-reduced-motion`: textura sin cambiar el color) y
+  **Magnet** alrededor de la mascota (se desplaza hasta 28 px hacia el cursor, sin inclinación 3D: "La imagen se ha
+  deformado"; nada en táctil ni con
+  reduced-motion). SplitText se descarta porque pide `@gsap/react`, que no está instalado.
+- Séptima vuelta: "Más grande y más abajo la imagen y no deformarla". La deformación era real: al envolverla en Magnet,
+  la caja del envoltorio salía más estrecha que la imagen y el `max-width: 100%` del preflight de Tailwind la
+  aplastaba en horizontal (la altura estaba fijada). Ahora la mascota se posiciona respecto al contenedor del héroe
+  (`inset-0`, centrada con flex), con el alto en cadena hasta la imagen (`h-full`), `max-w-none` y ancho automático:
+  ocupa todo el alto del héroe, cola bajo la cabecera y patas en el borde inferior, por detrás de la fila de cifras
+  (`relative`, sin el margen extra de la vuelta anterior). La capa de la mascota no recibe el puntero. El test
+  "Enséñame otro" espera al destacado antes de leer el primer `h3`: leía a veces una tendencia y fallaba al azar.
+  Después, "Mueve la patata hacia abajo un poquito, muy poco, lo justo para que se fundan las patas": 40 px más abajo
+  (`top-10 -bottom-10`) y una máscara (`mask-b-from-80%`) que desvanece el 20 % inferior de la mascota: las patas se
+  funden con el ónice en vez de cortarse en el borde del héroe, y las cifras se leen mejor encima.
+
+### D-16 · La fábrica completa, según la guía del boilerplate · 2026-11-05 · vigente
+"Integrame bien la factory mira en factory boilerplate", "asi es como tienes que hacerlo". Se sigue §11 de
+`DOCUMENTACION.md` ("Instalación en tu proyecto") y SCAFFOLD §3.2 (app existente) tomando como referencia
+`origin/main` de `mikeldalmauc/factory-boilerplate` (el clon local iba cuatro commits por detrás; los agentes y la
+skill `factory` del repo ya eran los de esa versión y no se tocan). Entran: `factory/dashboard/` nuevo (botones
+"Aprobar y fusionar" y pausa, que escriben `factory/approvals/<job>` y `factory/PAUSED`), `factory/cron/factory-next.sh`
+(fusiona lo aprobado y encadena `/factory next`; corre en Linux: servidor o contenedor), `docker/` (Dockerfile y
+compose de la fábrica desatendida, con `REPO_DIR_NAME` por defecto `proyectos_intermodulares`), `factory/examples/`
+(tres jobs de muestra para `--examples`), `factory-doc/DOCUMENTACION.md` y `DATOS.md`, y `factory/worktrees/` en
+`.gitignore`. Quedan fuera a propósito `nuevo-proyecto` y `bin/nuevo-proyecto.sh` (crear un proyecto desde cero) y
+las plantillas de SPEC y DECISIONS (ya existen los nuestros). Aprobar desde la interfaz requiere el cron en marcha;
+sin cron, `/factory approve <id>` en una sesión abierta dentro del repo. Completa D-12.
+
+### D-15 · Paleta con más azul, menos negro y la menta más saturada · 2026-11-05 · vigente
+"los colores no me gustan, tiene poco azul y mucho negro y el verde tiene que ser ligerametne más saturado". El fondo
+pasa de ónice casi negro (`#01010D`) a índigo profundo (`#0B0A36`) y las superficies y bordes suben en la misma
+dirección (`#15134A`, `#1E1B5A`, `#2A2670`, `#332E7E`, `#5A54A8`); el degradado del héroe arranca en ese azul y
+pasa por `#1E1570`; la menta pasa de `#88F9C0` a `#70FBB7` (un punto más saturada y menos pastel; su clara, a
+`#8FFCC6`). El índigo eléctrico `#6331FB` y los textos no cambian. Los nombres de los tokens (`onice`, `menta`…) se
+mantienen para no tocar los componentes. Cambiado también en favicon, `theme-color`, `portada-defecto.svg`, la
+plantilla del alumnado y las tres landings de ejemplo, para que la landing no desentone al abrirla desde la tarjeta.
+Sustituye los valores de D-04; la idea (una sola acción principal en menta) sigue.
+
+### D-14 · Fotos de prueba en los proyectos de ejemplo · 2026-11-05 · vigente
+"Añade unas imagenes de prueba para los proyectos de ejemplo": los tres ejemplos de `proyectos/` llevan una foto
+real como `portada.jpg` (1200×750, menos de 110 KB cada una) en vez del `portada.svg` esquemático, y sus landings la
+usan también. Son fotos de Unsplash servidas por picsum.photos (ids 160, 180 y 42; licencia Unsplash, sin atribución
+obligatoria). `_plantilla/` conserva su `portada.svg` y `proyectos/LEEME.md` sigue valiendo tal cual.
+
+### D-13 · Pruebas de extremo a extremo con Playwright en Docker · 2026-11-05 · vigente
+"prueba la web con playwright tienes docker", "prepara multiples tests", "luego levántala aquí en local para que
+vea cómo ha quedado". Carpeta `e2e/` con su propio `package.json` (solo `@playwright/test`, misma versión que la
+imagen oficial `mcr.microsoft.com/playwright`): la web no gana dependencias (D-07). Las pruebas corren en un
+contenedor unido a la red de la pila y atacan `http://proxy/proyectos/`, como un navegador real; en serie (las
+reacciones son estado compartido) y con dos proyectos, escritorio y móvil (Pixel 7). Un setup importa las cuentas de
+ejemplo con `CLAVE_ADMIN`, vacía las reacciones y guarda una sesión para no gastar el límite de 10 intentos por IP.
+La primera pasada destapó un fallo que los tests unitarios no veían: `Desplazamiento` (`App.jsx`) devolvía el
+resultado de `window.scrollTo` desde el `useEffect`; en jsdom es `undefined`, en Chromium no, y React lo ejecutaba
+como limpieza al cambiar de página → `TypeError` y la app entera en negro al ir a `/entrar` o pulsar un ancla.
+Corregido en la misma ronda, igual que el segundo que salió en móvil: al llegar a `/#publicar` desde otra página,
+la lista de proyectos se pintaba después del scroll y empujaba el ancla (se acababa en el destacado); ahora
+`Desplazamiento` recoloca el ancla mientras cambie la altura de la página durante dos segundos. Fallo conocido que
+dejan documentado con `test.fail()`: una landing sin barra final
+(`/proyectos/p/WG/x`) redirige sin el prefijo `/proyectos` y acaba en 404 (el `location /p/` de
+`apps/proyectos/web/nginx.conf` no usa `X-Forwarded-Prefix`); arreglo pendiente de Mikel por ser zona de despliegue.
+
 ### D-12 · La fábrica va dentro del repo · 2026-11-05 · vigente
 Agentes, skills (ponytail, thermo-nuclear) y `factory/` copiados de `mikeldalmauc/factory-boilerplate`, como en
 mikels-core. Nivel ponytail `full`. Las carpetas de `proyectos/` quedan fuera de lo que la fábrica puede tocar.

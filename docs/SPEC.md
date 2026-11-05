@@ -12,10 +12,11 @@ manda sobre este documento).
 
 ## 2. Qué hace
 
-1. **Portada** (`/proyectos/`): cabecera con logo del centro; portada a pantalla completa con animación (React Bits
-   `LiquidEther`) sobre un gradiente ónice → índigo, título animado, cifras; **proyecto destacado** elegido al azar entre
-   los 10 con más reacciones (botón "Enséñame otro"); **Tendencias**: los 3 siguientes; enlace "Ver los N proyectos";
-   llamada a publicar; pie.
+1. **Portada** (`/proyectos/`): cabecera con logo del centro; héroe de índigo eléctrico plano (D-17) con el título
+   partido a los dos lados de la portada del proyecto destacado teñida de índigo, una palabra en serif itálica por
+   línea, entradilla, dos botones, la lista de lo que se pide a cada grupo y las cifras como fila de cierre;
+   **proyecto destacado** elegido al azar entre los 10 con más reacciones (botón "Enséñame otro"); **Tendencias**:
+   los 3 siguientes; enlace "Ver los N proyectos"; llamada a publicar; pie.
 2. **Galería** (`/proyectos/galeria`): todas las tarjetas con filtro por ciclo (chips con recuento, `?ciclo=`),
    buscador (título, resumen, equipo, etiquetas) y las cinco reacciones (👏 💡 🚀 🔥 ❤️, pintadas con iconos). Sin sesión
    se invita a entrar; con sesión se añade o quita la reacción; nadie reacciona a su propio proyecto.
@@ -31,9 +32,10 @@ manda sobre este documento).
 
 ## 3. Cómo se ve
 
-Paleta: ónice `#01010D` (fondo), índigo eléctrico `#6331FB` (gradientes, acentos secundarios), menta tropical `#88F9C0`
-(única acción principal por bloque). Títulos en Impact (Anton de respaldo), texto IBM Plex Sans, etiquetas IBM Plex
-Mono. Componentes animados **de React Bits, copiados tal cual** (`apps/proyectos/web/src/reactbits/`), nunca
+Paleta: ónice `#01010D` (fondo), índigo eléctrico `#6331FB` (el campo del héroe de la portada y acentos secundarios),
+menta tropical `#70FBB7` (única acción principal por bloque). Títulos en Impact (Anton de respaldo), una palabra en
+Instrument Serif itálica por línea en el título de la portada, texto IBM Plex Sans, etiquetas IBM Plex Mono. Botones
+en píldora. Componentes animados **de React Bits, copiados tal cual** (`apps/proyectos/web/src/reactbits/`), nunca
 reimplementados. Tarjetas con `SpotlightCard`; aparición al hacer scroll con `AnimatedContent`. Estados vacíos reales,
 focus visible, toques de 44 px, `prefers-reduced-motion` respetado. El diseño de referencia es el artefacto "Diseño web
 Proyectos intermodulares · Zornotza LHII" (Claude Design).
@@ -49,6 +51,9 @@ web compilada + landings) y `proyectos-api`. Estructura y scripts copiados de `m
 
 - Tests de la web con vitest + Testing Library contra una API falsa (`apps/proyectos/web/test/`): portada, galería,
   reacciones, login, idioma. La API se prueba a mano con `curl` (ver `apps/proyectos/LEEME.md`).
+- Pruebas de extremo a extremo con Playwright en Docker contra la pila entera (`e2e/`, D-13): portada, galería,
+  reacciones reales, sesión, rutas del proxy y de nginx, landings, API, idioma, calidad (consola, accesibilidad
+  básica, teclado, `prefers-reduced-motion`) y capturas de cada página en escritorio y móvil.
 - Validación de PR del alumnado automática; nada se despliega sin pasar por `main`.
 
 ## 6. Lo que NO se hace

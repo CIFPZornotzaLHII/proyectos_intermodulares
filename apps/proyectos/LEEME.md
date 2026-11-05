@@ -73,12 +73,12 @@ React 19 + Vite + Tailwind 4 + react-router. Compilada con base `/proyectos/` (`
 |---|---|
 | `src/paginas/` | `Portada` (destacado al azar entre los 10 más votados, tendencias, cifras), `Galeria` (filtros por ciclo, buscador, reacciones), `Entrar` (login) |
 | `src/componentes/` | cabecera, pie, llamada a publicar, botón, iconos y las tarjetas (`Tarjeta.jsx`) |
-| `src/reactbits/` | componentes de [React Bits](https://reactbits.dev) copiados tal cual (licencia MIT + Commons Clause, `LICENSE.md`): `LiquidEther` (fondo de la portada), `BlurText` (título), `CountUp` (cifras), `SpotlightCard` (tarjetas), `DotGrid` (franja de la galería), `Orb` (login) y `AnimatedContent` (aparición al hacer scroll). No se editan: si hace falta otro, se copia de `src/tailwind/` del repo de React Bits |
+| `src/reactbits/` | componentes de [React Bits](https://reactbits.dev) copiados tal cual (licencia MIT + Commons Clause, `LICENSE.md`): `CountUp` (cifras de la portada), `SpotlightCard` (tarjetas), `DotGrid` (franja de la galería), `Orb` (login) y `AnimatedContent` (aparición al hacer scroll); `LiquidEther` y `BlurText` siguen en la carpeta pero la portada ya no los usa (D-17). No se editan: si hace falta otro, se copia de `src/tailwind/` del repo de React Bits |
 | `src/i18n.jsx` | textos ES/EU · `src/api.js` llamadas a la API · `src/sesion.jsx` sesión compartida · `src/index.css` tema (paleta y tipografías en `@theme`) |
 | `test/` | pruebas de las tres páginas contra una API falsa |
 
-Paleta: ónice `#01010D`, índigo `#6331FB`, menta `#88F9C0` (acción principal). Títulos en Impact, con Anton (Google Fonts) de respaldo para Linux y Android; texto IBM Plex Sans; etiquetas IBM Plex Mono.
-Los fondos animados usan WebGL2; donde no hay (navegadores muy viejos), simplemente no se pintan y la web funciona igual.
+Paleta: ónice `#01010D` (fondo), índigo `#6331FB` (el héroe de la portada es un campo plano de este color), menta `#70FBB7` (acción principal). Títulos en Impact, con Anton (Google Fonts) de respaldo para Linux y Android, y una palabra por línea del título de la portada en Instrument Serif itálica; texto IBM Plex Sans; etiquetas IBM Plex Mono. Botones en píldora.
+La franja de la galería y el orbe del login usan WebGL2 o canvas; donde no hay (navegadores muy viejos), simplemente no se pintan y la web funciona igual.
 
 ## Idiomas
 
