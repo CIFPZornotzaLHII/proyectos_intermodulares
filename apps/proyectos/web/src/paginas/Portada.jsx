@@ -38,7 +38,7 @@ export default function Portada() {
 
   return (
     <>
-      <Cabecera />
+      <Cabecera sobreIndigo />
 
       {/* Portada (D-17): un campo plano de índigo eléctrico, como la referencia de Mikel. El título va partido a los dos
           lados de la foto del proyecto destacado, teñida de índigo con mix-blend (cambia en cada visita); una palabra

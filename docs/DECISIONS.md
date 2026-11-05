@@ -3,6 +3,19 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-21 · Contraste de la cabecera transparente sobre el héroe índigo · 2026-11-05 · vigente
+Petición: "En la cabecera de la portada sobre el héroe índigo (`Cabecera.jsx` en su estado transparente, antes de
+hacer scroll), los textos no tienen contraste suficiente: el subtítulo bajo el logo, los enlaces de navegación y el
+selector de idioma usan `text-texto-3` (pensado para el fondo ónice) y sobre índigo `#6331FB` quedan apagados. Que
+sobre el índigo lleguen a 4,5:1 (blanco pleno o `texto` con opacidad alta), sin tocar la cabecera fija (fondo
+ónice), ni tamaños, ni disposición; en ES y EU igual." Se hace así:
+- `Cabecera` gana la prop `sobreIndigo` (por defecto `false`); solo la pasa `Portada.jsx`. Galería y Entrar no cambian.
+- Con `sobreIndigo` y en estado `'libre'`, el subtítulo, los enlaces inactivos, el botón de idioma inactivo y el ciclo
+  del usuario pasan de `text-texto-3` (unos 2,6:1) a `text-texto/90` (unos 4,9:1 sobre `#6331FB`), con
+  `hover:text-texto` para que el hover se siga notando. No `/85`: da unos 4,47:1.
+- En `fija` y `saliendo` (fondo ónice) siguen en `text-texto-3`. Se aplica en todos los anchos: en móvil el héroe no
+  sube bajo la cabecera, pero sobre ónice `texto/90` contrasta aún más.
+
 ### D-20 · El destacado de la portada como hero section · 2026-11-05 · vigente
 "Rehacer el bloque "Proyecto destacado" de la portada […] como una hero section memorable, no como una tarjeta más",
 más alto, con la portada del proyecto dominando el bloque y el texto encima, un efecto de React Bits, mucha más
