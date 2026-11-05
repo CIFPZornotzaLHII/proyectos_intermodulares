@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import SpotlightCard from '../reactbits/SpotlightCard.jsx';
+import Noise from '../reactbits/Noise.jsx';
 import { useIdioma } from '../i18n.jsx';
 import { ruta } from '../api.js';
 import { REACCIONES, esAutor, iniciales, totalReacciones } from '../datos.js';
@@ -14,34 +15,35 @@ export const ESTILO_TARJETA = {
   padding: 0,
 };
 
+// Sin imagen propia el grupo deja la de la plantilla: se pintan sus iniciales
+const conImagen = p => p.portada && !p.portada.endsWith('portada-defecto.svg');
+
 // Solo el ciclo (SMR, DAW, DAM): el grado sobraba en la etiqueta
 export const Insignia = ({ p }) => <span className="insignia">{p.ciclo_nombre}</span>;
 
 // Imagen de portada (o iniciales si el grupo no puso imagen) con la etiqueta del ciclo; enlaza a la landing
-export function PortadaProyecto({ p, className = '', grande = false }) {
+export function PortadaProyecto({ p, className = '' }) {
   const { t } = useIdioma();
-  const conImagen = p.portada && !p.portada.endsWith('portada-defecto.svg');
   return (
     <a href={ruta(p.url)} aria-label={`${t('ver_proyecto')}: ${p.titulo}`}
-      className={`relative flex items-center justify-center overflow-hidden bg-superficie-2 no-underline ${grande ? 'min-h-[380px] flex-[1_1_520px]' : 'aspect-video'} ${className}`}>
-      {conImagen
-        ? <img src={ruta(p.portada)} alt="" loading="lazy" className={`block size-full object-cover ${grande ? 'absolute inset-0' : ''}`} />
-        : <span className={`font-titulo text-indigo-claro opacity-80 ${grande ? 'text-[72px]' : 'text-[44px]'}`} aria-hidden="true">{iniciales(p.titulo)}</span>}
+      className={`relative flex aspect-video items-center justify-center overflow-hidden bg-superficie-2 no-underline ${className}`}>
+      {conImagen(p)
+        ? <img src={ruta(p.portada)} alt="" loading="lazy" className="block size-full object-cover" />
+        : <span className="font-titulo text-[44px] text-indigo-claro opacity-80" aria-hidden="true">{iniciales(p.titulo)}</span>}
       <span className="absolute top-[18px] left-[18px] z-[1] inline-flex gap-2"><Insignia p={p} /></span>
     </a>
   );
 }
 
-export function BotonesProyecto({ p, grande = false }) {
+export function BotonesProyecto({ p }) {
   const { t } = useIdioma();
-  const tamano = grande ? 'normal' : 'pequeno';
   return (
     <>
-      <Boton variante="menta" tamano={tamano} href={ruta(p.url)}>{t('ver_proyecto')}<Icono nombre="flecha" grosor={2.2} /></Boton>
+      <Boton variante="menta" tamano="pequeno" href={ruta(p.url)}>{t('ver_proyecto')}<Icono nombre="flecha" grosor={2.2} /></Boton>
       {p.video
-        ? <Boton tamano={tamano} href={p.video} externo><Icono nombre="play" grosor={2} />{t(grande ? 'video_5' : 'video')}</Boton>
-        : <Boton variante="pendiente" tamano={tamano}>{t('video_pendiente')}</Boton>}
-      {p.repo && <Boton tamano={tamano} href={p.repo} externo><Icono nombre="codigo" grosor={2} />{t('codigo')}</Boton>}
+        ? <Boton tamano="pequeno" href={p.video} externo><Icono nombre="play" grosor={2} />{t('video')}</Boton>
+        : <Boton variante="pendiente" tamano="pequeno">{t('video_pendiente')}</Boton>}
+      {p.repo && <Boton tamano="pequeno" href={p.repo} externo><Icono nombre="codigo" grosor={2} />{t('codigo')}</Boton>}
     </>
   );
 }
@@ -100,23 +102,43 @@ export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, modo = 'galer
   );
 }
 
-// Proyecto destacado de la portada: imagen grande a la izquierda, texto y reacciones a la derecha
+// Proyecto destacado de la portada como hero section (D-NEW): la foto a sangre ocupa todo el bloque, con el grano de
+// React Bits (Noise) y un degradado de ónice desde abajo a la izquierda; encima, abajo a la izquierda, el texto con
+// mucha escala (título de portada en Impact, cifra grande en menta) y una sola acción menta; vídeo y código, enlaces.
+const ENLACE_DISCRETO = 'inline-flex min-h-[44px] items-center gap-2 text-[15px] font-semibold text-texto-2 no-underline hover:text-menta';
+
 export function Destacado({ p }) {
   const { t } = useIdioma();
   const resumen = REACCIONES.filter(x => (p.reacciones[x.emoji] || 0) > 0).sort((a, b) => p.reacciones[b.emoji] - p.reacciones[a.emoji]).slice(0, 3);
   return (
     <SpotlightCard role="article" spotlightColor="#70FBB7" intensity={0.1} spotlightSize={420} borderGlow={0.7}
-      style={{ ...ESTILO_TARJETA, borderRadius: 'var(--radius-destacado)' }} className="flex flex-wrap">
-      <PortadaProyecto p={p} grande />
-      <div className="flex flex-[1_1_400px] flex-col justify-center gap-4 px-10 pt-10 pb-9 max-md:px-6 max-md:pt-7 max-md:pb-7">
-        <h3 className="text-[clamp(26px,3vw,32px)]"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
-        <p className="text-[14px] font-medium text-texto-3">{(p.equipo || []).join(' · ')} · {p.ciclo_nombre}</p>
-        <p className="text-[18px] text-texto-2">{p.resumen}</p>
-        <div className="flex flex-wrap items-center gap-2">
-          {resumen.map(x => <span key={x.emoji} className="pildora" title={t(x.nombre)}><Icono nombre={x.icono} tam={15} className="text-menta" />{p.reacciones[x.emoji]}</span>)}
-          <span className="text-[13px] text-texto-3">{t('reacciones_total', { n: totalReacciones(p) })}</span>
+      style={{ ...ESTILO_TARJETA, '--spotlight-card-surface': 'var(--color-superficie-2)', borderRadius: 'var(--radius-destacado)' }}
+      className="flex min-h-[min(80vh,720px)] flex-col justify-end max-md:min-h-[560px]">
+      {conImagen(p)
+        ? <img src={ruta(p.portada)} alt="" className="absolute inset-0 block size-full object-cover" />
+        : <span aria-hidden="true" className="absolute inset-x-0 top-0 flex h-3/5 items-center justify-center font-titulo text-[clamp(160px,28vw,380px)] leading-none text-indigo-claro opacity-80">{iniciales(p.titulo)}</span>}
+      <Noise opacity={0.14} size={1.5} fps={12} contrast={0.5} blendMode="soft-light" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgba(1,1,13,1)_0%,rgba(1,1,13,0.9)_30%,rgba(1,1,13,0.5)_55%,transparent_80%)]" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_70%_at_0%_100%,rgba(1,1,13,0.75)_0%,transparent_70%)]" />
+      <span className="absolute top-[18px] left-[18px] inline-flex gap-2"><Insignia p={p} /></span>
+
+      <div className="relative flex max-w-[960px] flex-col gap-5 px-12 pt-24 pb-11 max-md:gap-4 max-md:px-6 max-md:pb-7">
+        <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-texto-3">{(p.equipo || []).join(' · ')} · {p.ciclo_nombre}</p>
+        <h3 className="text-[clamp(48px,7vw,112px)] leading-[0.92] [overflow-wrap:anywhere]"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
+        <p className="max-w-[60ch] text-[19px] leading-[1.5] text-texto-2">{p.resumen}</p>
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+          <p className="flex items-baseline gap-2.5 text-[13px] text-texto-3"><span className="font-titulo text-[clamp(40px,5vw,64px)] leading-none text-menta">{totalReacciones(p)}</span> {t('reacciones_total_texto')}</p>
+          {resumen.length > 0 && <div className="flex flex-wrap gap-2">
+            {resumen.map(x => <span key={x.emoji} className="pildora" title={t(x.nombre)}><Icono nombre={x.icono} tam={15} className="text-menta" />{p.reacciones[x.emoji]}</span>)}
+          </div>}
         </div>
-        <div className="flex flex-wrap gap-3"><BotonesProyecto p={p} grande /></div>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-1">
+          <Boton variante="menta" href={ruta(p.url)}>{t('ver_proyecto')}<Icono nombre="flecha" grosor={2.2} /></Boton>
+          {p.video
+            ? <a href={p.video} target="_blank" rel="noopener" className={ENLACE_DISCRETO}><Icono nombre="play" grosor={2} />{t('video_5')}</a>
+            : <span className="inline-flex min-h-[44px] items-center text-[15px] font-semibold text-texto-4">{t('video_pendiente')}</span>}
+          {p.repo && <a href={p.repo} target="_blank" rel="noopener" className={ENLACE_DISCRETO}><Icono nombre="codigo" grosor={2} />{t('codigo')}</a>}
+        </div>
       </div>
     </SpotlightCard>
   );
