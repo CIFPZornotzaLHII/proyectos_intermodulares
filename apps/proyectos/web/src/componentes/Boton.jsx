@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom';
 
 // Un solo botón principal (menta) por bloque; el resto, con borde. `to` = ruta de la web, `href` = enlace externo o landing.
+// Píldoras (D-17): el radio completo es el de la referencia y el de los chips y reacciones.
 const VARIANTES = {
   menta: 'bg-menta text-onice border-transparent hover:bg-menta-clara',
   borde: 'bg-transparent text-texto border-borde-claro hover:border-texto-3',
+  claro: 'bg-transparent text-blanco border-blanco/60 hover:border-blanco',   // sobre el índigo de la portada
   pendiente: 'bg-transparent text-texto border-borde-claro border-dashed opacity-60 cursor-default',
 };
 const TAMANOS = {
-  normal: 'min-h-[46px] px-[18px] py-[11px] text-[15px] rounded-[10px]',
-  pequeno: 'min-h-[40px] px-[14px] py-2 text-[14px] rounded-[10px]',
+  normal: 'min-h-[46px] px-[22px] py-[11px] text-[15px] rounded-full',
+  pequeno: 'min-h-[40px] px-[16px] py-2 text-[14px] rounded-full',
 };
 
 export default function Boton({ variante = 'borde', tamano = 'normal', to, href, externo, className = '', children, ...resto }) {

@@ -75,7 +75,7 @@ export function Reacciones({ p, usuario, onReaccion, ocupado = false }) {
 export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, modo = 'galeria' }) {
   const { t } = useIdioma();
   return (
-    <SpotlightCard role="article" spotlightColor="#88F9C0" intensity={0.12} spotlightSize={260} borderGlow={0.7}
+    <SpotlightCard role="article" spotlightColor="#70FBB7" intensity={0.12} spotlightSize={260} borderGlow={0.7}
       style={{ ...ESTILO_TARJETA, borderRadius: 'var(--radius-tarjeta)' }}
       className="flex h-full flex-col transition-transform duration-150 hover:-translate-y-0.5" data-ciclo={p.ciclo}>
       <PortadaProyecto p={p} />
@@ -105,7 +105,7 @@ export function Destacado({ p }) {
   const { t } = useIdioma();
   const resumen = REACCIONES.filter(x => (p.reacciones[x.emoji] || 0) > 0).sort((a, b) => p.reacciones[b.emoji] - p.reacciones[a.emoji]).slice(0, 3);
   return (
-    <SpotlightCard role="article" spotlightColor="#88F9C0" intensity={0.1} spotlightSize={420} borderGlow={0.7}
+    <SpotlightCard role="article" spotlightColor="#70FBB7" intensity={0.1} spotlightSize={420} borderGlow={0.7}
       style={{ ...ESTILO_TARJETA, borderRadius: 'var(--radius-destacado)' }} className="flex flex-wrap">
       <PortadaProyecto p={p} grande />
       <div className="flex flex-[1_1_400px] flex-col justify-center gap-4 px-10 pt-10 pb-9 max-md:px-6 max-md:pt-7 max-md:pb-7">

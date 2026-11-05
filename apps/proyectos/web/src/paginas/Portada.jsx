@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import LiquidEther from '../reactbits/LiquidEther.jsx';
-import BlurText from '../reactbits/BlurText.jsx';
 import CountUp from '../reactbits/CountUp.jsx';
 import AnimatedContent from '../reactbits/AnimatedContent.jsx';
+import Noise from '../reactbits/Noise.jsx';
+import Magnet from '../reactbits/Magnet.jsx';
 import { useIdioma } from '../i18n.jsx';
+import { ruta } from '../api.js';
 import useProyectos from '../useProyectos.js';
 import { alAzar, ordenarPorVotos, totalReacciones } from '../datos.js';
 import Cabecera from '../componentes/Cabecera.jsx';
@@ -14,11 +15,11 @@ import Boton from '../componentes/Boton.jsx';
 import Icono from '../componentes/Icono.jsx';
 import { Destacado, TarjetaProyecto } from '../componentes/Tarjeta.jsx';
 
-// Colores de la corriente de la portada: índigo eléctrico, menta tropical y un índigo profundo para dar fondo
-const COLORES_CORRIENTE = ['#6331FB', '#88F9C0', '#2B1A8F'];
+// Lo que se pide a cada grupo, en la columna derecha de la portada (textos en i18n.jsx)
+const LISTA_HERO = ['hero_1', 'hero_2', 'hero_3', 'hero_4'];
 
 export default function Portada() {
-  const { t, idioma } = useIdioma();
+  const { t } = useIdioma();
   const { lista, estado } = useProyectos();
 
   const porVotos = useMemo(() => ordenarPorVotos(lista), [lista]);
@@ -39,30 +40,65 @@ export default function Portada() {
     <>
       <Cabecera />
 
-      {/* Portada a pantalla completa: la "catedral". Detrás, la corriente líquida de React Bits con los colores del tema */}
-      <section className="relative overflow-hidden border-b border-borde bg-[linear-gradient(135deg,#01010D_0%,#150C4A_45%,#6331FB_100%)]">
-        <div className="absolute inset-0" aria-hidden="true">
-          <LiquidEther colors={COLORES_CORRIENTE} mouseForce={18} cursorSize={110} resolution={0.5} autoDemo autoSpeed={0.45} autoIntensity={2} intro />
-        </div>
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(1,1,13,0.88)_0%,rgba(1,1,13,0.62)_38%,rgba(1,1,13,0.08)_72%,rgba(1,1,13,0)_100%)] max-md:bg-[linear-gradient(180deg,rgba(1,1,13,0.7)_0%,rgba(1,1,13,0.82)_100%)]" aria-hidden="true" />
+      {/* Portada (D-17): un campo plano de índigo eléctrico, como la referencia de Mikel. El título va partido a los dos
+          lados de la foto del proyecto destacado, teñida de índigo con mix-blend (cambia en cada visita); una palabra
+          en serif itálica por línea; la menta solo en la acción principal. Sin animación de fondo ni degradado. */}
+      {/* El héroe sube hasta debajo de la cabecera transparente (md:-mt-20) y deja su hueco con padding */}
+      <section className="relative -mt-20 overflow-hidden bg-indigo pt-20 text-blanco max-md:mt-0 max-md:pt-0">
+        {/* Dos degradados de ónice desde abajo, para que el campo índigo no quede plano (petición de Mikel, D-17). El vertical
+            va en curva (arranca despacio, acelera en el centro) y acaba en ónice opaco: así el héroe se funde con el fondo. */}
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,transparent_36%,rgba(1,1,13,0.08)_50%,rgba(1,1,13,0.3)_62%,rgba(1,1,13,0.62)_74%,rgba(1,1,13,0.88)_86%,rgba(1,1,13,1)_100%)]" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_8%_100%,rgba(1,1,13,0.7)_0%,transparent_70%)]" aria-hidden="true" />
+        {/* Grano de película (React Bits Noise) sobre el índigo: textura, sin cambiar el color; quieto con reduced-motion */}
+        <Noise opacity={0.14} size={1.5} fps={12} contrast={0.5} blendMode="soft-light" />
 
-        <div className="contenedor relative flex min-h-[clamp(560px,86vh,820px)] flex-col justify-center gap-[26px] py-[72px] max-md:min-h-0 max-md:pt-14">
-          <span className="etiqueta-mono animate-aparecer">{t('portada_etiqueta')}</span>
+        <div className="contenedor relative flex min-h-[calc(100vh-80px)] flex-col justify-center gap-12 py-12 max-md:min-h-0 max-md:gap-8 max-md:py-10">
           <h1 className="sr-only">{t('portada_titulo')}</h1>
-          <div aria-hidden="true" className="max-w-[820px]">
-            <BlurText key={idioma} text={t('portada_titulo')} trigger="load" delay={110} animateBy="words" direction="top" stepDuration={0.4}
-              className="font-titulo text-[clamp(40px,5.6vw,64px)] leading-[1.04] tracking-[0.01em]" />
+
+          {/* Título a dos columnas; la mascota (img/patata.png, recorte con fondo transparente) va detrás, posicionada
+              respecto al contenedor del héroe: ocupa todo su alto, con la cola bajo la cabecera y las patas en el borde
+              inferior, por detrás de las cifras. Las letras pisan sus bordes como en la referencia. En móvil va entre los
+              dos bloques del título. */}
+          <div aria-hidden="true" className="grid items-center gap-y-5 md:min-h-[58vh] md:grid-cols-2">
+            <div className="pointer-events-none order-2 flex justify-center animate-aparecer [animation-delay:150ms] md:absolute md:inset-x-0 md:top-10 md:-bottom-10 md:order-none">
+              {/* React Bits Magnet: la mascota se desplaza unos píxeles hacia el cursor, sin inclinarla (nada en táctil ni con reduced-motion).
+                  Alto en cadena (envoltorio, interior, imagen) y max-w-none: con la altura fijada, el max-width: 100% del
+                  preflight de Tailwind la aplastaba en horizontal cuando la caja de Magnet era más estrecha que la imagen. */}
+              <Magnet padding={240} magnetStrength={10} maxOffset={28} wrapperClassName="md:h-full" innerClassName="md:h-full">
+                <img src={ruta('img/patata.png')} alt="" width="1122" height="1402"
+                  className="mx-auto block h-auto w-[min(70vw,300px)] md:h-full md:w-auto md:max-w-none md:mask-b-from-80%" />
+              </Magnet>
+            </div>
+            <div className="relative z-[1] order-1 flex min-w-0 flex-col animate-aparecer md:order-none">
+              <span className="font-titulo text-[clamp(64px,9.5vw,150px)] leading-[0.9] tracking-[0.03em] uppercase text-texto/90">{t('portada_titulo_1')}</span>
+              <span className="font-serif italic text-[clamp(40px,5vw,84px)] leading-[0.95] text-texto/90">{t('portada_titulo_2')}</span>
+            </div>
+            <div className="relative z-[1] order-3 flex min-w-0 flex-col animate-aparecer [animation-delay:300ms] md:order-none md:items-end md:text-right">
+              <span className="font-titulo text-[clamp(64px,9.5vw,150px)] leading-[0.9] tracking-[0.03em] text-texto/90">{t('portada_titulo_3')}</span>
+              <span className="font-serif italic text-[clamp(40px,5vw,84px)] leading-[0.95] text-texto/90">{t('portada_titulo_4')}</span>
+            </div>
           </div>
-          <p className="max-w-[560px] text-[18px] text-texto-2 animate-aparecer [animation-delay:150ms]">{t('portada_entradilla')}</p>
-          <div className="flex flex-wrap gap-3 animate-aparecer [animation-delay:300ms]">
-            <Boton variante="menta" to="/galeria">{t('ver_todos')}<Icono nombre="flecha" tam={18} grosor={2.2} /></Boton>
-            <Boton href="#destacado">{t('ir_destacado')}<Icono nombre="abajo" tam={18} grosor={2.2} /></Boton>
+
+          <div className="grid items-end gap-8 md:grid-cols-[1fr_minmax(160px,1fr)_1fr]">
+            <div className="flex max-w-[460px] flex-col gap-5 animate-aparecer [animation-delay:300ms]">
+              <p className="text-[18px] leading-[1.5] text-blanco/85">{t('portada_entradilla')}</p>
+              <div className="flex flex-wrap gap-3">
+                <Boton variante="menta" to="/galeria">{t('ver_todos')}<Icono nombre="flecha" tam={18} grosor={2.2} /></Boton>
+                <Boton variante="claro" href="#destacado">{t('ir_destacado')}<Icono nombre="abajo" tam={18} grosor={2.2} /></Boton>
+              </div>
+            </div>
+            <div className="max-md:hidden" />
+            <ul className="flex flex-col text-[12px] font-semibold uppercase tracking-[0.1em] text-blanco/85 animate-aparecer [animation-delay:450ms] md:text-right">
+              {LISTA_HERO.map(k => <li key={k} className="border-b border-blanco/30 py-2.5 last:border-b-0">{t(k)}</li>)}
+            </ul>
           </div>
-          <dl className="mt-5 flex flex-wrap gap-10 animate-aparecer [animation-delay:300ms]">
+
+          {/* Las cifras cierran la portada como la fila de logos de la referencia; 'relative' para quedar sobre las patas */}
+          <dl className="flex flex-wrap items-baseline justify-center gap-x-12 gap-y-3 relative border-t border-blanco/30 pt-6 animate-aparecer [animation-delay:450ms]">
             {cifras.map(c => (
-              <div key={c.clave} className="flex flex-col gap-0.5">
-                <dt className="text-[12px] uppercase tracking-[0.12em] text-texto-3">{t(c.clave)}</dt>
-                <dd className={`font-titulo text-[34px] leading-none ${c.menta ? 'text-menta' : ''}`}>
+              <div key={c.clave} className="flex items-baseline gap-2.5">
+                <dt className="order-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-blanco/80">{t(c.clave)}</dt>
+                <dd className={`order-1 font-titulo text-[36px] leading-none ${c.menta ? 'text-menta' : ''}`}>
                   {estado === 'ok' ? <CountUp to={c.valor} duration={1.4} separator="." /> : '—'}
                 </dd>
               </div>

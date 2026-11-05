@@ -1,6 +1,7 @@
 /* Web de proyectos intermodulares · Tailwind v4 con la paleta del centro:
-   ónice #01010D (fondo), índigo eléctrico #6331FB (acento secundario), menta tropical #88F9C0 (acción principal).
-   Tipografías: Impact/Anton (títulos), IBM Plex Sans (texto), IBM Plex Mono (etiquetas y datos). */
+   ónice #01010D (fondo), índigo eléctrico #6331FB (acento secundario), menta tropical #70FBB7 (acción principal).
+   Tipografías: Impact/Anton (títulos), Instrument Serif itálica (una palabra por línea del título de la portada, D-17),
+   IBM Plex Sans (texto), IBM Plex Mono (etiquetas y datos). */
 @import "tailwindcss";
 
 @theme {
@@ -14,8 +15,8 @@
   --color-borde-claro: #4A4680;
   --color-indigo: #6331FB;
   --color-indigo-claro: #8B7BFF;
-  --color-menta: #88F9C0;
-  --color-menta-clara: #A5FBD0;
+  --color-menta: #70FBB7;
+  --color-menta-clara: #8FFCC6;
   --color-menta-oscura: #0B5C3E;
   --color-texto: #F3F2FF;
   --color-texto-2: #CFCCE6;
@@ -25,6 +26,7 @@
   --color-blanco: #FFFFFF;
 
   --font-titulo: Impact, Anton, 'Arial Narrow Bold', sans-serif; /* Impact es de Windows/macOS; Anton (Google Fonts) es su gemela para Linux y Android */
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
   --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
@@ -36,12 +38,18 @@
     from { opacity: 0; transform: translateY(18px); }
     to { opacity: 1; transform: translateY(0); }
   }
+  /* La cabecera fija entra desde arriba (D-17) */
+  --animate-bajar: bajar 0.35s ease-in both;
+  @keyframes bajar {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+  }
 }
 
 @layer base {
   html { scroll-behavior: smooth; }
   body { @apply bg-onice text-texto font-sans text-[16px] leading-[1.55] antialiased; }
-  h1, h2, h3 { @apply font-titulo font-normal leading-[1.1] tracking-[0.01em]; }
+  h1, h2, h3 { @apply font-titulo font-normal leading-[1.1] tracking-[0.025em]; }   /* Impact necesita aire entre letras (D-17) */
   a { @apply text-menta hover:text-menta-clara; }
   button { font: inherit; cursor: pointer; }
   input { font: inherit; }
@@ -49,7 +57,7 @@
   :focus-visible { outline: 2px solid var(--color-menta); outline-offset: 2px; }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .animate-aparecer { animation: none; }
+    .animate-aparecer, .animate-bajar { animation: none; }
   }
 }
 

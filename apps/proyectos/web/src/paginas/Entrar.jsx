@@ -37,7 +37,7 @@ export default function Entrar() {
       <main className="relative flex min-h-[calc(100vh-80px)] items-center justify-center overflow-hidden px-6 py-12">
         {/* Orbe de React Bits detrás del texto, con la paleta del centro */}
         <div className="pointer-events-none absolute top-1/2 left-[max(-120px,calc(50%-760px))] size-[560px] -translate-y-1/2 opacity-80 max-md:hidden" aria-hidden="true">
-          <Orb colors={['#6331FB', '#88F9C0', '#150C4A']} backgroundColor="#01010D" glow={0.9} hoverIntensity={0.6} />
+          <Orb colors={['#6331FB', '#70FBB7', '#150C4A']} backgroundColor="#01010D" glow={0.9} hoverIntensity={0.6} />
         </div>
 
         <div className="relative flex w-full max-w-[1040px] flex-wrap items-center justify-center gap-12">

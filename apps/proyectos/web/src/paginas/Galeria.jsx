@@ -44,13 +44,13 @@ export default function Galeria() {
       {/* Franja: título de la galería sobre una rejilla de puntos reactiva (React Bits DotGrid) */}
       <section className="relative overflow-hidden border-b border-borde bg-superficie">
         <div className="absolute inset-0 opacity-70" aria-hidden="true">
-          <DotGrid dotSize={3} gap={22} baseColor="#26224F" activeColor="#88F9C0" proximity={150} shockRadius={260} shockStrength={4} glow={0.6} />
+          <DotGrid dotSize={3} gap={22} baseColor="#26224F" activeColor="#70FBB7" proximity={150} shockRadius={260} shockStrength={4} glow={0.6} />
         </div>
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(10,10,31,0.96)_0%,rgba(10,10,31,0.8)_45%,rgba(10,10,31,0.2)_100%)]" aria-hidden="true" />
-        <div className="contenedor relative pt-11 pb-10">
+        <div className="contenedor relative flex min-h-[46vh] flex-col justify-end gap-3 pt-14 pb-12 max-md:min-h-0">
           <span className="etiqueta-mono">{t('portada_etiqueta')}</span>
-          <h1 className="mt-2 text-[clamp(32px,4.5vw,44px)]">{t('galeria_titulo')}</h1>
-          <p className="mt-2 max-w-[640px] text-[18px] text-texto-2">{t('galeria_texto')}</p>
+          <h1 className="text-[clamp(44px,7vw,112px)] leading-[0.92] tracking-[0.03em] uppercase text-texto/90">{t('galeria_titulo')}</h1>
+          <p className="max-w-[640px] text-[18px] text-texto-2">{t('galeria_texto')}</p>
         </div>
       </section>
 

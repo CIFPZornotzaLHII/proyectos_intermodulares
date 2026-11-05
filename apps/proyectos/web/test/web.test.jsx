@@ -70,6 +70,7 @@ describe('portada', () => {
     ir('/');
     render(<App />);
     const boton = await screen.findByRole('button', { name: 'Enséñame otro' });
+    await screen.findByText(/reacciones en total/); // el destacado se elige en un efecto: sin esto, a veces el primer h3 es una tendencia
     const titulo = () => screen.getAllByRole('heading', { level: 3 })[0].textContent;
     const antes = titulo();
     fireEvent.click(boton);

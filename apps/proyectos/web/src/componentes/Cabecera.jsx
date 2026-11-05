@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useIdioma } from '../i18n.jsx';
 import { useSesion } from '../sesion.jsx';
@@ -6,13 +7,30 @@ import { iniciales } from '../datos.js';
 import Boton from './Boton.jsx';
 import Icono from './Icono.jsx';
 
+// Cabecera transparente (sobre el índigo de la portada). Cuando el scroll la saca de la vista, la misma cabecera
+// pasa a fija y entra desde arriba con una animación ease-in; al volver arriba, desaparece y queda la transparente.
+// Un hueco del mismo alto ocupa su sitio mientras está fija para que la página no salte.
 export default function Cabecera({ sencilla = false }) {
   const { t, idioma, cambiarIdioma } = useIdioma();
   const { usuario, salir } = useSesion();
   const { pathname } = useLocation();
+  const ref = useRef(null);
+  const [fijada, setFijada] = useState(false);
+  const [alto, setAlto] = useState(80);
+
+  useEffect(() => {
+    const medir = () => { if (ref.current && !ref.current.classList.contains('fixed')) setAlto(ref.current.offsetHeight); };
+    const alScroll = () => setFijada(window.scrollY > (ref.current ? ref.current.offsetHeight : 80));
+    medir(); alScroll();
+    window.addEventListener('scroll', alScroll, { passive: true });
+    window.addEventListener('resize', medir);
+    return () => { window.removeEventListener('scroll', alScroll); window.removeEventListener('resize', medir); };
+  }, []);
 
   return (
-    <header className="relative z-10 border-b border-borde bg-onice/85 backdrop-blur-md">
+    <>
+      {fijada && <div style={{ height: alto }} aria-hidden="true" />}
+    <header ref={ref} className={`inset-x-0 top-0 z-20 ${fijada ? 'fixed border-b border-borde bg-onice/90 backdrop-blur-md animate-bajar' : 'relative bg-transparent'}`}>
       <div className="contenedor flex flex-wrap items-center justify-between gap-4 py-3.5">
         <Link to="/" className="flex items-center gap-6 text-texto no-underline hover:text-texto">
           <img src={ruta('img/logo.png')} alt={t('logo_alt')} width="116" height="52" className="block h-[52px] w-auto" />
@@ -56,5 +74,6 @@ export default function Cabecera({ sencilla = false }) {
         </nav>
       </div>
     </header>
+    </>
   );
 }

@@ -11,9 +11,18 @@ import Entrar from './paginas/Entrar.jsx';
 function Desplazamiento() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
-    if (!hash) return window.scrollTo(0, 0);
+    // Sin return del valor: lo que devuelve el efecto React lo toma como función de limpieza y, si no lo es,
+    // revienta al cambiar de página (scrollTo devuelve undefined en jsdom, pero no siempre en el navegador).
+    if (!hash) { window.scrollTo(0, 0); return; }
     const el = document.getElementById(hash.slice(1));
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth' });
+    // La lista de proyectos llega después y empuja el ancla hacia abajo (se notaba en móvil): mientras cambie la
+    // altura de la página, durante dos segundos, se vuelve a colocar.
+    const observador = new ResizeObserver(() => el.scrollIntoView({ behavior: 'smooth' }));
+    observador.observe(document.body);
+    const fin = setTimeout(() => observador.disconnect(), 2000);
+    return () => { clearTimeout(fin); observador.disconnect(); };
   }, [pathname, hash]);
   return null;
 }
