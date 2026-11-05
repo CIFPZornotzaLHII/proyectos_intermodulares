@@ -26,3 +26,12 @@ apps/*/.env
 *.avi
 apps/proyectos/web/node_modules/
 apps/proyectos/web/dist/
+
+# Fábrica (factory-boilerplate): estado de ejecución y datos en marcha, nunca en main
+factory/jobs/*
+!factory/jobs/.gitkeep
+factory/metrics.json
+factory/skills-usage.json
+factory/approvals/
+factory/PAUSED
+.claude/settings.local.json

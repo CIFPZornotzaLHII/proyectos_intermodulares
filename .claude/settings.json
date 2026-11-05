@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"require(require('path').join(process.env.CLAUDE_PROJECT_DIR, '.claude', 'hooks', 'ponytail-inject.js'))\"",
+            "timeout": 15,
+            "statusMessage": "Cargando ponytail..."
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "builder",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"require(require('path').join(process.env.CLAUDE_PROJECT_DIR, '.claude', 'hooks', 'ponytail-inject.js'))\"",
+            "timeout": 15,
+            "statusMessage": "Cargando ponytail en el builder..."
+          }
+        ]
+      }
+    ]
+  }
+}

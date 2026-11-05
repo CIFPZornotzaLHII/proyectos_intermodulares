@@ -47,8 +47,8 @@ export default defineConfig({
   base: BASE,
   plugins: [react(), tailwindcss(), landingsEnDesarrollo()],
   server: {
-    // En desarrollo la API corre aparte (node apps/proyectos/api/server.js en el 3000); aquí se le pasa /proyectos/api/
-    proxy: { [`${BASE}api`]: { target: 'http://localhost:3000', rewrite: ruta => ruta.replace(/^\/proyectos/, '') } },
+    // En desarrollo la API corre aparte (node apps/proyectos/api/server.js, puerto PUERTO); aquí se le pasa /proyectos/api/ (API_URL si no es el 3000)
+    proxy: { [`${BASE}api`]: { target: process.env.API_URL || 'http://localhost:3000', rewrite: ruta => ruta.replace(/^\/proyectos/, '') } },
   },
   build: { outDir: 'dist', sourcemap: false },
   test: {

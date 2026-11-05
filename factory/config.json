@@ -1,0 +1,34 @@
+{
+  "$doc": "Configuración de la fábrica (copiada de factory-boilerplate y adaptada a este repo). La lee el orquestador (/factory) al empezar cada job. La web vive en apps/proyectos/web (React + Vite) y la API en apps/proyectos/api; lo que toca servidor, proxy, despliegue o claves pasa por el reviewer de seguridad. Documentación completa: factory-doc/DOCUMENTACION.md en mikeldalmauc/factory-boilerplate.",
+
+  "reviewers": ["security", "code"],
+  "web_reviewers": ["ux", "ui"],
+  "web_paths": ["apps/proyectos/web/src/**/*.jsx", "apps/proyectos/web/src/**/*.css", "apps/proyectos/web/index.html", "proyectos/_plantilla/**"],
+  "optional_reviewers": ["maintainability"],
+
+  "reviewers_policy": "siempre",
+  "security_paths": ["apps/proyectos/api/**", "apps/proyectos/web/nginx.conf", "apps/proyectos/web/Dockerfile", "apps/proyectos/docker-compose.yml", "proxy/**", "servidor/**", ".github/**", "scripts/**", "**/*.sh", "**/package.json", "**/package-lock.json", ".env*"],
+  "builder_small_model": null,
+  "modo": "cron",
+  "intervalo_min": 30,
+
+  "max_resumes": 2,
+  "port_base": 5100,
+  "worktree_dir": "../{name}-factory",
+
+  "models": {
+    "spec-writer": null,
+    "builder": null,
+    "reviewer-security": null,
+    "reviewer-ux": null,
+    "reviewer-ui": null,
+    "reviewer-code": null,
+    "reviewer-maintainability": null,
+    "approver": null
+  },
+
+  "ponytail": {
+    "level": "full",
+    "session": true
+  }
+}
