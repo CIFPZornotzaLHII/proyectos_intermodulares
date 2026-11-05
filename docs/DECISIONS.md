@@ -65,6 +65,11 @@ botón menta en píldora, lista corta con filetes a la derecha y fila de logos a
   Después, "Mueve la patata hacia abajo un poquito, muy poco, lo justo para que se fundan las patas": 40 px más abajo
   (`top-10 -bottom-10`) y una máscara (`mask-b-from-80%`) que desvanece el 20 % inferior de la mascota: las patas se
   funden con el ónice en vez de cortarse en el borde del héroe, y las cifras se leen mejor encima.
+- Octava vuelta: "La barra de menú, igual que aparece, tiene que desaparecer con una animación, y esta tiene que
+  ser más sutil". La cabecera fija pasa por tres estados (`libre`, `fija`, `saliendo`): al volver arriba sale con
+  `animate-subir` (la inversa de la entrada) y al acabar vuelve a ser la transparente. Las dos animaciones se
+  acortan a 12 px con fundido (0,28 s la entrada, 0,22 s la salida, ease-in las dos); con `prefers-reduced-motion`
+  duran 0,01 ms en vez de anularse, para que `animationend` siga disparándose.
 
 ### D-16 · La fábrica completa, según la guía del boilerplate · 2026-11-05 · vigente
 "Integrame bien la factory mira en factory boilerplate", "asi es como tienes que hacerlo". Se sigue §11 de

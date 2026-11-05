@@ -8,29 +8,35 @@ import Boton from './Boton.jsx';
 import Icono from './Icono.jsx';
 
 // Cabecera transparente (sobre el índigo de la portada). Cuando el scroll la saca de la vista, la misma cabecera
-// pasa a fija y entra desde arriba con una animación ease-in; al volver arriba, desaparece y queda la transparente.
+// pasa a fija y entra desde arriba con una animación sutil (12 px y fundido, ease-in); al volver arriba sale con la
+// animación inversa y, al terminar, vuelve a ser la transparente. Estados: 'libre' | 'fija' | 'saliendo'.
 // Un hueco del mismo alto ocupa su sitio mientras está fija para que la página no salte.
 export default function Cabecera({ sencilla = false }) {
   const { t, idioma, cambiarIdioma } = useIdioma();
   const { usuario, salir } = useSesion();
   const { pathname } = useLocation();
   const ref = useRef(null);
-  const [fijada, setFijada] = useState(false);
+  const [fijada, setFijada] = useState('libre');
   const [alto, setAlto] = useState(80);
 
   useEffect(() => {
     const medir = () => { if (ref.current && !ref.current.classList.contains('fixed')) setAlto(ref.current.offsetHeight); };
-    const alScroll = () => setFijada(window.scrollY > (ref.current ? ref.current.offsetHeight : 80));
+    const alScroll = () => setFijada(f => {
+      if (window.scrollY > (ref.current ? ref.current.offsetHeight : 80)) return 'fija';
+      return f === 'fija' ? 'saliendo' : f;   // solo la fija sale con animación; 'saliendo' y 'libre' no cambian
+    });
     medir(); alScroll();
     window.addEventListener('scroll', alScroll, { passive: true });
     window.addEventListener('resize', medir);
     return () => { window.removeEventListener('scroll', alScroll); window.removeEventListener('resize', medir); };
   }, []);
 
+  const fija = fijada !== 'libre';
   return (
     <>
-      {fijada && <div style={{ height: alto }} aria-hidden="true" />}
-    <header ref={ref} className={`inset-x-0 top-0 z-20 ${fijada ? 'fixed border-b border-borde bg-onice/90 backdrop-blur-md animate-bajar' : 'relative bg-transparent'}`}>
+      {fija && <div style={{ height: alto }} aria-hidden="true" />}
+    <header ref={ref} onAnimationEnd={e => { if (e.animationName === 'subir') setFijada('libre'); }}
+      className={`inset-x-0 top-0 z-20 ${fija ? `fixed border-b border-borde bg-onice/90 backdrop-blur-md ${fijada === 'fija' ? 'animate-bajar' : 'animate-subir'}` : 'relative bg-transparent'}`}>
       <div className="contenedor flex flex-wrap items-center justify-between gap-4 py-3.5">
         <Link to="/" className="flex items-center gap-6 text-texto no-underline hover:text-texto">
           <img src={ruta('img/logo.png')} alt={t('logo_alt')} width="116" height="52" className="block h-[52px] w-auto" />

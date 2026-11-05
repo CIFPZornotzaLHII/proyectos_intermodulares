@@ -38,11 +38,16 @@
     from { opacity: 0; transform: translateY(18px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  /* La cabecera fija entra desde arriba (D-17) */
-  --animate-bajar: bajar 0.35s ease-in both;
+  /* La cabecera fija entra desde arriba y sale hacia arriba, sutil: 12 px y fundido (D-17) */
+  --animate-bajar: bajar 0.28s ease-in both;
   @keyframes bajar {
-    from { transform: translateY(-100%); }
-    to { transform: translateY(0); }
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: none; }
+  }
+  --animate-subir: subir 0.22s ease-in both;
+  @keyframes subir {
+    from { opacity: 1; transform: none; }
+    to { opacity: 0; transform: translateY(-12px); }
   }
 }
 
@@ -57,7 +62,8 @@
   :focus-visible { outline: 2px solid var(--color-menta); outline-offset: 2px; }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .animate-aparecer, .animate-bajar { animation: none; }
+    .animate-aparecer { animation: none; }
+    .animate-bajar, .animate-subir { animation-duration: 0.01ms; }   /* casi instantáneas, pero disparan animationend */
   }
 }
 
