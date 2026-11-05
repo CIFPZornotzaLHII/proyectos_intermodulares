@@ -1,0 +1,23 @@
+{
+  "titulo": "Reservas de talleres",
+  "resumen": "Web en Laravel para reservar aulas y talleres del centro, con calendario, roles y avisos por correo.",
+  "equipo": [
+    "Nerea Etxeberria",
+    "Unai López",
+    "Aitor Aguirre"
+  ],
+  "autores": [
+    "nerea.etxeberria",
+    "unai.lopez",
+    "aitor.aguirre"
+  ],
+  "portada": "portada.svg",
+  "video": "https://youtu.be/ejemplo-wg",
+  "repo": "https://github.com/CIFPZornotzaLHII/proyectos_intermodulares",
+  "etiquetas": [
+    "laravel",
+    "mysql",
+    "api-rest",
+    "docker"
+  ]
+}

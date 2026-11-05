@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[TÍTULO DEL PROYECTO] · Proyecto intermodular · CIFP Zornotza LHII</title>
+<!--
+  LANDING DE TU PROYECTO. Puedes cambiar todo lo que quieras (colores, estructura, imágenes), pero
+  mantén estas seis secciones, que son las que se evalúan: necesidad, solución, planificación, demo,
+  seguimiento y control, equipo. Sustituye los textos entre [corchetes]. Las imágenes van en esta misma
+  carpeta y se enlazan en relativo (src="captura.png"). Los vídeos NO se suben al repo: se enlazan.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root { --fondo: #01010D; --superficie: #0A0A1F; --superficie-2: #12122B; --borde: #26224F; --indigo: #6331FB; --menta: #88F9C0; --texto: #F3F2FF; --texto-2: #CFCCE6; --texto-3: #A7A3C9; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font-family: 'IBM Plex Sans', system-ui, sans-serif; font-size: 16px; line-height: 1.6; }
+  a { color: var(--menta); }
+  h1, h2, h3 { font-family: Impact, Anton, 'Arial Narrow Bold', sans-serif; font-weight: 400; margin: 0; line-height: 1.12; letter-spacing: 0.01em; }
+  .contenedor { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .barra { border-bottom: 1px solid #1E1B45; font-size: 14px; }
+  .barra .contenedor { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 24px; }
+  .barra a { text-decoration: none; font-weight: 600; }
+  .insignia { display: inline-block; padding: 4px 10px; border-radius: 999px; border: 1px solid #4A4680; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .portada { display: flex; flex-wrap: wrap; gap: 40px; align-items: center; padding: 56px 24px 40px; }
+  .portada > div { flex: 1 1 420px; display: flex; flex-direction: column; gap: 18px; }
+  .etiqueta { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--menta); }
+  .portada h1 { font-size: clamp(34px, 5vw, 48px); font-weight: 800; letter-spacing: -0.02em; }
+  .portada p { margin: 0; font-size: 18px; color: var(--texto-2); }
+  .equipo { color: var(--texto-3); font-size: 15px; font-weight: 500; }
+  .acciones { display: flex; flex-wrap: wrap; gap: 10px; }
+  .boton { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 10px 18px; border-radius: 10px; font-weight: 700; text-decoration: none; border: 1px solid #4A4680; color: var(--texto); }
+  .boton-menta { background: var(--menta); color: var(--fondo); border-color: var(--menta); }
+  .imagen { flex: 1 1 380px; aspect-ratio: 16 / 10; background: var(--superficie-2); border-radius: 16px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: var(--texto-3); }
+  .imagen img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  section { padding: 48px 0; border-top: 1px solid #1E1B45; }
+  section h2 { font-size: clamp(24px, 3vw, 30px); font-weight: 700; margin-top: 8px; }
+  section > .contenedor > p { color: var(--texto-2); max-width: 760px; }
+  .rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 20px; }
+  .caja { background: var(--superficie); border: 1px solid var(--borde); border-radius: 14px; padding: 20px; }
+  .caja h3 { font-size: 18px; margin-bottom: 6px; }
+  .caja p { margin: 0; color: var(--texto-2); font-size: 15px; }
+  .tabla { overflow-x: auto; background: var(--superficie); border: 1px solid var(--borde); border-radius: 14px; margin-top: 20px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { padding: 12px 16px; text-align: left; border-top: 1px solid #1E1B45; }
+  th { color: var(--texto-3); font-size: 13px; border-top: 0; }
+  td.num { text-align: right; }
+  .video { aspect-ratio: 16 / 9; background: var(--superficie-2); border-radius: 16px; overflow: hidden; margin-top: 20px; display: flex; align-items: center; justify-content: center; }
+  .video iframe { width: 100%; height: 100%; border: 0; }
+  .cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
+  .cifras .caja strong { display: block; font-family: Impact, Anton, 'Arial Narrow Bold', sans-serif; font-size: 30px; font-weight: 400; }
+  .persona { display: flex; align-items: center; gap: 12px; }
+  .persona span.avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--indigo); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
+  footer { padding: 24px; text-align: center; font-size: 13px; color: var(--texto-3); border-top: 1px solid #1E1B45; }
+</style>
+</head>
+<body>
+
+<div class="barra">
+  <div class="contenedor">
+    <a href="../../../galeria">← Todos los proyectos</a>
+    <span><span class="insignia">[CICLO] · [GRADO MEDIO / GRADO SUPERIOR]</span> &nbsp; Proyecto intermodular 2026-27 · CIFP Zornotza LHII</span>
+  </div>
+</div>
+
+<header class="contenedor portada">
+  <div>
+    <span class="etiqueta">Proyecto · [NOMBRE CORTO]</span>
+    <h1>[TÍTULO CORTO: qué resuelve, en una línea]</h1>
+    <p>[Dos o tres líneas: para quién es, qué hace y con qué tecnologías está hecho.]</p>
+    <span class="equipo">[NOMBRE 1 · NOMBRE 2 · NOMBRE 3]</span>
+    <div class="acciones">
+      <a class="boton boton-menta" href="#demo">Ver el vídeo (5 min)</a>
+      <a class="boton" href="[URL DEL REPOSITORIO]">Código</a>
+    </div>
+  </div>
+  <div class="imagen"><img src="portada.svg" alt="[Qué se ve en la imagen]"></div>
+</header>
+
+<section id="necesidad">
+  <div class="contenedor">
+    <span class="etiqueta">1 · La necesidad</span>
+    <h2>[Qué problema había y para quién]</h2>
+    <p>[Describe el cliente o el sector, cómo se hacía antes y qué falla. Si hablasteis con alguien real (una empresa, un profesor, el centro), contadlo aquí. En SMR esta parte incluye la caracterización de la empresa.]</p>
+    <div class="rejilla">
+      <div class="caja"><h3>Cliente / sector</h3><p>[Quién es y a qué se dedica]</p></div>
+      <div class="caja"><h3>Datos del problema</h3><p>[Cifras: cuántas veces pasa, cuánto cuesta, cuánto tarda]</p></div>
+      <div class="caja"><h3>Alternativas que había</h3><p>[Qué otras soluciones existen y por qué no valían]</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="solucion">
+  <div class="contenedor">
+    <span class="etiqueta">2 · La solución</span>
+    <h2>[Qué habéis construido, en una frase]</h2>
+    <p>[Qué hace, cómo se usa y qué partes tiene. Pon un diagrama o un esquema si lo tenéis (imagen en esta carpeta).]</p>
+    <div class="rejilla">
+      <div class="caja"><h3>[Función 1]</h3><p>[Qué resuelve]</p></div>
+      <div class="caja"><h3>[Función 2]</h3><p>[Qué resuelve]</p></div>
+      <div class="caja"><h3>Tecnologías</h3><p>[Lista: p. ej. Laravel, MySQL, Nginx, Docker / Proxmox, pfSense, Samba / Spring Boot, Unity…]</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="planificacion">
+  <div class="contenedor">
+    <span class="etiqueta">3 · Planificación</span>
+    <h2>[Fases, horas y reparto]</h2>
+    <p>[Resumen: cuántas fases, en cuántas semanas y qué hitos de revisión tuvisteis. El documento completo va enlazado al final.]</p>
+    <div class="tabla">
+      <table>
+        <thead><tr><th>Fase</th><th>Tareas principales</th><th>Responsable</th><th>Horas previstas</th><th>Horas reales</th></tr></thead>
+        <tbody>
+          <tr><td>Análisis</td><td>[entrevistas, requisitos, alternativas]</td><td>[nombre]</td><td class="num">6</td><td class="num">[?]</td></tr>
+          <tr><td>Diseño</td><td>[arquitectura, modelo de datos, prototipo]</td><td>[nombre]</td><td class="num">8</td><td class="num">[?]</td></tr>
+          <tr><td>Ejecución</td><td>[construir / montar / configurar]</td><td>[todos]</td><td class="num">24</td><td class="num">[?]</td></tr>
+          <tr><td>Cierre</td><td>[landing, vídeo, memoria]</td><td>[nombre]</td><td class="num">8</td><td class="num">[?]</td></tr>
+          <tr><td>Defensa</td><td>[ensayo y presentación]</td><td>[todos]</td><td class="num">4</td><td class="num">[?]</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="rejilla">
+      <div class="caja"><h3>Riesgos previstos</h3><p>[Qué podía salir mal y qué plan B teníais]</p></div>
+      <div class="caja"><h3>Recursos y presupuesto</h3><p>[Hardware, licencias, servidores; y cuánto costaría si fuera un encargo real]</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="contenedor">
+    <span class="etiqueta">4 · Demo</span>
+    <h2>Vídeo de presentación (5 minutos)</h2>
+    <p>Se ve al equipo hablando y la pantalla: solución, planificación, mini demo y seguimiento y control. [Sustituye el iframe por el de vuestro vídeo (YouTube o Drive del centro) y pon el mismo enlace en proyecto.json.]</p>
+    <div class="video">
+      <!-- YouTube: <iframe src="https://www.youtube.com/embed/ID" title="Vídeo de presentación" allowfullscreen></iframe> -->
+      <span>[VÍDEO · 5:00]</span>
+    </div>
+  </div>
+</section>
+
+<section id="seguimiento">
+  <div class="contenedor">
+    <span class="etiqueta">5 · Seguimiento y control</span>
+    <h2>Qué pasó de verdad y qué decidimos</h2>
+    <p>[Resumen honesto: qué se desvió del plan, por qué y qué hicisteis. Esto se valora más que un plan que "salió perfecto".]</p>
+    <div class="cifras">
+      <div class="caja"><span>Horas previstas / reales</span><strong>50 / [?]</strong></div>
+      <div class="caja"><span>Hitos cumplidos</span><strong>[?] de 2</strong></div>
+      <div class="caja"><span>Desviaciones registradas</span><strong>[?]</strong></div>
+    </div>
+    <div class="tabla">
+      <table>
+        <thead><tr><th>Semana</th><th>Hecho</th><th>Desviación</th><th>Decisión</th></tr></thead>
+        <tbody>
+          <tr><td>S1</td><td>[qué se hizo]</td><td>[ninguna / +2 h por…]</td><td>[qué decidisteis]</td></tr>
+          <tr><td>S2</td><td>[…]</td><td>[…]</td><td>[…]</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="equipo">
+  <div class="contenedor">
+    <span class="etiqueta">6 · Equipo y enlaces</span>
+    <h2>Quién ha hecho qué</h2>
+    <div class="rejilla">
+      <div class="caja persona"><span class="avatar">[AB]</span><span><strong>[Nombre Apellido]</strong><br><small>[Rol: análisis, backend, redes, vídeo…]</small></span></div>
+      <div class="caja persona"><span class="avatar">[CD]</span><span><strong>[Nombre Apellido]</strong><br><small>[Rol]</small></span></div>
+    </div>
+    <p style="margin-top: 20px;">
+      <a href="[URL DEL REPOSITORIO]">Repositorio del código</a> ·
+      <a href="planificacion.pdf">Documento de planificación</a> ·
+      <a href="seguimiento.pdf">Registro de seguimiento</a>
+    </p>
+  </div>
+</section>
+
+<footer>Proyecto intermodular 2026-27 · CIFP Zornotza LHII · <a href="../../../galeria">Todos los proyectos</a></footer>
+</body>
+</html>

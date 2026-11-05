@@ -1,0 +1,21 @@
+{
+  "titulo": "TPV para la cafetería",
+  "resumen": "API en Spring Boot y cliente de escritorio: pedidos, tickets y cierre de caja con informes.",
+  "equipo": [
+    "Oier Arrieta",
+    "Nahia Zubiri"
+  ],
+  "autores": [
+    "oier.arrieta",
+    "nahia.zubiri"
+  ],
+  "portada": "portada.svg",
+  "video": "",
+  "repo": "https://github.com/CIFPZornotzaLHII/proyectos_intermodulares",
+  "etiquetas": [
+    "spring-boot",
+    "mysql",
+    "javafx",
+    "api-rest"
+  ]
+}

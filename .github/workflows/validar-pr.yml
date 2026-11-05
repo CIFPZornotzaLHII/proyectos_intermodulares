@@ -1,0 +1,59 @@
+# Comprobación de cada pull request del alumnado: solo puede tocar su carpeta de proyectos/<ciclo>/<slug>/
+# y esa carpeta tiene que pasar scripts/validar-proyectos.js. El dueño del repo (y sus colaboradores con
+# permiso de escritura) pueden tocar lo que quieran: a ellos solo se les valida.
+name: Comprobar proyectos
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  comprobar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Ficheros que cambia la pull request
+        id: cambios
+        run: |
+          git fetch origin "${{ github.event.pull_request.base.sha }}" --depth=1 2>/dev/null || true
+          git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" > cambios.txt
+          echo "Ficheros cambiados:"; sed 's/^/  /' cambios.txt
+          # ¿solo toca carpetas de proyectos? ¿una sola?
+          fuera="$(grep -vE '^proyectos/(2SM|WG|PG)/[^/]+/' cambios.txt || true)"
+          carpetas="$(grep -oE '^proyectos/(2SM|WG|PG)/[^/]+' cambios.txt | sort -u)"
+          echo "fuera<<EOF" >> "$GITHUB_OUTPUT"; echo "$fuera" >> "$GITHUB_OUTPUT"; echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "carpetas<<EOF" >> "$GITHUB_OUTPUT"; echo "$carpetas" >> "$GITHUB_OUTPUT"; echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "n_carpetas=$(echo "$carpetas" | grep -c . || true)" >> "$GITHUB_OUTPUT"
+
+      - name: Solo tu carpeta (alumnado)
+        if: ${{ github.event.pull_request.author_association != 'OWNER' && github.event.pull_request.author_association != 'MEMBER' && github.event.pull_request.author_association != 'COLLABORATOR' }}
+        run: |
+          fuera="${{ steps.cambios.outputs.fuera }}"
+          if [ -n "$fuera" ]; then
+            echo "::error::La pull request toca ficheros fuera de proyectos/<ciclo>/<tu-carpeta>/:"; echo "$fuera" | sed 's/^/  /'
+            echo "Deja solo los cambios de tu carpeta y vuelve a hacer push."; exit 1
+          fi
+          if [ "${{ steps.cambios.outputs.n_carpetas }}" != "1" ]; then
+            echo "::error::Una pull request = un proyecto. Carpetas tocadas:"; echo "${{ steps.cambios.outputs.carpetas }}" | sed 's/^/  /'; exit 1
+          fi
+
+      - name: Validar los proyectos
+        run: node scripts/validar-proyectos.js
+
+      - name: Resumen
+        if: always()
+        run: |
+          {
+            echo "### Proyectos comprobados"
+            echo
+            echo '```'
+            node scripts/validar-proyectos.js || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

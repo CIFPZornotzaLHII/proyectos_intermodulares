@@ -1,0 +1,26 @@
+# Servidor de los proyectos intermodulares · PI (CIFP Zornotza LHII)
+# El proxy (nginx en el 80) reparte cada ruta a su aplicación. Cada aplicación vive en apps/<nombre>/ con su
+# propio docker-compose.yml, que se incluye aquí.
+#   docker compose up -d --build --wait   (siempre desde esta carpeta, la raíz del repo)
+#        http://IP-DEL-SERVIDOR/             → redirige a /proyectos/
+#        http://IP-DEL-SERVIDOR/proyectos/   → web de proyectos (portada, galería, login, landings)
+# Para añadir una aplicación: su carpeta en apps/, una línea en include, su location en proxy/nginx.conf.
+# Nombres de servicio con prefijo (proyectos-api…) para que no choquen entre aplicaciones.
+name: pi
+
+include:
+  - apps/proyectos/docker-compose.yml   # lee las claves de apps/proyectos/.env
+
+services:
+  proxy:                      # reverse proxy en el 80
+    build: ./proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - proyectos-web
+    healthcheck:              # desplegar.sh espera a que todos los servicios estén "healthy"
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/salud"]
+      interval: 10s
+      timeout: 3s
+      retries: 3

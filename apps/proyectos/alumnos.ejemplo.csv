@@ -1,0 +1,14 @@
+# Lista de alumnado para admin.sh importar. Columnas: login;nombre;ciclo;contraseña
+# ciclo: 2SM, WG o PG. Si la contraseña va vacía, se genera una y admin.sh la muestra al importar.
+# Estos son EJEMPLOS: cuando tengas la lista real, importa la tuya y borra estos con: admin.sh borrar <login>
+login;nombre;ciclo;contrasena
+ane.garcia;Ane García;2SM;zornotza-2sm
+jon.urrutia;Jon Urrutia;2SM;zornotza-2sm
+iker.lopez;Iker López;2SM;
+nerea.etxeberria;Nerea Etxeberria;WG;zornotza-wg
+unai.lopez;Unai López;WG;zornotza-wg
+maddi.aguirre;Maddi Aguirre;WG;
+oier.arrieta;Oier Arrieta;PG;zornotza-pg
+nahia.zubiri;Nahia Zubiri;PG;zornotza-pg
+markel.ibarra;Markel Ibarra;PG;
+profe.mikel;Mikel (profesor);;

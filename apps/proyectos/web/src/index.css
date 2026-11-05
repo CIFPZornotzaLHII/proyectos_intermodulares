@@ -1,0 +1,71 @@
+/* Web de proyectos intermodulares · Tailwind v4 con la paleta del centro:
+   ónice #01010D (fondo), índigo eléctrico #6331FB (acento secundario), menta tropical #88F9C0 (acción principal).
+   Tipografías: Impact/Anton (títulos), IBM Plex Sans (texto), IBM Plex Mono (etiquetas y datos). */
+@import "tailwindcss";
+
+@theme {
+  /* Sin la paleta por defecto de Tailwind: solo los colores del tema, para que nadie use un gris cualquiera */
+  --color-*: initial;
+  --color-onice: #01010D;
+  --color-superficie: #0A0A1F;
+  --color-superficie-2: #12122B;
+  --color-borde: #1E1B45;
+  --color-borde-2: #26224F;
+  --color-borde-claro: #4A4680;
+  --color-indigo: #6331FB;
+  --color-indigo-claro: #8B7BFF;
+  --color-menta: #88F9C0;
+  --color-menta-clara: #A5FBD0;
+  --color-menta-oscura: #0B5C3E;
+  --color-texto: #F3F2FF;
+  --color-texto-2: #CFCCE6;
+  --color-texto-3: #A7A3C9;
+  --color-texto-4: #8B87AD;
+  --color-error: #FF8A8A;
+  --color-blanco: #FFFFFF;
+
+  --font-titulo: Impact, Anton, 'Arial Narrow Bold', sans-serif; /* Impact es de Windows/macOS; Anton (Google Fonts) es su gemela para Linux y Android */
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-tarjeta: 16px;
+  --radius-destacado: 20px;
+
+  --animate-aparecer: aparecer 0.9s ease-out both;
+  @keyframes aparecer {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-onice text-texto font-sans text-[16px] leading-[1.55] antialiased; }
+  h1, h2, h3 { @apply font-titulo font-normal leading-[1.1] tracking-[0.01em]; }
+  a { @apply text-menta hover:text-menta-clara; }
+  button { font: inherit; cursor: pointer; }
+  input { font: inherit; }
+  code { @apply font-mono; }
+  :focus-visible { outline: 2px solid var(--color-menta); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .animate-aparecer { animation: none; }
+  }
+}
+
+/* Clases pequeñas que se repiten en varias páginas */
+@utility contenedor {
+  @apply mx-auto w-full max-w-[1280px] px-6;
+}
+@utility etiqueta-mono {
+  @apply font-mono text-[13px] uppercase tracking-[0.18em] text-menta;
+}
+@utility insignia {
+  @apply inline-flex items-center rounded-full border border-borde-claro bg-onice px-[11px] py-[5px] text-[11px] font-bold uppercase tracking-[0.04em] whitespace-nowrap text-texto;
+}
+@utility pildora {
+  @apply inline-flex items-center gap-1.5 rounded-full border border-borde-2 bg-superficie-2 px-[11px] py-1.5 text-[13px] font-semibold text-texto;
+}
+@utility vacio {
+  @apply rounded-2xl border border-dashed border-borde-claro px-6 py-12 text-center text-texto-3;
+}

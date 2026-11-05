@@ -1,0 +1,22 @@
+# Todo el repo se ejecuta en Linux: los scripts y ficheros de texto van SIEMPRE con LF,
+# aunque se editen o se hagan commits desde Windows (ignora core.autocrlf).
+* text=auto eol=lf
+*.sh  text eol=lf
+*.js  text eol=lf
+*.md  text eol=lf
+*.yml text eol=lf
+*.env text eol=lf
+*.conf text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.json text eol=lf
+Dockerfile text eol=lf
+
+# Binarios: ni tocarlos
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.pdf binary
+*.zip binary

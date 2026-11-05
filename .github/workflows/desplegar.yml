@@ -1,0 +1,48 @@
+# Despliegue automático del servidor (proxy + web de proyectos) con cada push a main: cuando se acepta una pull
+# request de un proyecto, el servidor hace git pull y la tarjeta aparece en la web.
+# Solo se ejecuta si en el repo (Settings → Secrets and variables → Actions) existen:
+#   Variable  DESPLIEGUE_AUTOMATICO = si
+#   Secrets   DESPLIEGUE_SSH_KEY  (clave privada ed25519 SOLO para esto; su .pub va en el bastión del escritorio en Isard)
+#             DESPLIEGUE_SSH_HOST (vdi.fpzornotzalh.eus)   DESPLIEGUE_SSH_PORT (443)
+#             DESPLIEGUE_SSH_USER (el ID del bastión del escritorio: un UUID, sin espacios ni saltos de línea)
+#   Variable opcional DESPLIEGUE_USUARIO: usuario del servidor dueño del repo y de Docker (por defecto administrador).
+# El bastión de Isard entra siempre con el usuario de las credenciales del escritorio (isard), que no tiene
+# ni el repo ni Docker: por eso desplegar.sh se lanza con sudo como DESPLIEGUE_USUARIO (regla en
+# /etc/sudoers.d, ver servidor/LEEME.md).
+name: Desplegar servidor
+on:
+  push:
+    branches: [main]
+    paths: ['docker-compose.yml', 'proxy/**', 'apps/**', 'proyectos/**', 'servidor/**']
+  workflow_dispatch:
+concurrency:                  # nunca dos despliegues de Actions a la vez: el segundo espera al primero
+  group: desplegar
+  cancel-in-progress: false
+env:
+  USUARIO_SERVIDOR: ${{ vars.DESPLIEGUE_USUARIO || 'administrador' }}
+  # Clave PÚBLICA de host del bastión de Isard (vdi.fpzornotzalh.eus:443). Va fijada aquí porque el
+  # bastión no contesta a ssh-keyscan. Si cambia: ssh-keygen -F '[vdi.fpzornotzalh.eus]:443'
+  CLAVE_HOST_BASTION: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC2zQgkHNTQLG0Wvaoz3CWfrV+vMmQb9r4l6G6abiXM/xbDjY7RhAYqaukqWH/dDjs7tiVfHfVvbMHj97Tm7KYZ0UxVl0vL0OAnxBOedGbQNygiaZw/LzlI6atxxX0FtgftuIEoUy5al9sW+jN91V0zROoB9X8nYQoJVoKtri4lfy92VJCnYmZDsZJ/UzGZ7a+Bmq19nlrJxz33nT+Q/nf6s6dluIYETPtC2UFiLpH6hQa2FUHf3EEIyLptjfc7Pi3T8jgpg5uw80wzOOj/1Ear9cPBjHUjw0t6dxUHJHoYxIhiy3J4m8yt+DGyw3rZQxJU/1iWi6t549ipM3ph6QUTMvpxlZNxDA8way2hCG+uYYee6pV++OiWWNzG5qfUmV7q5ITzIIEsDdAWr+AS3YXh5N9V6tUc35CIyULM7QlA7Pp4vbcGFkIliGTsGFmnM+05SwfOuW4q7Gi2JUmyzubhoEDp+01nwaUObUd4UAPkAhWGQlfccrA6BitZ5bSSHKWQIRQNrUxh/j4m8lw5kmc/IZdMjC7/qgr4lcnb7XvPUAM2nhzgar4xIrKvf1UM4/3iuiUay2wSI20sCjavJXfitFaw65D9vCwMdksxr194fH/Ly6T9dpu6kS6b2B+562WWFTjLF/Cg3e+FnTKhhFWD+kIpK7ywy9f9AorvVGyYgw==
+jobs:
+  desplegar:
+    if: ${{ vars.DESPLIEGUE_AUTOMATICO == 'si' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clave SSH
+        run: |
+          # Los secrets pasan por tr: sin espacios ni saltos de línea (el bastión exige un UUID exacto
+          # como usuario y castiga con 10 s + "authentication failed." si no lo es).
+          limpio(){ printf '%s' "$1" | tr -d '[:space:]'; }
+          echo "SSH_USR=$(limpio "${{ secrets.DESPLIEGUE_SSH_USER }}")" >> "$GITHUB_ENV"
+          echo "SSH_HOST=$(limpio "${{ secrets.DESPLIEGUE_SSH_HOST }}")" >> "$GITHUB_ENV"
+          echo "SSH_PORT=$(limpio "${{ secrets.DESPLIEGUE_SSH_PORT }}")" >> "$GITHUB_ENV"
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          # tr quita los \r por si la clave se pegó desde Windows
+          printf '%s\n' "${{ secrets.DESPLIEGUE_SSH_KEY }}" | tr -d '\r' > ~/.ssh/despliegue && chmod 600 ~/.ssh/despliegue
+          echo "[$(limpio "${{ secrets.DESPLIEGUE_SSH_HOST }}")]:$(limpio "${{ secrets.DESPLIEGUE_SSH_PORT }}") $CLAVE_HOST_BASTION" > ~/.ssh/known_hosts
+      # desplegar.sh hace el git pull y, si él mismo ha cambiado, se relanza con la versión nueva
+      - name: Desplegar por SSH (bastión de Isard)
+        run: |
+          ssh -i ~/.ssh/despliegue -p "$SSH_PORT" -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes \
+            "$SSH_USR@$SSH_HOST" \
+            "sudo -n -u $USUARIO_SERVIDOR -H /home/$USUARIO_SERVIDOR/proyectos_intermodulares/servidor/desplegar.sh"

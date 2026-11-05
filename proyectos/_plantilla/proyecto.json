@@ -1,0 +1,10 @@
+{
+  "titulo": "Título del proyecto (3 a 80 caracteres)",
+  "resumen": "Una o dos frases que expliquen qué hace y para quién. Máximo 240 caracteres.",
+  "equipo": ["Nombre Apellido", "Nombre Apellido"],
+  "autores": ["login.alumno1", "login.alumno2"],
+  "portada": "portada.svg",
+  "video": "",
+  "repo": "",
+  "etiquetas": ["etiqueta1", "etiqueta2"]
+}

@@ -1,0 +1,94 @@
+import { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import DotGrid from '../reactbits/DotGrid.jsx';
+import AnimatedContent from '../reactbits/AnimatedContent.jsx';
+import { useIdioma } from '../i18n.jsx';
+import { useSesion } from '../sesion.jsx';
+import useProyectos from '../useProyectos.js';
+import { reaccionar } from '../api.js';
+import { coincide } from '../datos.js';
+import Cabecera from '../componentes/Cabecera.jsx';
+import Pie from '../componentes/Pie.jsx';
+import Llamada from '../componentes/Llamada.jsx';
+import Icono from '../componentes/Icono.jsx';
+import { TarjetaProyecto } from '../componentes/Tarjeta.jsx';
+
+export default function Galeria() {
+  const { t } = useIdioma();
+  const { usuario } = useSesion();
+  const { lista, ciclos, estado, actualizar } = useProyectos();
+  const [parametros, setParametros] = useSearchParams();
+  const filtro = parametros.get('ciclo') || '';
+  const [consulta, setConsulta] = useState('');
+  const [ocupado, setOcupado] = useState(null); // id del proyecto cuya reacción está en vuelo
+  const [error, setError] = useState('');
+  const navegar = useNavigate();
+
+  const visibles = lista.filter(p => (!filtro || p.ciclo === filtro) && coincide(p, consulta));
+  const cuenta = c => lista.filter(p => !c || p.ciclo === c).length;
+
+  const onReaccion = async (p, emoji) => {
+    if (!usuario) return navegar('/entrar?volver=/galeria');
+    setOcupado(p.id); setError('');
+    const r = await reaccionar(p.id, emoji);
+    setOcupado(null);
+    if (r.estado === 401) return navegar('/entrar?volver=/galeria');
+    if (!r.ok) return setError((r.datos && r.datos.error) || t('error_red'));
+    actualizar(r.datos);
+  };
+
+  return (
+    <>
+      <Cabecera />
+
+      {/* Franja: título de la galería sobre una rejilla de puntos reactiva (React Bits DotGrid) */}
+      <section className="relative overflow-hidden border-b border-borde bg-superficie">
+        <div className="absolute inset-0 opacity-70" aria-hidden="true">
+          <DotGrid dotSize={3} gap={22} baseColor="#26224F" activeColor="#88F9C0" proximity={150} shockRadius={260} shockStrength={4} glow={0.6} />
+        </div>
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(10,10,31,0.96)_0%,rgba(10,10,31,0.8)_45%,rgba(10,10,31,0.2)_100%)]" aria-hidden="true" />
+        <div className="contenedor relative pt-11 pb-10">
+          <span className="etiqueta-mono">{t('portada_etiqueta')}</span>
+          <h1 className="mt-2 text-[clamp(32px,4.5vw,44px)]">{t('galeria_titulo')}</h1>
+          <p className="mt-2 max-w-[640px] text-[18px] text-texto-2">{t('galeria_texto')}</p>
+        </div>
+      </section>
+
+      <main className="contenedor">
+        <div className="flex flex-wrap items-center justify-between gap-4 pt-7 pb-2">
+          <div className="flex flex-wrap gap-2" role="group" aria-label={t('filtrar_ciclo')}>
+            {[{ codigo: '', nombre: t('todos') }, ...ciclos].map(c => (
+              <button key={c.codigo} type="button" aria-pressed={filtro === c.codigo}
+                onClick={() => setParametros(c.codigo ? { ciclo: c.codigo } : {}, { replace: true })}
+                className={`min-h-10 rounded-full border px-4 py-2 text-[14px] font-semibold ${filtro === c.codigo ? 'border-indigo bg-indigo text-blanco' : 'border-borde-claro bg-transparent text-texto hover:border-texto-3'}`}>
+                {c.nombre} · {cuenta(c.codigo)}
+              </button>
+            ))}
+          </div>
+          <label className="flex min-h-11 w-80 max-w-full items-center gap-2.5 rounded-[10px] border border-borde-claro bg-superficie px-3.5 text-texto-3">
+            <Icono nombre="lupa" tam={18} />
+            <span className="sr-only">{t('buscar')}</span>
+            <input type="search" value={consulta} onChange={e => setConsulta(e.target.value)} placeholder={t('buscar')}
+              className="min-w-0 flex-1 border-0 bg-transparent text-texto outline-0 placeholder:text-texto-4" />
+          </label>
+        </div>
+
+        {error && <p role="alert" className="mt-3 flex items-center gap-2 rounded-[10px] border border-error/35 bg-error/12 px-3.5 py-3 text-[13px] text-error"><Icono nombre="alerta" tam={18} grosor={2} />{error}</p>}
+
+        <div className="pt-4 pb-12">
+          {estado === 'cargando' && <div className="vacio">{t('cargando')}</div>}
+          {estado === 'error' && <div className="vacio">{t('error_carga')}</div>}
+          {estado === 'ok' && visibles.length === 0 && <div className="vacio">{lista.length ? t('sin_resultados') : t('sin_proyectos')}</div>}
+          {estado === 'ok' && visibles.length > 0 && (
+            <AnimatedContent key={filtro} className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6" distance={14} duration={0.5} stagger={0.06} threshold={0.05}>
+              {visibles.map(p => <TarjetaProyecto key={p.id} p={p} usuario={usuario} ocupado={ocupado === p.id} onReaccion={emoji => onReaccion(p, emoji)} />)}
+            </AnimatedContent>
+          )}
+        </div>
+      </main>
+
+      <Llamada variante="borde" />
+      <Pie derecha="repo" />
+    </>
+  );
+}

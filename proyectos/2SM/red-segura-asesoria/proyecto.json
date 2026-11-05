@@ -1,0 +1,21 @@
+{
+  "titulo": "Red segura para una asesoría",
+  "resumen": "Maqueta en Proxmox con firewall, DHCP, DNS y copias de seguridad para una pyme de 8 puestos.",
+  "equipo": [
+    "Ane García",
+    "Jon Urrutia"
+  ],
+  "autores": [
+    "ane.garcia",
+    "jon.urrutia"
+  ],
+  "portada": "portada.svg",
+  "video": "https://youtu.be/ejemplo-2sm",
+  "repo": "https://github.com/CIFPZornotzaLHII/proyectos_intermodulares",
+  "etiquetas": [
+    "proxmox",
+    "firewall",
+    "samba",
+    "backups"
+  ]
+}

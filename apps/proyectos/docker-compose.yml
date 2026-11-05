@@ -1,0 +1,36 @@
+# Web de proyectos intermodulares · PI
+# Lo incluye el docker-compose.yml de la raíz del repo: se arranca desde allí, no desde aquí.
+#   Claves: .env en esta carpeta. En el servidor lo crea desplegar.sh a partir de .env.ejemplo (claves
+#   aleatorias); en tu PC, cópialo a mano. El .env NO se sube a git.
+#        http://IP-DEL-SERVIDOR/proyectos/    (a través del proxy; también directo en :8080)
+services:
+  proyectos-api:
+    build: ./api
+    restart: unless-stopped
+    environment:
+      CLAVE_SESION: "${CLAVE_SESION:?Falta CLAVE_SESION: crea apps/proyectos/.env a partir de .env.ejemplo}"
+      CLAVE_ADMIN: "${CLAVE_ADMIN:?Falta CLAVE_ADMIN: crea apps/proyectos/.env a partir de .env.ejemplo}"
+      DIAS_SESION: "${DIAS_SESION:-30}"
+    volumes:
+      - ./datos:/datos                      # usuarios.json y reacciones.json quedan aquí, fuera del contenedor
+      - ../../proyectos:/proyectos:ro       # las carpetas de los proyectos (solo lectura)
+    healthcheck:                            # desplegar.sh espera a que esté "healthy"
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/api/salud"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  proyectos-web:
+    build: ./web
+    restart: unless-stopped
+    ports:
+      - "8080:80"                           # acceso directo (lo usa admin.sh); el proxy ya la sirve en /proyectos/
+    volumes:
+      - ../../proyectos:/proyectos:ro       # landings del alumnado, servidas en /p/<ciclo>/<slug>/
+    depends_on:
+      - proyectos-api
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/salud"]
+      interval: 10s
+      timeout: 3s
+      retries: 3

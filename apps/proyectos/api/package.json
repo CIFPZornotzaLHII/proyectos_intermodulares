@@ -1,0 +1,7 @@
+{
+  "name": "proyectos-intermodulares-api",
+  "version": "1.0.0",
+  "description": "API de la web de proyectos intermodulares (proyectos, sesión, reacciones, administración). Sin dependencias.",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" }
+}
