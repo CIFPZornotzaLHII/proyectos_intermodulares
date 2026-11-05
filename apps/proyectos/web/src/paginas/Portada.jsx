@@ -93,8 +93,8 @@ export default function Portada() {
             </ul>
           </div>
 
-          {/* Las cifras cierran la portada como la fila de logos de la referencia; 'relative' para quedar sobre las patas */}
-          <dl className="flex flex-wrap items-baseline justify-center gap-x-12 gap-y-3 relative border-t border-blanco/30 pt-6 animate-aparecer [animation-delay:450ms]">
+          {/* Las cifras cierran la portada como la fila de logos de la referencia; sin filete, solo espacio, para que mascota, héroe y ónice se fundan; 'relative' para quedar sobre las patas */}
+          <dl className="flex flex-wrap items-baseline justify-center gap-x-12 gap-y-3 relative pt-6 animate-aparecer [animation-delay:450ms]">
             {cifras.map(c => (
               <div key={c.clave} className="flex items-baseline gap-2.5">
                 <dt className="order-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-blanco/80">{t(c.clave)}</dt>

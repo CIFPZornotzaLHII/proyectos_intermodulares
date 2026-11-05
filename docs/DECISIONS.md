@@ -16,6 +16,31 @@ sobre el índigo lleguen a 4,5:1 (blanco pleno o `texto` con opacidad alta), sin
 - En `fija` y `saliendo` (fondo ónice) siguen en `text-texto-3`. Se aplica en todos los anchos: en móvil el héroe no
   sube bajo la cabecera, pero sobre ónice `texto/90` contrasta aún más.
 
+### D-19 · Medidas de seguridad de la evaluación del 5-11 · 2026-11-05 · vigente
+"aplica las medidas de seguridad", tras la evaluación hecha antes de subir el repo (sin secretos ni datos en el
+histórico; cuatro riesgos de diseño):
+- **Landings en sandbox**: `apps/proyectos/web/nginx.conf` manda `Content-Security-Policy: sandbox …` sin
+  `allow-same-origin` en `/p/`. El HTML y JS del alumnado deja de compartir origen con la web y la API: no ve la
+  cookie de sesión, no puede reaccionar ni cerrar sesión en nombre de quien lo visita (las reacciones deciden la
+  portada) ni usar `localStorage`. Avisado en `proyectos/LEEME.md`.
+- **`validar-pr.yml` sin inyección**: las salidas derivadas de los nombres de fichero de la PR entran al paso "Solo
+  tu carpeta" por `env` y no interpoladas en el shell; delimitador aleatorio en `GITHUB_OUTPUT`. Y `main`
+  protegida en GitHub: el check `comprobar` es obligatorio para las PR (los administradores pueden seguir
+  haciendo push directo; si no, las fusiones de la fábrica no entrarían).
+- **IP real en la API**: el nginx de la web usa `set_real_ip_from 172.16.0.0/12` + `real_ip_header X-Real-IP`,
+  así el límite de diez intentos de login por IP es por visitante y no por todo el centro; solo se cree la cabecera
+  cuando viene de la red de Docker (el proxy), no si alguien entra directo por el :8080.
+- **Clave de admin en tiempo constante** (`timingSafeEqual`), como ya se hacía con contraseñas y firmas.
+- Queda documentado y sin hacer: TLS (la cookie sin `Secure`) antes de abrir la web fuera de la VPN.
+
+### D-18 · Sin filete en la costura del héroe con el destacado · 2026-11-05 · vigente
+Mikel, en el backlog: "La costura entre el héroe de la portada y la sección "Proyecto destacado" (`Portada.jsx`) sigue
+marcada por una línea sólida de lado a lado: el filete `border-t border-blanco/30` de la fila de cifras cruza las patas
+desvanecidas de la mascota y señala el corte; desde que la mascota está más abajo queda peor. Quitar esa línea (o
+sustituirla por espacio o un escalón de tono)". La fila de cifras pierde el filete y se separa solo con espacio (`pt-6`)
+para que mascota, héroe y ónice se fundan: el degradado ya acaba en ónice opaco, así que un escalón de tono añadiría
+otro corte. No cambian el degradado, ni la mascota (posición, `Magnet`, máscara), ni los filetes de la lista del héroe.
+
 ### D-17 · Portada como la referencia: campo índigo plano y título partido · 2026-11-05 · vigente
 Mikel manda una captura (WhatsApp, 5/11 14:43) con la paleta de D-04 y una portada que le gusta ("una página web de
 ejemplo con los colores que quiero y un estilo de página principal que me gusta"): héroe de índigo eléctrico plano,
