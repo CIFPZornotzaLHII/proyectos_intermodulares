@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Sin filete en la costura del héroe con el destacado · 2026-11-05 · vigente
+### D-18 · Sin filete en la costura del héroe con el destacado · 2026-11-05 · vigente
 Mikel, en el backlog: "La costura entre el héroe de la portada y la sección "Proyecto destacado" (`Portada.jsx`) sigue
 marcada por una línea sólida de lado a lado: el filete `border-t border-blanco/30` de la fila de cifras cruza las patas
 desvanecidas de la mascota y señala el corte; desde que la mascota está más abajo queda peor. Quitar esa línea (o
