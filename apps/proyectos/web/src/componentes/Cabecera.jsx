@@ -11,7 +11,8 @@ import Icono from './Icono.jsx';
 // pasa a fija y entra desde arriba con una animación sutil (12 px y fundido, ease-in); al volver arriba sale con la
 // animación inversa y, al terminar, vuelve a ser la transparente. Estados: 'libre' | 'fija' | 'saliendo'.
 // Un hueco del mismo alto ocupa su sitio mientras está fija para que la página no salte.
-export default function Cabecera({ sencilla = false }) {
+// Con `sobreIndigo` (la portada), los textos secundarios de la transparente usan texto/90 (4,9:1 sobre índigo, D-NEW).
+export default function Cabecera({ sencilla = false, sobreIndigo = false }) {
   const { t, idioma, cambiarIdioma } = useIdioma();
   const { usuario, salir } = useSesion();
   const { pathname } = useLocation();
@@ -32,6 +33,7 @@ export default function Cabecera({ sencilla = false }) {
   }, []);
 
   const fija = fijada !== 'libre';
+  const tenue = sobreIndigo && !fija ? 'text-texto/90' : 'text-texto-3';
   return (
     <>
       {fija && <div style={{ height: alto }} aria-hidden="true" />}
@@ -42,22 +44,22 @@ export default function Cabecera({ sencilla = false }) {
           <img src={ruta('img/logo.png')} alt={t('logo_alt')} width="116" height="52" className="block h-[52px] w-auto" />
           <span className="flex flex-col leading-[1.15]">
             <strong className="font-titulo text-[18px] tracking-[0.01em]">{t('marca')}</strong>
-            <span className="text-[12px] text-texto-3">CIFP Zornotza LHII · {t('marca_sub')}</span>
+            <span className={`text-[12px] ${tenue}`}>CIFP Zornotza LHII · {t('marca_sub')}</span>
           </span>
         </Link>
 
         <nav className="flex flex-wrap items-center gap-[18px] text-[14px] font-semibold" aria-label="Principal">
           {!sencilla && (
             <>
-              <NavLink to="/galeria" className={({ isActive }) => `inline-flex min-h-[44px] items-center no-underline ${isActive ? 'text-texto' : 'text-texto-3 hover:text-texto'}`}>{t('nav_proyectos')}</NavLink>
-              <Link to="/#publicar" className="inline-flex min-h-[44px] items-center text-texto-3 no-underline hover:text-texto">{t('nav_publicar')}</Link>
+              <NavLink to="/galeria" className={({ isActive }) => `inline-flex min-h-[44px] items-center no-underline ${isActive ? 'text-texto' : `${tenue} hover:text-texto`}`}>{t('nav_proyectos')}</NavLink>
+              <Link to="/#publicar" className={`inline-flex min-h-[44px] items-center ${tenue} no-underline hover:text-texto`}>{t('nav_publicar')}</Link>
             </>
           )}
 
           <span className="inline-flex overflow-hidden rounded-lg border border-borde text-[13px]" role="group" aria-label={t('idioma')}>
             {['es', 'eu'].map(cod => (
               <button key={cod} type="button" onClick={() => cambiarIdioma(cod)} aria-pressed={idioma === cod}
-                className={`min-h-8 border-0 px-3 py-1.5 ${idioma === cod ? 'bg-borde text-texto' : 'bg-transparent text-texto-3 hover:text-texto'}`}>
+                className={`min-h-8 border-0 px-3 py-1.5 ${idioma === cod ? 'bg-borde text-texto' : `bg-transparent ${tenue} hover:text-texto`}`}>
                 {cod.toUpperCase()}
               </button>
             ))}
@@ -70,7 +72,7 @@ export default function Cabecera({ sencilla = false }) {
               <span className="inline-flex size-[34px] items-center justify-center rounded-full bg-indigo text-[13px] font-bold text-blanco" aria-hidden="true">{iniciales(usuario.nombre || usuario.login)}</span>
               <span className="flex flex-col leading-[1.15]">
                 <span>{usuario.nombre || usuario.login}</span>
-                <small className="font-medium text-texto-3">{usuario.ciclo || ''}</small>
+                <small className={`font-medium ${tenue}`}>{usuario.ciclo || ''}</small>
               </span>
               <Boton tamano="pequeno" onClick={salir}>{t('salir')}</Boton>
             </span>

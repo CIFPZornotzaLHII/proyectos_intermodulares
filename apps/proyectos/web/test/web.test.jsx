@@ -86,6 +86,19 @@ describe('portada', () => {
     expect(document.documentElement.lang).toBe('eu');
     expect(localStorage.getItem('pi_idioma')).toBe('eu');
   });
+
+  it('la cabecera transparente sobre el índigo no usa texto-3; la de la galería sí', () => {
+    ir('/');
+    const { unmount } = render(<App />);
+    const cabecera = within(screen.getByRole('banner'));
+    [cabecera.getByText(/^CIFP Zornotza LHII · /), cabecera.getByRole('link', { name: 'Proyectos' }),
+      cabecera.getByRole('link', { name: 'Cómo publicar' }), cabecera.getByRole('button', { name: 'EU' })]
+      .forEach(el => expect(el).not.toHaveClass('text-texto-3'));
+    unmount();
+    ir('/galeria');
+    render(<App />);
+    expect(within(screen.getByRole('banner')).getByRole('link', { name: 'Cómo publicar' })).toHaveClass('text-texto-3');
+  });
 });
 
 describe('galería', () => {
