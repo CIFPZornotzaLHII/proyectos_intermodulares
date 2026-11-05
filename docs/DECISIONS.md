@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · El destacado de la portada como hero section · 2026-11-05 · vigente
+### D-20 · El destacado de la portada como hero section · 2026-11-05 · vigente
 "Rehacer el bloque "Proyecto destacado" de la portada […] como una hero section memorable, no como una tarjeta más",
 más alto, con la portada del proyecto dominando el bloque y el texto encima, un efecto de React Bits, mucha más
 variedad de tamaños de texto y los botones menos llamativos:

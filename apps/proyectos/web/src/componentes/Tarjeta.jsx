@@ -102,7 +102,7 @@ export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, modo = 'galer
   );
 }
 
-// Proyecto destacado de la portada como hero section (D-NEW): la foto a sangre ocupa todo el bloque, con el grano de
+// Proyecto destacado de la portada como hero section (D-20): la foto a sangre ocupa todo el bloque, con el grano de
 // React Bits (Noise) y un degradado de ónice desde abajo a la izquierda; encima, abajo a la izquierda, el texto con
 // mucha escala (título de portada en Impact, cifra grande en menta) y una sola acción menta; vídeo y código, enlaces.
 const ENLACE_DISCRETO = 'inline-flex min-h-[44px] items-center gap-2 text-[15px] font-semibold text-texto-2 no-underline hover:text-menta';
