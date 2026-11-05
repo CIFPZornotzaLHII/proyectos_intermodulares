@@ -37,7 +37,7 @@ jobs:
       - name: Solo tu carpeta (alumnado)
         if: ${{ github.event.pull_request.author_association != 'OWNER' && github.event.pull_request.author_association != 'MEMBER' && github.event.pull_request.author_association != 'COLLABORATOR' }}
         # Las salidas vienen de nombres de fichero elegidos por quien abre la PR: entran por env, nunca interpoladas
-        # en el shell (un nombre con $(…) o comillas ejecutaría lo que quisiera en el runner) (D-18)
+        # en el shell (un nombre con $(…) o comillas ejecutaría lo que quisiera en el runner) (D-19)
         env:
           FUERA: ${{ steps.cambios.outputs.fuera }}
           CARPETAS: ${{ steps.cambios.outputs.carpetas }}

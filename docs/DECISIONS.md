@@ -3,15 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-18 · Sin filete en la costura del héroe con el destacado · 2026-11-05 · vigente
-Mikel, en el backlog: "La costura entre el héroe de la portada y la sección "Proyecto destacado" (`Portada.jsx`) sigue
-marcada por una línea sólida de lado a lado: el filete `border-t border-blanco/30` de la fila de cifras cruza las patas
-desvanecidas de la mascota y señala el corte; desde que la mascota está más abajo queda peor. Quitar esa línea (o
-sustituirla por espacio o un escalón de tono)". La fila de cifras pierde el filete y se separa solo con espacio (`pt-6`)
-para que mascota, héroe y ónice se fundan: el degradado ya acaba en ónice opaco, así que un escalón de tono añadiría
-otro corte. No cambian el degradado, ni la mascota (posición, `Magnet`, máscara), ni los filetes de la lista del héroe.
-
-### D-18 · Medidas de seguridad de la evaluación del 5-11 · 2026-11-05 · vigente
+### D-19 · Medidas de seguridad de la evaluación del 5-11 · 2026-11-05 · vigente
 "aplica las medidas de seguridad", tras la evaluación hecha antes de subir el repo (sin secretos ni datos en el
 histórico; cuatro riesgos de diseño):
 - **Landings en sandbox**: `apps/proyectos/web/nginx.conf` manda `Content-Security-Policy: sandbox …` sin
@@ -27,6 +19,14 @@ histórico; cuatro riesgos de diseño):
   cuando viene de la red de Docker (el proxy), no si alguien entra directo por el :8080.
 - **Clave de admin en tiempo constante** (`timingSafeEqual`), como ya se hacía con contraseñas y firmas.
 - Queda documentado y sin hacer: TLS (la cookie sin `Secure`) antes de abrir la web fuera de la VPN.
+
+### D-18 · Sin filete en la costura del héroe con el destacado · 2026-11-05 · vigente
+Mikel, en el backlog: "La costura entre el héroe de la portada y la sección "Proyecto destacado" (`Portada.jsx`) sigue
+marcada por una línea sólida de lado a lado: el filete `border-t border-blanco/30` de la fila de cifras cruza las patas
+desvanecidas de la mascota y señala el corte; desde que la mascota está más abajo queda peor. Quitar esa línea (o
+sustituirla por espacio o un escalón de tono)". La fila de cifras pierde el filete y se separa solo con espacio (`pt-6`)
+para que mascota, héroe y ónice se fundan: el degradado ya acaba en ónice opaco, así que un escalón de tono añadiría
+otro corte. No cambian el degradado, ni la mascota (posición, `Magnet`, máscara), ni los filetes de la lista del héroe.
 
 ### D-17 · Portada como la referencia: campo índigo plano y título partido · 2026-11-05 · vigente
 Mikel manda una captura (WhatsApp, 5/11 14:43) con la paleta de D-04 y una portada que le gusta ("una página web de
