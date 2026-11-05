@@ -3,6 +3,10 @@
 Tu proyecto aparece en la web cuando su carpeta está en la rama `main` de este repositorio. Para ponerla ahí
 haces una **pull request**; el profesor la revisa y la acepta, y el servidor se actualiza solo.
 
+> La landing se sirve en un *sandbox* del navegador: tu HTML, CSS y JavaScript funcionan con normalidad (scripts,
+> formularios, enlaces que abren pestaña nueva), pero la página no comparte la sesión de la web ni puede llamar a su
+> API, y `localStorage` no está disponible. Si necesitas guardar algo, hazlo en memoria o en la URL.
+
 ## 1. Prepara el repositorio (una vez por grupo)
 
 1. En GitHub, haz **Fork** de `CIFPZornotzaLHII/proyectos_intermodulares` (botón arriba a la derecha).

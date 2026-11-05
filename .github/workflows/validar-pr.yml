@@ -28,20 +28,27 @@ jobs:
           # ¿solo toca carpetas de proyectos? ¿una sola?
           fuera="$(grep -vE '^proyectos/(2SM|WG|PG)/[^/]+/' cambios.txt || true)"
           carpetas="$(grep -oE '^proyectos/(2SM|WG|PG)/[^/]+' cambios.txt | sort -u)"
-          echo "fuera<<EOF" >> "$GITHUB_OUTPUT"; echo "$fuera" >> "$GITHUB_OUTPUT"; echo "EOF" >> "$GITHUB_OUTPUT"
-          echo "carpetas<<EOF" >> "$GITHUB_OUTPUT"; echo "$carpetas" >> "$GITHUB_OUTPUT"; echo "EOF" >> "$GITHUB_OUTPUT"
+          # delimitador que no puede aparecer en un nombre de fichero de la PR
+          fin="FIN_$RANDOM$RANDOM"
+          echo "fuera<<$fin" >> "$GITHUB_OUTPUT"; echo "$fuera" >> "$GITHUB_OUTPUT"; echo "$fin" >> "$GITHUB_OUTPUT"
+          echo "carpetas<<$fin" >> "$GITHUB_OUTPUT"; echo "$carpetas" >> "$GITHUB_OUTPUT"; echo "$fin" >> "$GITHUB_OUTPUT"
           echo "n_carpetas=$(echo "$carpetas" | grep -c . || true)" >> "$GITHUB_OUTPUT"
 
       - name: Solo tu carpeta (alumnado)
         if: ${{ github.event.pull_request.author_association != 'OWNER' && github.event.pull_request.author_association != 'MEMBER' && github.event.pull_request.author_association != 'COLLABORATOR' }}
+        # Las salidas vienen de nombres de fichero elegidos por quien abre la PR: entran por env, nunca interpoladas
+        # en el shell (un nombre con $(…) o comillas ejecutaría lo que quisiera en el runner) (D-18)
+        env:
+          FUERA: ${{ steps.cambios.outputs.fuera }}
+          CARPETAS: ${{ steps.cambios.outputs.carpetas }}
+          N_CARPETAS: ${{ steps.cambios.outputs.n_carpetas }}
         run: |
-          fuera="${{ steps.cambios.outputs.fuera }}"
-          if [ -n "$fuera" ]; then
-            echo "::error::La pull request toca ficheros fuera de proyectos/<ciclo>/<tu-carpeta>/:"; echo "$fuera" | sed 's/^/  /'
+          if [ -n "$FUERA" ]; then
+            echo "::error::La pull request toca ficheros fuera de proyectos/<ciclo>/<tu-carpeta>/:"; printf '%s\n' "$FUERA" | sed 's/^/  /'
             echo "Deja solo los cambios de tu carpeta y vuelve a hacer push."; exit 1
           fi
-          if [ "${{ steps.cambios.outputs.n_carpetas }}" != "1" ]; then
-            echo "::error::Una pull request = un proyecto. Carpetas tocadas:"; echo "${{ steps.cambios.outputs.carpetas }}" | sed 's/^/  /'; exit 1
+          if [ "$N_CARPETAS" != "1" ]; then
+            echo "::error::Una pull request = un proyecto. Carpetas tocadas:"; printf '%s\n' "$CARPETAS" | sed 's/^/  /'; exit 1
           fi
 
       - name: Validar los proyectos

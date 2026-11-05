@@ -72,7 +72,11 @@ async function leerJSON(req) {
   try { return d ? JSON.parse(d) : {}; } catch { throw new Error('JSON inválido'); }
 }
 const ip = req => (req.headers['x-real-ip'] || req.socket.remoteAddress || '?').toString();
-const esAdmin = req => CLAVE_ADMIN && (req.headers['x-clave-admin'] || '') === CLAVE_ADMIN;
+// comparación en tiempo constante, como la de contraseñas y firmas (D-18)
+const esAdmin = req => {
+  const dada = Buffer.from(String(req.headers['x-clave-admin'] || '')), buena = Buffer.from(CLAVE_ADMIN || '');
+  return buena.length > 0 && dada.length === buena.length && crypto.timingSafeEqual(dada, buena);
+};
 const b64 = b => Buffer.from(b).toString('base64url');
 
 // ---------- contraseñas y sesiones ----------
