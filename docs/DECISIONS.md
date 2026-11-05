@@ -16,6 +16,24 @@ sobre el índigo lleguen a 4,5:1 (blanco pleno o `texto` con opacidad alta), sin
 - En `fija` y `saliendo` (fondo ónice) siguen en `text-texto-3`. Se aplica en todos los anchos: en móvil el héroe no
   sube bajo la cabecera, pero sobre ónice `texto/90` contrasta aún más.
 
+### D-20 · El destacado de la portada como hero section · 2026-11-05 · vigente
+"Rehacer el bloque "Proyecto destacado" de la portada […] como una hero section memorable, no como una tarjeta más",
+más alto, con la portada del proyecto dominando el bloque y el texto encima, un efecto de React Bits, mucha más
+variedad de tamaños de texto y los botones menos llamativos:
+- **Imagen a sangre, texto encima**: `Destacado` (`Tarjeta.jsx`) deja las dos columnas; la foto cubre todo el bloque
+  (`min-h-[min(80vh,720px)]`, 560 px en móvil) y el texto va abajo a la izquierda sobre un degradado de ónice. Sin
+  portada propia, fondo `superficie-2` con las iniciales enormes en índigo claro. La foto ya no es un enlace (no hay
+  enlaces anidados: el título y "Ver proyecto" llevan a la landing); `PortadaProyecto` y `BotonesProyecto` pierden su
+  variante `grande`.
+- **Escala**: título en Impact a `clamp(48px,7vw,112px)` que parte palabras antes que desbordar; la cifra de
+  reacciones en Impact grande y menta con "reacciones en total" pequeño al lado (clave nueva
+  `reacciones_total_texto`, para que el elemento siga diciendo exactamente `reacciones_total`); resumen a 19 px y
+  60 ch; equipo y ciclo en mono de 12 px en mayúsculas.
+- **Efecto**: sigue el `SpotlightCard` (brillo del borde) y sobre la foto va `Noise`, el mismo grano del héroe índigo,
+  quieto con `prefers-reduced-motion`. Ningún componente de React Bits nuevo ni modificado.
+- **Acciones**: "Ver proyecto" es la única en menta; "Vídeo · 5 min" y "Código" pasan a enlaces discretos de 44 px y
+  "Vídeo pendiente" a texto atenuado. La galería no cambia.
+
 ### D-19 · Medidas de seguridad de la evaluación del 5-11 · 2026-11-05 · vigente
 "aplica las medidas de seguridad", tras la evaluación hecha antes de subir el repo (sin secretos ni datos en el
 histórico; cuatro riesgos de diseño):
