@@ -1,0 +1,45 @@
+# docker compose -f docker/compose.yaml run --rm factory
+#
+# Monta el directorio PADRE del repo en /work (los worktrees viven al lado del repo y
+# tienen que estar dentro del contenedor) y abre un shell en el repo.
+# REPO_DIR_NAME es el nombre de la carpeta del repo si no es proyectos_intermodulares.
+# Primera vez: `claude` → /login (OAuth) o exporta ANTHROPIC_API_KEY en tu shell antes
+# de arrancar. El login queda guardado en el volumen `factory-claude-home`.
+
+services:
+  factory:
+    build:
+      context: .
+      args:
+        CLAUDE_CODE_VERSION: latest
+        WITH_AGENT_BROWSER: "0"   # "1" para instalar agent-browser + Chromium (imagen ~1 GB más)
+    image: proyectos-intermodulares-factory:local
+    stdin_open: true
+    tty: true
+    working_dir: /work/${REPO_DIR_NAME:-proyectos_intermodulares}
+    environment:
+      - ANTHROPIC_API_KEY            # se pasa solo si existe en tu entorno
+      - CLAUDE_CODE_SUBAGENT_MODEL   # opcional: modelo por defecto de los subagentes
+    volumes:
+      # El padre del repo → /work. Así el repo queda en /work/<repo> y los worktrees
+      # (config.worktree_dir = ../{name}-factory) en /work/<repo>-factory, ambos dentro
+      # del contenedor. Si no quieres exponer los repos hermanos, cambia worktree_dir a
+      # "factory/worktrees" y monta solo el repo: "..:/work/<repo>".
+      - ../..:/work
+      - factory-claude-home:/home/factory
+
+  # Interfaz de desarrollo, opcional y separada del producto: solo lee factory/ y escribe dos señales (aprobar, pausa).
+  # Arrancar:  docker compose -f docker/compose.yaml --profile dev up -d dashboard   →  http://127.0.0.1:8989
+  # Cualquier otra interfaz vale si sigue factory-doc/DATOS.md; esta es la de referencia.
+  dashboard:
+    profiles: ["dev"]
+    image: proyectos-intermodulares-factory:local
+    command: node factory/dashboard/server.mjs --host 0.0.0.0
+    working_dir: /work/${REPO_DIR_NAME:-proyectos_intermodulares}
+    volumes:
+      - ../..:/work
+    ports:
+      - "127.0.0.1:8989:8989"
+
+volumes:
+  factory-claude-home:

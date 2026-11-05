@@ -1,0 +1,24 @@
+{
+  "id": "002-pagina-404",
+  "feature": "Añade una página 404 para rutas desconocidas en vez de dejar la pantalla en blanco",
+  "branch": "factory/002-pagina-404",
+  "worktree": "/home/mikel/repos/mi-blog-factory/002-pagina-404",
+  "stage": "needs-human",
+  "round": 2,
+  "reviewers": [
+    "security",
+    "ux",
+    "ui",
+    "code"
+  ],
+  "reviews": {
+    "security": "PASS",
+    "ux": "PASS",
+    "ui": "PASS",
+    "code": "PASS"
+  },
+  "created": "2026-10-19T17:10:05Z",
+  "updated": "2026-10-19T17:58:40Z",
+  "merge_commit": null,
+  "example": true
+}

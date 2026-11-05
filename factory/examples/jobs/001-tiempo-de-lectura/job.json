@@ -1,0 +1,24 @@
+{
+  "id": "001-tiempo-de-lectura",
+  "feature": "Muestra el tiempo estimado de lectura junto a la fecha en las entradas del blog y en las tarjetas del listado",
+  "branch": "factory/001-tiempo-de-lectura",
+  "worktree": "/home/mikel/repos/mi-blog-factory/001-tiempo-de-lectura",
+  "stage": "merged",
+  "round": 1,
+  "reviewers": [
+    "security",
+    "ux",
+    "ui",
+    "code"
+  ],
+  "reviews": {
+    "security": "PASS",
+    "ux": "PASS",
+    "ui": "PASS",
+    "code": "PASS"
+  },
+  "created": "2026-10-19T16:02:11Z",
+  "updated": "2026-10-19T16:31:48Z",
+  "merge_commit": "a1b2c3d4e5f60718293a4b5c6d7e8f9012345678",
+  "example": true
+}

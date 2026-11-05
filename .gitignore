@@ -29,9 +29,13 @@ apps/proyectos/web/dist/
 
 # Fábrica (factory-boilerplate): estado de ejecución y datos en marcha, nunca en main
 factory/jobs/*
+factory/worktrees/
 !factory/jobs/.gitkeep
 factory/metrics.json
 factory/skills-usage.json
 factory/approvals/
 factory/PAUSED
 .claude/settings.local.json
+
+# Mapa del código de Graphify (se regenera: graphify update), como en mikels-core
+graphify-out/
