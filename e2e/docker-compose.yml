@@ -1,0 +1,28 @@
+# Pruebas de extremo a extremo (Playwright, Chromium) contra la pila levantada con el docker-compose.yml de la raíz.
+#   docker compose up -d --build --wait                                   (en la raíz: proxy, web y API)
+#   docker compose -f e2e/docker-compose.yml run --rm --build e2e         (todas las pruebas)
+#   docker compose -f e2e/docker-compose.yml run --rm e2e npx playwright test tests/galeria.spec.js --project=escritorio
+# Informe HTML, capturas y trazas en e2e/salida/. El contenedor se conecta a la red de la pila (pi_default) y habla
+# con el proxy igual que haría un navegador: http://proxy/proyectos/.
+name: pi-e2e
+
+services:
+  e2e:
+    build: .
+    ipc: host                              # lo recomienda Playwright para Chromium
+    env_file: ../apps/proyectos/.env       # CLAVE_ADMIN: importa las cuentas de ejemplo y vacía las reacciones antes de probar
+    environment:
+      BASE_URL: http://proxy/proyectos/
+      CSV_ALUMNOS: /e2e/alumnos.csv
+      SALIDA: /e2e/salida
+    volumes:
+      - ./tests:/e2e/tests:ro
+      - ./playwright.config.js:/e2e/playwright.config.js:ro
+      - ../apps/proyectos/alumnos.ejemplo.csv:/e2e/alumnos.csv:ro
+      - ./salida:/e2e/salida
+    networks: [pi]
+
+networks:
+  pi:
+    external: true
+    name: pi_default

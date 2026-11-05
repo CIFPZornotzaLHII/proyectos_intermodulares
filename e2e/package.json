@@ -1,0 +1,14 @@
+{
+  "name": "proyectos-intermodulares-e2e",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Pruebas de extremo a extremo (Playwright) de la web de proyectos intermodulares contra la pila de Docker",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "informe": "playwright show-report salida/informe"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1"
+  }
+}
