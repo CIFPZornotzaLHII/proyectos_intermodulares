@@ -1,3 +1,5 @@
+<p align="center"><img src="img/logo-zornotza.png" alt="CIFP Zornotza LHII" width="460"></p>
+
 # Proyectos intermodulares · CIFP Zornotza LHII
 
 Web donde el alumnado de **SMR (2SM), DAW (WG) y DAM (PG)** publica su proyecto intermodular, y el servidor que la
