@@ -11,7 +11,7 @@ import Icono from './Icono.jsx';
 // pasa a fija y entra desde arriba con una animación sutil (12 px y fundido, ease-in); al volver arriba sale con la
 // animación inversa y, al terminar, vuelve a ser la transparente. Estados: 'libre' | 'fija' | 'saliendo'.
 // Un hueco del mismo alto ocupa su sitio mientras está fija para que la página no salte.
-// Con `sobreIndigo` (la portada), los textos secundarios de la transparente usan texto/90 (4,9:1 sobre índigo, D-NEW).
+// Con `sobreIndigo` (la portada), los textos secundarios de la transparente usan texto/90 (4,9:1 sobre índigo, D-21).
 export default function Cabecera({ sencilla = false, sobreIndigo = false }) {
   const { t, idioma, cambiarIdioma } = useIdioma();
   const { usuario, salir } = useSesion();

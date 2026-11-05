@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Contraste de la cabecera transparente sobre el héroe índigo · 2026-11-05 · vigente
+### D-21 · Contraste de la cabecera transparente sobre el héroe índigo · 2026-11-05 · vigente
 Petición: "En la cabecera de la portada sobre el héroe índigo (`Cabecera.jsx` en su estado transparente, antes de
 hacer scroll), los textos no tienen contraste suficiente: el subtítulo bajo el logo, los enlaces de navegación y el
 selector de idioma usan `text-texto-3` (pensado para el fondo ónice) y sobre índigo `#6331FB` quedan apagados. Que
