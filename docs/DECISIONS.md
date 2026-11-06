@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Fila de reacciones sin ceros y con "Es tu proyecto" en línea · 2026-11-06 · vigente
+### D-23 · Fila de reacciones sin ceros y con "Es tu proyecto" en línea · 2026-11-06 · vigente
 Petición: "En la fila de reacciones de la tarjeta (`Reacciones` en `Tarjeta.jsx`): no pintar el número cuando es 0
 (solo el icono), iconos a 18 px con algo más de contraste en reposo, y "Es tu proyecto" en la misma línea que las
 píldoras, en el sitio del enlace de login, para que el pie de esa tarjeta no quede más alto que el de las vecinas.
