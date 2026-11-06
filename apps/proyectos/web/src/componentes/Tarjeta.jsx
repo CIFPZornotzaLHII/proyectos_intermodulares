@@ -69,13 +69,13 @@ export function Reacciones({ p, usuario, onReaccion, ocupado = false }) {
           <button key={r.emoji} type="button" aria-pressed={mia} aria-label={t(r.nombre)} title={t(r.nombre)} disabled={autor || ocupado}
             onClick={() => onReaccion && onReaccion(r.emoji)}
             className={`inline-flex min-h-9 items-center gap-[5px] rounded-full border px-2.5 py-1.5 text-[13px] font-semibold transition-colors duration-150 disabled:cursor-default disabled:opacity-55
-              ${mia ? 'border-menta bg-menta/12 text-menta' : 'border-borde-2 bg-superficie-2 text-texto-3 hover:border-borde-claro hover:text-texto'}`}>
-            <Icono nombre={r.icono} tam={15} /><span>{n}</span>
+              ${mia ? 'border-menta bg-menta/12 text-menta' : 'border-borde-claro bg-superficie-2 text-texto-2 hover:text-texto'}`}>
+            <Icono nombre={r.icono} tam={18} />{n > 0 && <span>{n}</span>}
           </button>
         );
       })}
       {autor
-        ? <span className="ml-auto text-[12px] text-texto-4">{t('es_tu_proyecto')}</span>
+        ? <span className="ml-auto whitespace-nowrap text-[12px] text-texto-4">{t('es_tu_proyecto')}</span>
         : !usuario && <span className="ml-auto text-[12px] text-texto-4"><Link to="/entrar?volver=/galeria" className="font-semibold">{t('inicia_para_reaccionar')}</Link></span>}
     </div>
   );

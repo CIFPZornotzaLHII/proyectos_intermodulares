@@ -3,6 +3,16 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-NEW · Fila de reacciones sin ceros y con "Es tu proyecto" en línea · 2026-11-06 · vigente
+Petición: "En la fila de reacciones de la tarjeta (`Reacciones` en `Tarjeta.jsx`): no pintar el número cuando es 0
+(solo el icono), iconos a 18 px con algo más de contraste en reposo, y "Es tu proyecto" en la misma línea que las
+píldoras, en el sitio del enlace de login, para que el pie de esa tarjeta no quede más alto que el de las vecinas.
+(Evaluación de diseño, puntos 2, 8 y 10.)" Se hace así: cada botón pinta el `<span>` del número solo si es mayor que
+0; el icono pasa de 15 a 18 px; en reposo el botón pasa de `border-borde-2 text-texto-3` a `border-borde-claro
+text-texto-2` (hover a `text-texto`); marcado y deshabilitado no cambian. "Es tu proyecto" gana `whitespace-nowrap`
+y sigue con `ml-auto`: sin los ceros las píldoras caben con él en una línea a 1280 px, y el pie mide lo mismo que el
+de las vecinas.
+
 ### D-22 · Iniciales cuando la portada no carga · 2026-11-06 · vigente
 Petición: "En la tarjeta y en el destacado (`PortadaProyecto` en `Tarjeta.jsx`), si la imagen de portada no carga,
 enseñar las iniciales sobre superficie igual que cuando no hay portada (`onError`), en vez del icono de imagen rota del

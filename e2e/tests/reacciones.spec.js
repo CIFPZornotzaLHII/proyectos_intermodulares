@@ -28,7 +28,7 @@ test.describe('reacciones con sesión', () => {
     await page.goto('galeria');
     const megusta = () => tarjeta(page, PROYECTOS['2SM'].titulo).getByRole('button', { name: 'Me gusta' });
     const fuego = () => tarjeta(page, PROYECTOS['2SM'].titulo).getByRole('button', { name: 'Fuego' });
-    await expect(megusta()).toHaveText('0');
+    await expect(megusta()).toHaveText('');
     await expect(megusta()).toHaveAttribute('aria-pressed', 'false');
     await megusta().click();
     await expect(megusta()).toHaveAttribute('aria-pressed', 'true');
@@ -58,10 +58,10 @@ test.describe('reacciones con sesión', () => {
     await page.goto('galeria');
     await megusta().click();
     await expect(megusta()).toHaveAttribute('aria-pressed', 'false');
-    await expect(megusta()).toHaveText('0');
+    await expect(megusta()).toHaveText('');
     await fuego().click();
     await expect(fuego()).toHaveAttribute('aria-pressed', 'false');
-    await expect(fuego()).toHaveText('0');
+    await expect(fuego()).toHaveText('');
     const despues = await (await request.get('api/proyectos')).json();
     expect(Object.values(despues.proyectos.find(x => x.id === PROYECTOS['2SM'].id).reacciones)).toEqual([0, 0, 0, 0, 0]);
   });

@@ -154,12 +154,13 @@ describe('galería', () => {
 
     const ajena = tarjetas.find(a => within(a).queryByText('Red segura para una asesoría'));
     const megusta = within(ajena).getByRole('button', { name: 'Me gusta' });
-    expect(megusta).toHaveTextContent('0');
+    expect(megusta.textContent).toBe('');
     fireEvent.click(megusta);
     await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveAttribute('aria-pressed', 'true'));
     expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveTextContent('1');
     fireEvent.click(within(ajena).getByRole('button', { name: 'Me gusta' }));
     await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveAttribute('aria-pressed', 'false'));
+    expect(within(ajena).getByRole('button', { name: 'Me gusta' }).textContent).toBe('');
     expect(peticiones.filter(p => p === 'POST reacciones').length).toBe(2);
   });
 
