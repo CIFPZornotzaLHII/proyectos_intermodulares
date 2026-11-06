@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Iniciales cuando la portada no carga · 2026-11-06 · vigente
+### D-22 · Iniciales cuando la portada no carga · 2026-11-06 · vigente
 Petición: "En la tarjeta y en el destacado (`PortadaProyecto` en `Tarjeta.jsx`), si la imagen de portada no carga,
 enseñar las iniciales sobre superficie igual que cuando no hay portada (`onError`), en vez del icono de imagen rota del
 navegador. (Evaluación de diseño del 5/11, punto 1.)" Se hace así: un hook `usePortada(p)` en `Tarjeta.jsx`, que usan

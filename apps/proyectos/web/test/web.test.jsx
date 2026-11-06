@@ -79,7 +79,7 @@ describe('portada', () => {
     expect(peticiones.filter(p => p === 'GET proyectos').length).toBe(1);
   });
 
-  it('si la portada del destacado no carga, enseña las iniciales; el siguiente vuelve a probar su imagen (D-NEW)', async () => {
+  it('si la portada del destacado no carga, enseña las iniciales; el siguiente vuelve a probar su imagen (D-22)', async () => {
     proyectos.forEach(p => { p.portada = `img/no-existe-${p.ciclo}.png`; });
     ir('/');
     render(<App />);
@@ -163,7 +163,7 @@ describe('galería', () => {
     expect(peticiones.filter(p => p === 'POST reacciones').length).toBe(2);
   });
 
-  it('si la portada no carga, la tarjeta enseña las iniciales en vez de la imagen rota (D-NEW)', async () => {
+  it('si la portada no carga, la tarjeta enseña las iniciales en vez de la imagen rota (D-22)', async () => {
     proyectos[0].portada = 'img/no-existe.png';
     ir('/galeria');
     render(<App />);
