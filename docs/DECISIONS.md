@@ -3,6 +3,13 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-24 · Placeholder "Buscar" y sin "Cambia en cada visita" · 2026-11-06 · vigente
+Petición: "Quitar dos textos que no aportan, en ES y EU: el placeholder del buscador de la galería pasa a "Buscar" (el
+texto largo se queda como etiqueta accesible, hoy se corta en pantalla) y desaparece "Cambia en cada visita" junto a
+"Enséñame otro" en la portada. (Evaluación de diseño, puntos 3 y 5.)" Se hace así: clave nueva `buscar_corto`
+("Buscar" / "Bilatu") para el `placeholder`; el `<span>` sr-only con `buscar` sigue dando el nombre accesible largo; se
+borra `destacado_nota` y el botón "Enséñame otro" queda solo, a la derecha del título.
+
 ### D-23 · Fila de reacciones sin ceros y con "Es tu proyecto" en línea · 2026-11-06 · vigente
 Petición: "En la fila de reacciones de la tarjeta (`Reacciones` en `Tarjeta.jsx`): no pintar el número cuando es 0
 (solo el icono), iconos a 18 px con algo más de contraste en reposo, y "Es tu proyecto" en la misma línea que las

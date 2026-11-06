@@ -71,6 +71,7 @@ describe('portada', () => {
     ir('/');
     render(<App />);
     const boton = await screen.findByRole('button', { name: 'Enséñame otro' });
+    expect(screen.queryByText('Cambia en cada visita')).toBeNull(); // D-24
     await screen.findByText(/reacciones en total/); // el destacado se elige en un efecto: sin esto, a veces el primer h3 es una tendencia
     const titulo = () => screen.getAllByRole('heading', { level: 3 })[0].textContent;
     const antes = titulo();
@@ -120,6 +121,7 @@ describe('portada', () => {
 
 describe('galería', () => {
   it('filtra por ciclo y por búsqueda', async () => {
+    const buscador = () => screen.getByRole('searchbox', { name: 'Buscar por título, equipo o etiqueta' });
     ir('/galeria');
     render(<App />);
     await screen.findByText('Reservas de talleres');
@@ -129,10 +131,11 @@ describe('galería', () => {
     expect(screen.getByText('Red segura para una asesoría')).toBeInTheDocument();
     expect(window.location.search).toBe('?ciclo=2SM');
     fireEvent.click(screen.getByRole('button', { name: 'Todos · 3' }));
-    fireEvent.change(screen.getByPlaceholderText('Buscar por título, equipo o etiqueta'), { target: { value: 'tpv' } });
+    expect(buscador()).toHaveAttribute('placeholder', 'Buscar');
+    fireEvent.change(buscador(), { target: { value: 'tpv' } });
     await waitFor(() => expect(screen.getAllByRole('article').length).toBe(1));
     expect(screen.getByText('Vídeo pendiente')).toBeInTheDocument();
-    fireEvent.change(screen.getByPlaceholderText('Buscar por título, equipo o etiqueta'), { target: { value: 'zzz' } });
+    fireEvent.change(buscador(), { target: { value: 'zzz' } });
     expect(await screen.findByText('Ningún proyecto coincide con la búsqueda.')).toBeInTheDocument();
   });
 

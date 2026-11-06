@@ -114,14 +114,11 @@ export default function Portada() {
             <span className="etiqueta-mono">{t('destacado_etiqueta')}</span>
             <h2 className="text-[clamp(26px,3vw,32px)]">{t('destacado_titulo')}</h2>
           </div>
-          <span className="inline-flex items-center gap-3 text-[13px] text-texto-3">
-            <span>{t('destacado_nota')}</span>
-            {top.length > 1 && (
-              <button type="button" onClick={otro} className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-borde-claro bg-transparent px-3 py-1.5 text-[13px] font-semibold text-texto hover:border-menta hover:text-menta">
-                <Icono nombre="barajar" tam={14} grosor={2} />{t('otro_destacado')}
-              </button>
-            )}
-          </span>
+          {top.length > 1 && (
+            <button type="button" onClick={otro} className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-borde-claro bg-transparent px-3 py-1.5 text-[13px] font-semibold text-texto hover:border-menta hover:text-menta">
+              <Icono nombre="barajar" tam={14} grosor={2} />{t('otro_destacado')}
+            </button>
+          )}
         </div>
         <div aria-live="polite">
           {estado === 'cargando' && <div className="vacio">{t('cargando')}</div>}

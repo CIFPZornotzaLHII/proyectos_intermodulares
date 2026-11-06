@@ -46,7 +46,8 @@ test.describe('galería', () => {
     await expect(page.getByRole('article')).toHaveCount(3);
 
     const buscador = page.getByRole('searchbox');
-    await expect(buscador).toHaveAttribute('placeholder', 'Buscar por título, equipo o etiqueta');
+    await expect(buscador).toHaveAttribute('placeholder', 'Buscar');
+    await expect(buscador).toHaveAccessibleName('Buscar por título, equipo o etiqueta');
     await buscador.fill('laravel');                 // etiqueta
     await expect(page.getByRole('article')).toHaveCount(1);
     await expect(tarjeta(page, PROYECTOS.WG.titulo)).toBeVisible();
