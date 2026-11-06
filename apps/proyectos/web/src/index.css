@@ -49,6 +49,11 @@
     from { opacity: 1; transform: none; }
     to { opacity: 0; transform: translateY(-12px); }
   }
+  /* Botones del menú de tres puntos de las tarjetas: bajan 6 px con fundido, escalonados por animationDelay (D-NEW) */
+  --animate-desplegar: desplegar 0.18s ease-out both;
+  @keyframes desplegar {   /* sin "to": acaba en la opacidad propia del botón (el desactivado se queda atenuado) */
+    from { opacity: 0; transform: translateY(-6px); }
+  }
 }
 
 @layer base {
@@ -63,7 +68,7 @@
   :focus-visible { outline: 2px solid var(--color-menta); outline-offset: 2px; }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .animate-aparecer { animation: none; }
+    .animate-aparecer, .animate-desplegar { animation: none; }   /* la tarjeta además la pone con motion-safe: la utilidad gana a @layer base */
     .animate-bajar, .animate-subir { animation-duration: 0.01ms; }   /* casi instantáneas, pero disparan animationend */
   }
 }

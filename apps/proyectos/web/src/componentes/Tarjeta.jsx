@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SpotlightCard from '../reactbits/SpotlightCard.jsx';
 import Noise from '../reactbits/Noise.jsx';
@@ -43,16 +43,40 @@ export function PortadaProyecto({ p, className = '' }) {
   );
 }
 
-export function BotonesProyecto({ p }) {
+// Botón redondo de solo icono, 44 px, legible sobre cualquier portada
+const REDONDO = 'inline-flex size-11 items-center justify-center rounded-full border border-borde-claro bg-onice/80 text-texto no-underline hover:text-menta';
+
+// Menú de tres puntos sobre la portada (D-NEW): disclosure con aria-expanded; se cierra con Escape, al pulsar fuera o al elegir
+function MenuProyecto({ p }) {
   const { t } = useIdioma();
+  const [abierto, setAbierto] = useState(false);
+  const id = useId();
+  const caja = useRef(null);
+  const disparador = useRef(null);
+  useEffect(() => {
+    if (!abierto) return;
+    const fuera = e => { if (!caja.current.contains(e.target)) setAbierto(false); };
+    const tecla = e => { if (e.key === 'Escape') { setAbierto(false); disparador.current.focus(); } };
+    document.addEventListener('pointerdown', fuera);
+    document.addEventListener('keydown', tecla);
+    return () => { document.removeEventListener('pointerdown', fuera); document.removeEventListener('keydown', tecla); };
+  }, [abierto]);
+  const cerrar = () => setAbierto(false);
+  const entrada = i => ({ className: `${REDONDO} motion-safe:animate-desplegar`, style: { animationDelay: `${i * 50}ms` } });
   return (
-    <>
-      <Boton variante="menta" tamano="pequeno" href={ruta(p.url)}>{t('ver_proyecto')}<Icono nombre="flecha" grosor={2.2} /></Boton>
-      {p.video
-        ? <Boton tamano="pequeno" href={p.video} externo><Icono nombre="play" grosor={2} />{t('video')}</Boton>
-        : <Boton variante="pendiente" tamano="pequeno">{t('video_pendiente')}</Boton>}
-      {p.repo && <Boton tamano="pequeno" href={p.repo} externo><Icono nombre="codigo" grosor={2} />{t('codigo')}</Boton>}
-    </>
+    <div ref={caja} className="absolute top-[18px] right-[18px] z-[2] flex flex-col items-center gap-2">
+      <button ref={disparador} type="button" aria-label={t('mas_opciones')} title={t('mas_opciones')} aria-expanded={abierto} aria-controls={id}
+        onClick={() => setAbierto(!abierto)} className={REDONDO}><Icono nombre="puntos" tam={20} grosor={2.6} /></button>
+      {abierto && (
+        <div id={id} className="flex flex-col gap-2">
+          <a href={ruta(p.url)} aria-label={t('ver_proyecto')} title={t('ver_proyecto')} onClick={cerrar} {...entrada(0)}><Icono nombre="flecha" tam={18} grosor={2.2} /></a>
+          {p.video
+            ? <a href={p.video} target="_blank" rel="noopener" aria-label={t('video')} title={t('video')} onClick={cerrar} {...entrada(1)}><Icono nombre="play" tam={18} grosor={2} /></a>
+            : <button type="button" disabled aria-label={t('video_pendiente')} title={t('video_pendiente')} className={`${REDONDO} motion-safe:animate-desplegar cursor-default opacity-55`} style={entrada(1).style}><Icono nombre="play" tam={18} grosor={2} /></button>}
+          {p.repo && <a href={p.repo} target="_blank" rel="noopener" aria-label={t('codigo')} title={t('codigo')} onClick={cerrar} {...entrada(2)}><Icono nombre="codigo" tam={18} grosor={2} /></a>}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -81,14 +105,14 @@ export function Reacciones({ p, usuario, onReaccion, ocupado = false }) {
   );
 }
 
-// Tarjeta de la galería (con reacciones) o de "Tendencias" (con el total y un enlace)
+// Tarjeta de la galería (con reacciones) o de "Tendencias" (con el total); las acciones van en el menú de tres puntos
 export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, modo = 'galeria' }) {
   const { t } = useIdioma();
   return (
     <SpotlightCard role="article" spotlightColor="#70FBB7" intensity={0.12} spotlightSize={260} borderGlow={0.7}
       style={{ ...ESTILO_TARJETA, borderRadius: 'var(--radius-tarjeta)' }}
       className="flex h-full flex-col transition-transform duration-150 hover:-translate-y-0.5" data-ciclo={p.ciclo}>
-      <PortadaProyecto p={p} />
+      <div className="relative"><PortadaProyecto p={p} /><MenuProyecto p={p} /></div>
       <div className="flex flex-1 flex-col gap-2.5 px-5 pt-[18px] pb-4">
         <h3 className="text-[20px]"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
         <p className="text-[13px] font-medium text-texto-3">{(p.equipo || []).join(' · ')}</p>
@@ -98,11 +122,8 @@ export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, modo = 'galer
             {p.etiquetas.map(e => <span key={e} className="rounded-full bg-superficie-2 px-[9px] py-[3px] text-[12px] text-texto-3">{e}</span>)}
           </div>
         )}
-        {modo === 'galeria'
-          ? <div className="mt-auto flex flex-wrap gap-2 pt-1.5"><BotonesProyecto p={p} /></div>
-          : <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-1.5">
+        {modo !== 'galeria' && <div className="mt-auto flex flex-wrap items-center gap-2 pt-1.5">
               <span className="pildora" title={t('reacciones_n', { n: totalReacciones(p) })}><Icono nombre="corazon" tam={15} className="text-menta" /><span aria-hidden="true">{totalReacciones(p)}</span><span className="sr-only">{t('reacciones_n', { n: totalReacciones(p) })}</span></span>
-              <Boton tamano="pequeno" href={ruta(p.url)}>{t('ver_proyecto')}</Boton>
             </div>}
       </div>
       {modo === 'galeria' && <Reacciones p={p} usuario={usuario} onReaccion={onReaccion} ocupado={ocupado} />}
