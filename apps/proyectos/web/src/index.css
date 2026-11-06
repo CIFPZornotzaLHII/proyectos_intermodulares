@@ -79,7 +79,7 @@
   @apply inline-flex items-center rounded-full border border-borde-claro bg-onice px-[11px] py-[5px] text-[11px] font-bold uppercase tracking-[0.04em] whitespace-nowrap text-texto;
 }
 @utility pildora {
-  @apply inline-flex items-center gap-1.5 rounded-full border border-borde-2 bg-superficie-2 px-[11px] py-1.5 text-[13px] font-semibold text-texto;
+  @apply inline-flex items-center gap-1.5 rounded-full bg-superficie-2 px-[11px] py-1.5 text-[13px] font-semibold text-texto;
 }
 @utility vacio {
   @apply rounded-2xl border border-dashed border-borde-claro px-6 py-12 text-center text-texto-3;

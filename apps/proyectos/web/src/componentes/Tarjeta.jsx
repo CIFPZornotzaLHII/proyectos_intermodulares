@@ -101,7 +101,7 @@ export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, modo = 'galer
         {modo === 'galeria'
           ? <div className="mt-auto flex flex-wrap gap-2 pt-1.5"><BotonesProyecto p={p} /></div>
           : <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-1.5">
-              <span className="pildora"><Icono nombre="corazon" tam={15} className="text-menta" />{t('reacciones_n', { n: totalReacciones(p) })}</span>
+              <span className="pildora" title={t('reacciones_n', { n: totalReacciones(p) })}><Icono nombre="corazon" tam={15} className="text-menta" /><span aria-hidden="true">{totalReacciones(p)}</span><span className="sr-only">{t('reacciones_n', { n: totalReacciones(p) })}</span></span>
               <Boton tamano="pequeno" href={ruta(p.url)}>{t('ver_proyecto')}</Boton>
             </div>}
       </div>
