@@ -32,7 +32,7 @@ export const TEXTOS = {
     volver_proyectos: 'Volver a los proyectos', solo_centro: 'Solo alumnado y profesorado', logo_alt: 'CIFP Zornotza LHII', idioma: 'Idioma',
     otro_destacado: 'Enséñame otro', cargando: 'Cargando proyectos…', error_carga: 'No se han podido cargar los proyectos. Vuelve a intentarlo en un momento.',
     sin_proyectos_portada: 'Aún no hay proyectos publicados. El primero que llegue por pull request se lleva esta portada.',
-    no_encontrada: 'Esta página no existe.', ir_portada: 'Ir a la portada',
+    no_encontrada: 'Este proyecto todavía no existe. ¿Es el tuyo?', ir_portada: 'Ir a la portada',
   },
   eu: {
     marca: 'Proiektu intermodularrak', marca_sub: '2026-27 ikasturtea', nav_proyectos: 'Proiektuak', nav_publicar: 'Nola argitaratu',
@@ -63,7 +63,7 @@ export const TEXTOS = {
     volver_proyectos: 'Proiektuetara itzuli', solo_centro: 'Ikasle eta irakasleentzat bakarrik', logo_alt: 'CIFP Zornotza LHII', idioma: 'Hizkuntza',
     otro_destacado: 'Erakutsi beste bat', cargando: 'Proiektuak kargatzen…', error_carga: 'Ezin izan dira proiektuak kargatu. Saiatu berriro laster.',
     sin_proyectos_portada: 'Oraindik ez dago proiekturik argitaratuta. Pull request bidez iristen den lehenak eramango du azal hau.',
-    no_encontrada: 'Orri hau ez da existitzen.', ir_portada: 'Azalera joan',
+    no_encontrada: 'Proiektu hau oraindik ez da existitzen. Zurea al da?', ir_portada: 'Azalera joan',
   },
 };
 
