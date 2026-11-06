@@ -3,6 +3,13 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-22 · Iniciales cuando la portada no carga · 2026-11-06 · vigente
+Petición: "En la tarjeta y en el destacado (`PortadaProyecto` en `Tarjeta.jsx`), si la imagen de portada no carga,
+enseñar las iniciales sobre superficie igual que cuando no hay portada (`onError`), en vez del icono de imagen rota del
+navegador. (Evaluación de diseño del 5/11, punto 1.)" Se hace así: un hook `usePortada(p)` en `Tarjeta.jsx`, que usan
+`PortadaProyecto` y `Destacado`, guarda la ruta cuyo `<img>` disparó `onError` y pinta las iniciales de siempre
+mientras `p.portada` sea esa ruta; otro proyecto (otra ruta) vuelve a probar su imagen.
+
 ### D-21 · Contraste de la cabecera transparente sobre el héroe índigo · 2026-11-05 · vigente
 Petición: "En la cabecera de la portada sobre el héroe índigo (`Cabecera.jsx` en su estado transparente, antes de
 hacer scroll), los textos no tienen contraste suficiente: el subtítulo bajo el logo, los enlaces de navegación y el

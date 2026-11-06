@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SpotlightCard from '../reactbits/SpotlightCard.jsx';
 import Noise from '../reactbits/Noise.jsx';
@@ -18,17 +19,24 @@ export const ESTILO_TARJETA = {
 // Sin imagen propia el grupo deja la de la plantilla: se pintan sus iniciales
 const conImagen = p => p.portada && !p.portada.endsWith('portada-defecto.svg');
 
+// Si la imagen no carga (onError) también van las iniciales; se guarda qué ruta falló, así otra portada vuelve a probarse
+function usePortada(p) {
+  const [rota, setRota] = useState(null);
+  return [conImagen(p) && rota !== p.portada, () => setRota(p.portada)];
+}
+
 // Solo el ciclo (SMR, DAW, DAM): el grado sobraba en la etiqueta
 export const Insignia = ({ p }) => <span className="insignia">{p.ciclo_nombre}</span>;
 
 // Imagen de portada (o iniciales si el grupo no puso imagen) con la etiqueta del ciclo; enlaza a la landing
 export function PortadaProyecto({ p, className = '' }) {
   const { t } = useIdioma();
+  const [imagen, alFallar] = usePortada(p);
   return (
     <a href={ruta(p.url)} aria-label={`${t('ver_proyecto')}: ${p.titulo}`}
       className={`relative flex aspect-video items-center justify-center overflow-hidden bg-superficie-2 no-underline ${className}`}>
-      {conImagen(p)
-        ? <img src={ruta(p.portada)} alt="" loading="lazy" className="block size-full object-cover" />
+      {imagen
+        ? <img src={ruta(p.portada)} alt="" loading="lazy" onError={alFallar} className="block size-full object-cover" />
         : <span className="font-titulo text-[44px] text-indigo-claro opacity-80" aria-hidden="true">{iniciales(p.titulo)}</span>}
       <span className="absolute top-[18px] left-[18px] z-[1] inline-flex gap-2"><Insignia p={p} /></span>
     </a>
@@ -109,13 +117,14 @@ const ENLACE_DISCRETO = 'inline-flex min-h-[44px] items-center gap-2 text-[15px]
 
 export function Destacado({ p }) {
   const { t } = useIdioma();
+  const [imagen, alFallar] = usePortada(p);
   const resumen = REACCIONES.filter(x => (p.reacciones[x.emoji] || 0) > 0).sort((a, b) => p.reacciones[b.emoji] - p.reacciones[a.emoji]).slice(0, 3);
   return (
     <SpotlightCard role="article" spotlightColor="#70FBB7" intensity={0.1} spotlightSize={420} borderGlow={0.7}
       style={{ ...ESTILO_TARJETA, '--spotlight-card-surface': 'var(--color-superficie-2)', borderRadius: 'var(--radius-destacado)' }}
       className="flex min-h-[min(80vh,720px)] flex-col justify-end max-md:min-h-[560px]">
-      {conImagen(p)
-        ? <img src={ruta(p.portada)} alt="" className="absolute inset-0 block size-full object-cover" />
+      {imagen
+        ? <img src={ruta(p.portada)} alt="" onError={alFallar} className="absolute inset-0 block size-full object-cover" />
         : <span aria-hidden="true" className="absolute inset-x-0 top-0 flex h-3/5 items-center justify-center font-titulo text-[clamp(160px,28vw,380px)] leading-none text-indigo-claro opacity-80">{iniciales(p.titulo)}</span>}
       <Noise opacity={0.14} size={1.5} fps={12} contrast={0.5} blendMode="soft-light" />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgba(1,1,13,1)_0%,rgba(1,1,13,0.9)_30%,rgba(1,1,13,0.5)_55%,transparent_80%)]" />
