@@ -3,6 +3,14 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-26 · Títulos de las landings en Impact sin negrita falsa y con aire · 2026-11-06 · vigente
+Petición (captura de un h2 de una landing): "Muchos subtítulos siguen con Impact y se ven mal", y "Impact bien
+ajustado" al preguntar si se dejaba Impact. En `proyectos/_plantilla/index.html` y las tres landings de ejemplo, el h1
+de la portada llevaba `font-weight: 800` y los h2 de sección `700` sobre Impact, que no tiene negrita: el navegador la
+engordaba y emborronaba la letra. Se quitan esos pesos (Impact siempre a 400, D-10) y h1, h2 y h3 llevan el mismo aire
+que la web: `letter-spacing: 0.025em` en los tres y, en h2 y h3, `0.05em` con `line-height: 1.18` (D-25). Sin cambiar
+fuente ni tamaños. Hecho a mano en `main` (sin job), comprobado con captura a 1400 px.
+
 ### D-25 · Más aire en los subtítulos en Impact · 2026-11-06 · vigente
 Petición: "Los subtítulos en Impact (h2 y h3 de 20 a 32 px) quedan muy pegados: las letras casi se tocan y, cuando
 ocupan dos líneas, las líneas también. Darles más aire entre letras (en torno a 0.05em) y algo más de interlineado
