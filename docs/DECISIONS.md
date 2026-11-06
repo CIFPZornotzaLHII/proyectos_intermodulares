@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Placeholder "Buscar" y sin "Cambia en cada visita" · 2026-11-06 · vigente
+### D-24 · Placeholder "Buscar" y sin "Cambia en cada visita" · 2026-11-06 · vigente
 Petición: "Quitar dos textos que no aportan, en ES y EU: el placeholder del buscador de la galería pasa a "Buscar" (el
 texto largo se queda como etiqueta accesible, hoy se corta en pantalla) y desaparece "Cambia en cada visita" junto a
 "Enséñame otro" en la portada. (Evaluación de diseño, puntos 3 y 5.)" Se hace así: clave nueva `buscar_corto`
