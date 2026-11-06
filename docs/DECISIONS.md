@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Más aire en los subtítulos en Impact · 2026-11-06 · vigente
+### D-25 · Más aire en los subtítulos en Impact · 2026-11-06 · vigente
 Petición: "Los subtítulos en Impact (h2 y h3 de 20 a 32 px) quedan muy pegados: las letras casi se tocan y, cuando
 ocupan dos líneas, las líneas también. Darles más aire entre letras (en torno a 0.05em) y algo más de interlineado
 (1.15-1.2), con una regla para los subtítulos en `index.css` en vez de clases sueltas." Se hace así: en `@layer base`
