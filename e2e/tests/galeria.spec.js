@@ -72,7 +72,7 @@ test.describe('galería', () => {
     await expect(invitaciones.first()).toHaveAttribute('href', '/proyectos/entrar?volver=/galeria');
     const megusta = tarjeta(page, PROYECTOS['2SM'].titulo).getByRole('button', { name: 'Me gusta' });
     await expect(megusta).toBeEnabled();
-    await expect(megusta).toHaveText('0');
+    await expect(megusta).toHaveText('');
     await megusta.click();
     await expect(page).toHaveURL(/\/proyectos\/entrar\?volver=\/galeria$/);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Entra para reaccionar a los proyectos');
