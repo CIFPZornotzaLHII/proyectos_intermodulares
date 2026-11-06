@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Ejemplo de usuario como ayuda bajo el campo en Entrar · 2026-11-06 · vigente
+### D-31 · Ejemplo de usuario como ayuda bajo el campo en Entrar · 2026-11-06 · vigente
 Petición: "En la página de entrar, el ejemplo "ane.garcia" pasa a texto de ayuda bajo el campo ("por ejemplo,
 ane.garcia", en ES y EU) en vez de placeholder, que en un campo oscuro parece un valor ya escrito." (Evaluación de
 diseño, punto 11.) Se hace así: el input Usuario pierde el `placeholder`; debajo, en el mismo bloque, un

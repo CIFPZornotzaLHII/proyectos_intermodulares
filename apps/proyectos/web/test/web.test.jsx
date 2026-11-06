@@ -258,7 +258,7 @@ describe('inicio de sesión', () => {
     await screen.findByRole('link', { name: 'Iniciar sesión' });
   });
 
-  it('enseña el ejemplo de usuario como ayuda bajo el campo, no como placeholder (D-NEW)', async () => {
+  it('enseña el ejemplo de usuario como ayuda bajo el campo, no como placeholder (D-31)', async () => {
     ir('/entrar');
     render(<App />);
     const usuario = await screen.findByLabelText('Usuario');
