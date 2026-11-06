@@ -258,6 +258,14 @@ describe('inicio de sesión', () => {
     await screen.findByRole('link', { name: 'Iniciar sesión' });
   });
 
+  it('enseña el ejemplo de usuario como ayuda bajo el campo, no como placeholder (D-NEW)', async () => {
+    ir('/entrar');
+    render(<App />);
+    const usuario = await screen.findByLabelText('Usuario');
+    expect(usuario).not.toHaveAttribute('placeholder');
+    expect(usuario).toHaveAccessibleDescription('Por ejemplo, ane.garcia');
+  });
+
   it('ignora una ruta de vuelta externa', async () => {
     ir('/entrar?volver=//malo.example');
     sesion = { login: 'ane.garcia', nombre: 'Ane García', ciclo: 'DAW' };

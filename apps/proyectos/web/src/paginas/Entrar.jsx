@@ -56,8 +56,9 @@ export default function Entrar() {
             <h2 className="text-[22px]">{t('entrar')}</h2>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="usuario" className="text-[13px] font-semibold text-texto-2">{t('usuario')}</label>
-              <input id="usuario" name="usuario" type="text" autoComplete="username" required autoCapitalize="none" spellCheck="false" placeholder="ane.garcia"
+              <input id="usuario" name="usuario" type="text" autoComplete="username" required autoCapitalize="none" spellCheck="false" aria-describedby="usuario-ayuda"
                 className="min-h-[46px] rounded-[10px] border border-borde-claro bg-onice px-3.5 py-2.5 text-texto focus:border-menta" />
+              <p id="usuario-ayuda" className="text-[13px] text-texto-3">{t('usuario_ayuda')}</p>
             </div>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="contrasena" className="text-[13px] font-semibold text-texto-2">{t('contrasena')}</label>
