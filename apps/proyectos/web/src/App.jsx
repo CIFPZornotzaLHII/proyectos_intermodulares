@@ -1,11 +1,15 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { IdiomaProvider, useIdioma } from './i18n.jsx';
 import { SesionProvider } from './sesion.jsx';
 import { BASE } from './api.js';
 import Portada from './paginas/Portada.jsx';
 import Galeria from './paginas/Galeria.jsx';
 import Entrar from './paginas/Entrar.jsx';
+import Cabecera from './componentes/Cabecera.jsx';
+import Pie from './componentes/Pie.jsx';
+import Boton from './componentes/Boton.jsx';
+import { GUIA } from './componentes/Llamada.jsx';
 
 // Al cambiar de página sube arriba; con #ancla (p. ej. /#publicar desde la galería) baja hasta ella
 function Desplazamiento() {
@@ -29,12 +33,20 @@ function Desplazamiento() {
 
 function NoEncontrada() {
   const { t } = useIdioma();
+  // Doble uso (D-29): avisa del error y, como suele ser un proyecto que aún no está, invita a publicarlo
   return (
-    <main className="contenedor flex min-h-[60vh] flex-col items-center justify-center gap-4 text-center">
-      <h1 className="text-[40px]">404</h1>
-      <p className="text-texto-2">{t('no_encontrada')}</p>
-      <Link to="/" className="font-semibold">{t('ir_portada')}</Link>
-    </main>
+    <>
+      <Cabecera />
+      <main className="contenedor flex min-h-[60vh] flex-col items-center justify-center gap-4 text-center">
+        <h1 className="text-[40px]">404</h1>
+        <p className="text-texto-2">{t('no_encontrada')}</p>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Boton variante="menta" href={GUIA} externo>{t('guia')}</Boton>
+          <Boton variante="borde" to="/">{t('ir_portada')}</Boton>
+        </div>
+      </main>
+      <Pie />
+    </>
   );
 }
 

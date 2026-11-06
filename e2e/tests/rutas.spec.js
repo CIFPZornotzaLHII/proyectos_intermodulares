@@ -33,10 +33,11 @@ test.describe('proxy y rutas de la web', () => {
     }
   });
 
-  test('una ruta desconocida muestra la página 404 de la web con vuelta a la portada', async ({ page }) => {
+  test('una ruta desconocida muestra la página 404 de la web con la guía y vuelta a la portada', async ({ page }) => {
     await page.goto('esto-no-existe');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('404');
-    await expect(page.getByText('Esta página no existe.')).toBeVisible();
+    await expect(page.getByText('Este proyecto todavía no existe. ¿Es el tuyo?')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Guía para publicar' })).toHaveAttribute('href', /proyectos\/LEEME\.md$/);
     await page.getByRole('link', { name: 'Ir a la portada' }).click();
     await expect(page).toHaveURL(/\/proyectos\/?$/);   // el router deja /proyectos sin barra al ir a "/"
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Proyectos intermodulares 26-27');

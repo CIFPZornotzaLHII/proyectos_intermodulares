@@ -256,3 +256,17 @@ describe('inicio de sesión', () => {
     await waitFor(() => expect(window.location.pathname).toBe('/proyectos/galeria'));
   });
 });
+
+describe('página 404 (D-29)', () => {
+  it('con cabecera y pie, invita a publicar con la guía y vuelve a la portada', async () => {
+    ir('/esto-no-existe');
+    render(<App />);
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('404');
+    expect(screen.getByText('Este proyecto todavía no existe. ¿Es el tuyo?')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Guía para publicar' }).getAttribute('href')).toMatch(/proyectos\/LEEME\.md$/);
+    expect(screen.getByRole('link', { name: 'Ir a la portada' })).toBeInTheDocument();
+    expect(screen.getByRole('banner')).toBeInTheDocument();
+    expect(screen.getByRole('contentinfo')).toBeInTheDocument();
+    await screen.findByRole('link', { name: 'Iniciar sesión' });   // deja que la sesión termine de cargar
+  });
+});
