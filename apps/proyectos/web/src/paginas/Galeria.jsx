@@ -49,8 +49,8 @@ export default function Galeria() {
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(10,10,31,0.96)_0%,rgba(10,10,31,0.8)_45%,rgba(10,10,31,0.2)_100%)]" aria-hidden="true" />
         <div className="contenedor relative flex min-h-[46vh] flex-col justify-end gap-3 pt-14 pb-12 max-md:min-h-0">
           <span className="etiqueta-mono">{t('portada_etiqueta')}</span>
-          <h1 className="text-[clamp(44px,7vw,112px)] leading-[0.92] tracking-[0.03em] uppercase text-texto/90">{t('galeria_titulo')}</h1>
-          <p className="max-w-[640px] text-[18px] text-texto-2">{t('galeria_texto')}</p>
+          <h1 className="text-display leading-[0.92] tracking-[0.03em] uppercase text-texto/90">{t('galeria_titulo')}</h1>
+          <p className="max-w-[640px] text-entradilla text-texto-2">{t('galeria_texto')}</p>
         </div>
       </section>
 
@@ -60,7 +60,7 @@ export default function Galeria() {
             {[{ codigo: '', nombre: t('todos') }, ...ciclos].map(c => (
               <button key={c.codigo} type="button" aria-pressed={filtro === c.codigo}
                 onClick={() => setParametros(c.codigo ? { ciclo: c.codigo } : {}, { replace: true })}
-                className={`min-h-10 rounded-full border px-4 py-2 text-[14px] font-semibold ${filtro === c.codigo ? 'border-indigo bg-indigo text-blanco' : 'border-borde-claro bg-transparent text-texto hover:border-texto-3'}`}>
+                className={`min-h-10 rounded-full border px-4 py-2 text-cuerpo font-semibold ${filtro === c.codigo ? 'border-indigo bg-indigo text-blanco' : 'border-borde-claro bg-transparent text-texto hover:border-texto-3'}`}>
                 {c.nombre} · {cuenta(c.codigo)}
               </button>
             ))}
@@ -73,7 +73,7 @@ export default function Galeria() {
           </label>
         </div>
 
-        {error && <p role="alert" className="mt-3 flex items-center gap-2 rounded-[10px] border border-error/35 bg-error/12 px-3.5 py-3 text-[13px] text-error"><Icono nombre="alerta" tam={18} grosor={2} />{error}</p>}
+        {error && <p role="alert" className="mt-3 flex items-center gap-2 rounded-[10px] border border-error/35 bg-error/12 px-3.5 py-3 text-pequeno text-error"><Icono nombre="alerta" tam={18} grosor={2} />{error}</p>}
 
         <div className="pt-4 pb-12">
           {estado === 'cargando' && <div className="vacio">{t('cargando')}</div>}

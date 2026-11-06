@@ -43,8 +43,8 @@ export default function Entrar() {
         <div className="relative flex w-full max-w-[1040px] flex-wrap items-center justify-center gap-12">
           <div className="flex max-w-[460px] flex-[1_1_360px] flex-col gap-4">
             <span className="insignia self-start border-menta bg-menta text-onice">{t('solo_centro')}</span>
-            <h1 className="text-[clamp(30px,4vw,40px)]">{t('sesion_titulo')}</h1>
-            <p className="text-[17px] text-texto-2">{t('sesion_texto')}</p>
+            <h1 className="text-titulo">{t('sesion_titulo')}</h1>
+            <p className="text-entradilla text-texto-2">{t('sesion_texto')}</p>
             <ul className="flex flex-col gap-2.5 text-texto-2">
               {['sesion_p1', 'sesion_p2', 'sesion_p3'].map(k => (
                 <li key={k} className="flex items-start gap-2.5"><Icono nombre="check" tam={20} grosor={2.2} className="mt-[3px] text-menta" /><span>{t(k)}</span></li>
@@ -53,25 +53,25 @@ export default function Entrar() {
           </div>
 
           <form onSubmit={enviar} autoComplete="on" className="flex w-full flex-[0_1_420px] flex-col gap-[18px] rounded-2xl border border-borde-2 bg-superficie p-8">
-            <h2 className="text-[22px]">{t('entrar')}</h2>
+            <h2 className="text-titulo">{t('entrar')}</h2>
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="usuario" className="text-[13px] font-semibold text-texto-2">{t('usuario')}</label>
+              <label htmlFor="usuario" className="text-pequeno font-semibold text-texto-2">{t('usuario')}</label>
               <input id="usuario" name="usuario" type="text" autoComplete="username" required autoCapitalize="none" spellCheck="false" aria-describedby="usuario-ayuda"
                 className="min-h-[46px] rounded-[10px] border border-borde-claro bg-onice px-3.5 py-2.5 text-texto focus:border-menta" />
-              <p id="usuario-ayuda" className="text-[13px] text-texto-3">{t('usuario_ayuda')}</p>
+              <p id="usuario-ayuda" className="text-pequeno text-texto-3">{t('usuario_ayuda')}</p>
             </div>
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="contrasena" className="text-[13px] font-semibold text-texto-2">{t('contrasena')}</label>
+              <label htmlFor="contrasena" className="text-pequeno font-semibold text-texto-2">{t('contrasena')}</label>
               <input id="contrasena" name="contrasena" type="password" autoComplete="current-password" required
                 className="min-h-[46px] rounded-[10px] border border-borde-claro bg-onice px-3.5 py-2.5 text-texto focus:border-menta" />
             </div>
             {error && (
-              <div role="alert" className="flex items-start gap-2.5 rounded-[10px] border border-error/35 bg-error/12 px-3.5 py-3 text-[13px] text-error">
+              <div role="alert" className="flex items-start gap-2.5 rounded-[10px] border border-error/35 bg-error/12 px-3.5 py-3 text-pequeno text-error">
                 <Icono nombre="alerta" tam={18} grosor={2} /><span>{error}</span>
               </div>
             )}
             <Boton variante="menta" type="submit" disabled={enviando} className="min-h-12 disabled:opacity-60">{enviando ? t('entrando') : t('entrar_boton')}</Boton>
-            <p className="text-center text-[13px] text-texto-3">{t('olvido')}</p>
+            <p className="text-center text-pequeno text-texto-3">{t('olvido')}</p>
           </form>
         </div>
       </main>

@@ -70,25 +70,25 @@ export default function Portada() {
               </Magnet>
             </div>
             <div className="relative z-[1] order-1 flex min-w-0 flex-col animate-aparecer md:order-none">
-              <span className="font-titulo text-[clamp(64px,9.5vw,150px)] leading-[0.9] tracking-[0.03em] uppercase text-texto/90">{t('portada_titulo_1')}</span>
-              <span className="font-serif italic text-[clamp(40px,5vw,84px)] leading-[0.95] text-texto/90">{t('portada_titulo_2')}</span>
+              <span className="font-titulo text-[clamp(64px,9.5vw,150px)] leading-[0.9] tracking-[0.03em] uppercase text-texto/90">{t('portada_titulo_1')}</span>{/* fuera de la escala: composición del héroe fijada por D-17 */}
+              <span className="font-serif italic text-[clamp(40px,5vw,84px)] leading-[0.95] text-texto/90">{t('portada_titulo_2')}</span>{/* fuera de la escala: composición del héroe fijada por D-17 */}
             </div>
             <div className="relative z-[1] order-3 flex min-w-0 flex-col animate-aparecer [animation-delay:300ms] md:order-none md:items-end md:text-right">
-              <span className="font-titulo text-[clamp(64px,9.5vw,150px)] leading-[0.9] tracking-[0.03em] text-texto/90">{t('portada_titulo_3')}</span>
-              <span className="font-serif italic text-[clamp(40px,5vw,84px)] leading-[0.95] text-texto/90">{t('portada_titulo_4')}</span>
+              <span className="font-titulo text-[clamp(64px,9.5vw,150px)] leading-[0.9] tracking-[0.03em] text-texto/90">{t('portada_titulo_3')}</span>{/* fuera de la escala: composición del héroe fijada por D-17 */}
+              <span className="font-serif italic text-[clamp(40px,5vw,84px)] leading-[0.95] text-texto/90">{t('portada_titulo_4')}</span>{/* fuera de la escala: composición del héroe fijada por D-17 */}
             </div>
           </div>
 
           <div className="grid items-end gap-8 md:grid-cols-[1fr_minmax(160px,1fr)_1fr]">
             <div className="flex max-w-[460px] flex-col gap-5 animate-aparecer [animation-delay:300ms]">
-              <p className="text-[18px] leading-[1.5] text-blanco/85">{t('portada_entradilla')}</p>
+              <p className="text-entradilla text-blanco/85">{t('portada_entradilla')}</p>
               <div className="flex flex-wrap gap-3">
                 <Boton variante="menta" to="/galeria">{t('ver_todos')}<Icono nombre="flecha" tam={18} grosor={2.2} /></Boton>
                 <Boton variante="claro" href="#destacado">{t('ir_destacado')}<Icono nombre="abajo" tam={18} grosor={2.2} /></Boton>
               </div>
             </div>
             <div className="max-md:hidden" />
-            <ul className="flex flex-col text-[12px] font-semibold uppercase tracking-[0.1em] text-blanco/85 animate-aparecer [animation-delay:450ms] md:text-right">
+            <ul className="flex flex-col text-pequeno font-semibold uppercase tracking-[0.1em] text-blanco/85 animate-aparecer [animation-delay:450ms] md:text-right">
               {LISTA_HERO.map(k => <li key={k} className="border-b border-blanco/30 py-2.5 last:border-b-0">{t(k)}</li>)}
             </ul>
           </div>
@@ -97,8 +97,8 @@ export default function Portada() {
           <dl className="flex flex-wrap items-baseline justify-center gap-x-12 gap-y-3 relative pt-6 animate-aparecer [animation-delay:450ms]">
             {cifras.map(c => (
               <div key={c.clave} className="flex items-baseline gap-2.5">
-                <dt className="order-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-blanco/80">{t(c.clave)}</dt>
-                <dd className={`order-1 font-titulo text-[36px] leading-none ${c.menta ? 'text-menta' : ''}`}>
+                <dt className="order-2 text-pequeno font-semibold uppercase tracking-[0.12em] text-blanco/80">{t(c.clave)}</dt>
+                <dd className={`order-1 font-titulo text-titulo leading-none ${c.menta ? 'text-menta' : ''}`}>
                   {estado === 'ok' ? <CountUp to={c.valor} duration={1.4} separator="." /> : '—'}
                 </dd>
               </div>
@@ -112,10 +112,10 @@ export default function Portada() {
         <div className="flex flex-wrap items-baseline justify-between gap-3">
           <div className="flex flex-col gap-1.5">
             <span className="etiqueta-mono">{t('destacado_etiqueta')}</span>
-            <h2 className="text-[clamp(26px,3vw,32px)]">{t('destacado_titulo')}</h2>
+            <h2 className="text-titulo">{t('destacado_titulo')}</h2>
           </div>
           {top.length > 1 && (
-            <button type="button" onClick={otro} className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-borde-claro bg-transparent px-3 py-1.5 text-[13px] font-semibold text-texto hover:border-menta hover:text-menta">
+            <button type="button" onClick={otro} className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-borde-claro bg-transparent px-3 py-1.5 text-pequeno font-semibold text-texto hover:border-menta hover:text-menta">
               <Icono nombre="barajar" tam={14} grosor={2} />{t('otro_destacado')}
             </button>
           )}
@@ -138,9 +138,9 @@ export default function Portada() {
           <div className="flex flex-wrap items-baseline justify-between gap-3">
             <div className="flex flex-col gap-1.5">
               <span className="etiqueta-mono">{t('destacados_etiqueta')}</span>
-              <h2 className="text-[clamp(26px,3vw,32px)]">{t('destacados_titulo')}</h2>
+              <h2 className="text-titulo">{t('destacados_titulo')}</h2>
             </div>
-            <Link to="/galeria" className="inline-flex min-h-[44px] items-center gap-2 text-[15px] font-semibold no-underline">
+            <Link to="/galeria" className="inline-flex min-h-[44px] items-center gap-2 text-cuerpo font-semibold no-underline">
               {t('ver_los_n', { n: lista.length })}<Icono nombre="flecha" grosor={2.2} />
             </Link>
           </div>

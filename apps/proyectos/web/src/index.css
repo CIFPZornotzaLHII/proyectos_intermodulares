@@ -30,6 +30,20 @@
   --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
+  /* Escala tipográfica de cinco tamaños, la única posible (D-NEW): display y título fluidos, entradilla 18, cuerpo 16
+     y pequeño 13, el mínimo para texto legible. Fuera de ella solo el título del héroe (D-17) y las iniciales decorativas */
+  --text-*: initial;
+  --text-display: clamp(48px,7vw,112px);
+  --text-display--line-height: 0.92;
+  --text-titulo: clamp(24px,3vw,32px);
+  --text-titulo--line-height: 1.18;
+  --text-entradilla: 18px;
+  --text-entradilla--line-height: 1.5;
+  --text-cuerpo: 16px;
+  --text-cuerpo--line-height: 1.55;
+  --text-pequeno: 13px;
+  --text-pequeno--line-height: 1.45;
+
   --radius-tarjeta: 16px;
   --radius-destacado: 20px;
 
@@ -58,7 +72,7 @@
 
 @layer base {
   html { scroll-behavior: smooth; }
-  body { @apply bg-onice text-texto font-sans text-[16px] leading-[1.55] antialiased; }
+  body { @apply bg-onice text-texto font-sans text-cuerpo antialiased; }
   h1, h2, h3 { @apply font-titulo font-normal leading-[1.1] tracking-[0.025em]; }   /* Impact necesita aire entre letras (D-17) */
   h2, h3 { @apply leading-[1.18] tracking-[0.05em]; }   /* subtítulos de 20-32 px: más aire entre letras y líneas (D-25) */
   a { @apply text-menta hover:text-menta-clara; }
@@ -78,13 +92,13 @@
   @apply mx-auto w-full max-w-[1280px] px-6;
 }
 @utility etiqueta-mono {
-  @apply font-mono text-[13px] uppercase tracking-[0.18em] text-menta;
+  @apply font-mono text-pequeno uppercase tracking-[0.18em] text-menta;
 }
 @utility insignia {
-  @apply inline-flex items-center rounded-full border border-borde-claro bg-onice px-[11px] py-[5px] text-[11px] font-bold uppercase tracking-[0.04em] whitespace-nowrap text-texto;
+  @apply inline-flex items-center rounded-full border border-borde-claro bg-onice px-[11px] py-[5px] text-pequeno font-bold uppercase tracking-[0.04em] whitespace-nowrap text-texto;
 }
 @utility pildora {
-  @apply inline-flex items-center gap-1.5 rounded-full bg-superficie-2 px-[11px] py-1.5 text-[13px] font-semibold text-texto;
+  @apply inline-flex items-center gap-1.5 rounded-full bg-superficie-2 px-[11px] py-1.5 text-pequeno font-semibold text-texto;
 }
 @utility vacio {
   @apply rounded-2xl border border-dashed border-borde-claro px-6 py-12 text-center text-texto-3;

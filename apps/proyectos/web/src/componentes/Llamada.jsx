@@ -11,7 +11,7 @@ export default function Llamada({ variante = 'menta', className = '' }) {
     <section id="publicar" className={`border-y border-borde bg-superficie ${className}`}>
       <div className="contenedor flex flex-wrap items-center justify-between gap-8 py-14">
         <div>
-          <h2 className="text-[clamp(24px,3vw,32px)]">{t('llamada_titulo')}</h2>
+          <h2 className="text-titulo">{t('llamada_titulo')}</h2>
           <p className="mt-2.5 max-w-[640px] text-texto-2">{conCodigo(t('llamada_texto'))}</p>
         </div>
         <div className="flex flex-wrap gap-3">
