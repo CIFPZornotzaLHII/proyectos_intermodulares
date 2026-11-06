@@ -37,7 +37,7 @@ export function PortadaProyecto({ p, className = '' }) {
       className={`relative flex aspect-video items-center justify-center overflow-hidden bg-superficie-2 no-underline ${className}`}>
       {imagen
         ? <img src={ruta(p.portada)} alt="" loading="lazy" onError={alFallar} className="block size-full object-cover" />
-        : <span className="font-titulo text-[44px] text-indigo-claro opacity-80" aria-hidden="true">{iniciales(p.titulo)}</span>}{/* fuera de la escala (D-NEW): iniciales decorativas, aria-hidden */}
+        : <span className="font-titulo text-[44px] text-indigo-claro opacity-80" aria-hidden="true">{iniciales(p.titulo)}</span>}{/* fuera de la escala (D-32): iniciales decorativas, aria-hidden */}
       <span className="absolute top-[18px] left-[18px] z-[1] inline-flex gap-2"><Insignia p={p} /></span>
     </a>
   );
@@ -146,7 +146,7 @@ export function Destacado({ p }) {
       className="flex min-h-[min(80vh,720px)] flex-col justify-end max-md:min-h-[560px]">
       {imagen
         ? <img src={ruta(p.portada)} alt="" onError={alFallar} className="absolute inset-0 block size-full object-cover" />
-        : <span aria-hidden="true" className="absolute inset-x-0 top-0 flex h-3/5 items-center justify-center font-titulo text-[clamp(160px,28vw,380px)] leading-none text-indigo-claro opacity-80">{iniciales(p.titulo)}</span>}{/* fuera de la escala (D-NEW): iniciales decorativas, aria-hidden */}
+        : <span aria-hidden="true" className="absolute inset-x-0 top-0 flex h-3/5 items-center justify-center font-titulo text-[clamp(160px,28vw,380px)] leading-none text-indigo-claro opacity-80">{iniciales(p.titulo)}</span>}{/* fuera de la escala (D-32): iniciales decorativas, aria-hidden */}
       <Noise opacity={0.14} size={1.5} fps={12} contrast={0.5} blendMode="soft-light" />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgba(1,1,13,1)_0%,rgba(1,1,13,0.9)_30%,rgba(1,1,13,0.5)_55%,transparent_80%)]" />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_70%_at_0%_100%,rgba(1,1,13,0.75)_0%,transparent_70%)]" />

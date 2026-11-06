@@ -30,7 +30,7 @@
   --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Escala tipográfica de cinco tamaños, la única posible (D-NEW): display y título fluidos, entradilla 18, cuerpo 16
+  /* Escala tipográfica de cinco tamaños, la única posible (D-32): display y título fluidos, entradilla 18, cuerpo 16
      y pequeño 13, el mínimo para texto legible. Fuera de ella solo el título del héroe (D-17) y las iniciales decorativas */
   --text-*: initial;
   --text-display: clamp(48px,7vw,112px);

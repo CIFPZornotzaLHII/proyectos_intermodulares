@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Escala tipográfica de cinco tamaños · 2026-11-06 · vigente
+### D-32 · Escala tipográfica de cinco tamaños · 2026-11-06 · vigente
 Petición: "Tipografía del cuerpo en toda la web: una escala de cinco tamaños (display, título, entradilla 18 px, cuerpo
 16 px, pequeño 13 px) en vez de los 12 que conviven hoy en la portada (11 a 137 px), y nada legible por debajo de 13 px
 (las etiquetas, "Es tu proyecto", "Inicia sesión para reaccionar" y el subtítulo de la cabecera van a 12 y 11).

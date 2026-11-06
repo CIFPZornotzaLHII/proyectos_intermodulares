@@ -39,7 +39,7 @@ en píldora. Componentes animados **de React Bits, copiados tal cual** (`apps/pr
 reimplementados. Tarjetas con `SpotlightCard`; aparición al hacer scroll con `AnimatedContent`. Estados vacíos reales,
 focus visible, toques de 44 px, `prefers-reduced-motion` respetado. En móvil la cabecera va en dos filas (marca, idioma y
 sesión; debajo, la navegación) y sin "Cómo publicar" (D-30). Cinco tamaños de letra (display, título, entradilla 18 px,
-cuerpo 16 px, pequeño 13 px) y nada legible por debajo de 13 px (D-NEW). El diseño de referencia es el artefacto "Diseño web
+cuerpo 16 px, pequeño 13 px) y nada legible por debajo de 13 px (D-32). El diseño de referencia es el artefacto "Diseño web
 Proyectos intermodulares · Zornotza LHII" (Claude Design).
 
 ## 4. Dónde corre
