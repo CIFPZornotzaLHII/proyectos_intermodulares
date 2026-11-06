@@ -49,7 +49,7 @@ test.describe('portada', () => {
     expect(peticiones).toEqual([]);
   });
 
-  test('los enlaces llevan a la galería, al destacado y a la guía de publicación', async ({ page }) => {
+  test('los enlaces llevan a la galería, al destacado y a la guía de publicación', async ({ page, isMobile }) => {
     const guia = page.getByRole('link', { name: 'Guía para publicar' });
     await expect(guia).toHaveAttribute('href', 'https://github.com/CIFPZornotzaLHII/proyectos_intermodulares/blob/main/proyectos/LEEME.md');
     await expect(guia).toHaveAttribute('target', '_blank');
@@ -59,9 +59,26 @@ test.describe('portada', () => {
     await page.getByRole('link', { name: 'Ver todos los proyectos' }).click();
     await expect(page).toHaveURL(/\/proyectos\/galeria$/);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Todos los proyectos');
-    // "Cómo publicar" desde la galería vuelve a la portada y baja hasta la llamada
+    // "Cómo publicar" desde la galería vuelve a la portada y baja hasta la llamada; en móvil no está (D-30)
+    if (isMobile) return expect(page.getByRole('link', { name: 'Cómo publicar' })).toBeHidden();
     await page.getByRole('link', { name: 'Cómo publicar' }).click();
     await expect(page).toHaveURL(/\/proyectos\/?#publicar$/);   // el router deja /proyectos sin barra al ir a "/"
     await expect(page.getByRole('heading', { level: 2, name: '¿No has publicado todavía tu proyecto?' })).toBeInViewport();
   });
+});
+
+// En móvil (D-30) la cabecera va en dos filas: marca, ES/EU y sesión arriba; la navegación debajo
+test('en móvil la cabecera ocupa dos filas y no desborda', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'solo móvil');
+  await page.goto('.');
+  const cabecera = page.getByRole('banner');
+  const [marca, eu, entrar, proyectos, banner] = await Promise.all([
+    cabecera.getByRole('link', { name: /Proyectos intermodulares/ }), cabecera.getByRole('button', { name: 'EU' }),
+    cabecera.getByRole('link', { name: 'Iniciar sesión' }), cabecera.getByRole('link', { name: 'Proyectos', exact: true }), cabecera,
+  ].map(l => l.boundingBox()));
+  const solapan = (a, b) => a.y < b.y + b.height && b.y < a.y + a.height;
+  expect(solapan(marca, eu) && solapan(marca, entrar), 'marca, EU e Iniciar sesión en la misma fila').toBe(true);
+  expect(proyectos.y).toBeGreaterThanOrEqual(Math.max(marca.y + marca.height, entrar.y + entrar.height));
+  expect(banner.height).toBeLessThan(150);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'sin scroll horizontal').toBe(true);
 });

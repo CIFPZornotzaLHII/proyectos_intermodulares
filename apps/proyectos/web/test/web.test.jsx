@@ -117,6 +117,15 @@ describe('portada', () => {
     render(<App />);
     expect(within(screen.getByRole('banner')).getByRole('link', { name: 'Cómo publicar' })).toHaveClass('text-texto-3');
   });
+
+  it('en móvil la cabecera oculta "Cómo publicar" y el texto de la marca (D-NEW)', () => {
+    ir('/');
+    render(<App />);
+    const cabecera = within(screen.getByRole('banner'));
+    expect(cabecera.getByRole('link', { name: 'Cómo publicar' })).toHaveClass('max-md:hidden');
+    expect(cabecera.getByText('Proyectos intermodulares').parentElement).toHaveClass('max-md:sr-only');
+    expect(cabecera.getByRole('navigation', { name: 'Principal' })).toHaveClass('max-md:order-last');
+  });
 });
 
 describe('galería', () => {

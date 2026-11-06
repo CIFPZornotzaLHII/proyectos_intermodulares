@@ -3,6 +3,18 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-30 · Cabecera móvil en dos filas, sin "Cómo publicar" · 2026-11-06 · vigente
+Petición: "En la cabecera en móvil (`Cabecera.jsx`, menos de 768 px): dos filas en vez de tres, marca, idioma y sesión
+en la primera y la navegación en la segunda, y sin "Cómo publicar" (ya está en la llamada del final de cada página)."
+(Evaluación de diseño, punto 14.) Se hace así: el `<nav aria-label="Principal">` lleva solo la navegación; ES/EU y la
+sesión salen de él como hermanos dentro de la misma fila flex, con la marca empujando a la derecha (`mr-auto`), así
+que en escritorio se ve como antes. Por debajo de `md` el `nav` pasa a la segunda fila (`max-md:order-last
+max-md:basis-full`) y "Cómo publicar" se oculta (`max-md:hidden`, fuera también del árbol accesible). Para que la
+primera fila quepa en 364 px: la marca se queda solo con el logo (40 px de alto; nombre y subtítulo en `sr-only`, el
+nombre accesible del enlace no cambia) y con sesión se ven el avatar y "Salir" (nombre y ciclo en `sr-only`). En
+Entrar (`sencilla`) el `nav` con "Volver a los proyectos" va al final: en escritorio a la derecha de ES/EU, como
+antes, y en móvil en la segunda fila.
+
 ### D-29 · Página 404 con cabecera, pie y llamada a publicar · 2026-11-06 · vigente
 Petición: "La página 404 (`NoEncontrada` en `App.jsx`) con cabecera y pie como las demás y un texto de doble uso en ES
 y EU, "Este proyecto todavía no existe. ¿Es el tuyo?", con el enlace a la guía de publicación además del de la

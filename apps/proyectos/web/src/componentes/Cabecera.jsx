@@ -34,52 +34,57 @@ export default function Cabecera({ sencilla = false, sobreIndigo = false }) {
 
   const fija = fijada !== 'libre';
   const tenue = sobreIndigo && !fija ? 'text-texto/90' : 'text-texto-3';
+  // En móvil (D-30) la navegación baja a una segunda fila; en Entrar, "Volver" hace de navegación y va al final
+  const nav = (
+    <nav className="flex flex-wrap items-center gap-[18px] text-[14px] font-semibold max-md:order-last max-md:basis-full" aria-label="Principal">
+      {sencilla ? (
+        <Boton to="/galeria" tamano="pequeno"><Icono nombre="atras" tam={16} grosor={2} />{t('volver_proyectos')}</Boton>
+      ) : (
+        <>
+          <NavLink to="/galeria" className={({ isActive }) => `inline-flex min-h-[44px] items-center no-underline ${isActive ? 'text-texto' : `${tenue} hover:text-texto`}`}>{t('nav_proyectos')}</NavLink>
+          <Link to="/#publicar" className={`inline-flex min-h-[44px] items-center ${tenue} no-underline hover:text-texto max-md:hidden`}>{t('nav_publicar')}</Link>
+        </>
+      )}
+    </nav>
+  );
   return (
     <>
       {fija && <div style={{ height: alto }} aria-hidden="true" />}
     <header ref={ref} onAnimationEnd={e => { if (e.animationName === 'subir') setFijada('libre'); }}
       className={`inset-x-0 top-0 z-20 ${fija ? `fixed border-b border-borde bg-onice/90 backdrop-blur-md ${fijada === 'fija' ? 'animate-bajar' : 'animate-subir'}` : 'relative bg-transparent'}`}>
-      <div className="contenedor flex flex-wrap items-center justify-between gap-4 py-3.5">
-        <Link to="/" className="flex items-center gap-6 text-texto no-underline hover:text-texto">
-          <img src={ruta('img/logo.png')} alt={t('logo_alt')} width="116" height="52" className="block h-[52px] w-auto" />
-          <span className="flex flex-col leading-[1.15]">
+      <div className="contenedor flex flex-wrap items-center gap-x-[18px] gap-y-4 py-3.5 max-md:gap-x-3 max-md:gap-y-1">
+        <Link to="/" className="mr-auto flex items-center gap-6 text-texto no-underline hover:text-texto">
+          <img src={ruta('img/logo.png')} alt={t('logo_alt')} width="116" height="52" className="block h-[52px] w-auto max-md:h-10" />
+          <span className="flex flex-col leading-[1.15] max-md:sr-only">
             <strong className="font-titulo text-[18px] tracking-[0.01em]">{t('marca')}</strong>
             <span className={`text-[12px] ${tenue}`}>CIFP Zornotza LHII · {t('marca_sub')}</span>
           </span>
         </Link>
 
-        <nav className="flex flex-wrap items-center gap-[18px] text-[14px] font-semibold" aria-label="Principal">
-          {!sencilla && (
-            <>
-              <NavLink to="/galeria" className={({ isActive }) => `inline-flex min-h-[44px] items-center no-underline ${isActive ? 'text-texto' : `${tenue} hover:text-texto`}`}>{t('nav_proyectos')}</NavLink>
-              <Link to="/#publicar" className={`inline-flex min-h-[44px] items-center ${tenue} no-underline hover:text-texto`}>{t('nav_publicar')}</Link>
-            </>
-          )}
+        {!sencilla && nav}
 
-          <span className="inline-flex overflow-hidden rounded-lg border border-borde text-[13px]" role="group" aria-label={t('idioma')}>
-            {['es', 'eu'].map(cod => (
-              <button key={cod} type="button" onClick={() => cambiarIdioma(cod)} aria-pressed={idioma === cod}
-                className={`min-h-8 border-0 px-3 py-1.5 ${idioma === cod ? 'bg-borde text-texto' : `bg-transparent ${tenue} hover:text-texto`}`}>
-                {cod.toUpperCase()}
-              </button>
-            ))}
-          </span>
+        <span className="inline-flex overflow-hidden rounded-lg border border-borde text-[13px] font-semibold" role="group" aria-label={t('idioma')}>
+          {['es', 'eu'].map(cod => (
+            <button key={cod} type="button" onClick={() => cambiarIdioma(cod)} aria-pressed={idioma === cod}
+              className={`min-h-8 border-0 px-3 py-1.5 ${idioma === cod ? 'bg-borde text-texto' : `bg-transparent ${tenue} hover:text-texto`}`}>
+              {cod.toUpperCase()}
+            </button>
+          ))}
+        </span>
 
-          {sencilla ? (
-            <Boton to="/galeria" tamano="pequeno"><Icono nombre="atras" tam={16} grosor={2} />{t('volver_proyectos')}</Boton>
-          ) : usuario ? (
-            <span className="inline-flex items-center gap-2.5">
-              <span className="inline-flex size-[34px] items-center justify-center rounded-full bg-indigo text-[13px] font-bold text-blanco" aria-hidden="true">{iniciales(usuario.nombre || usuario.login)}</span>
-              <span className="flex flex-col leading-[1.15]">
-                <span>{usuario.nombre || usuario.login}</span>
-                <small className={`font-medium ${tenue}`}>{usuario.ciclo || ''}</small>
-              </span>
-              <Boton tamano="pequeno" onClick={salir}>{t('salir')}</Boton>
+        {!sencilla && (usuario ? (
+          <span className="inline-flex items-center gap-2.5 text-[14px] font-semibold">
+            <span className="inline-flex size-[34px] items-center justify-center rounded-full bg-indigo text-[13px] font-bold text-blanco" aria-hidden="true">{iniciales(usuario.nombre || usuario.login)}</span>
+            <span className="flex flex-col leading-[1.15] max-md:sr-only">
+              <span>{usuario.nombre || usuario.login}</span>
+              <small className={`font-medium ${tenue}`}>{usuario.ciclo || ''}</small>
             </span>
-          ) : (
-            <Boton to={`/entrar?volver=${encodeURIComponent(pathname)}`} tamano="pequeno"><Icono nombre="usuario" />{t('entrar')}</Boton>
-          )}
-        </nav>
+            <Boton tamano="pequeno" onClick={salir}>{t('salir')}</Boton>
+          </span>
+        ) : (
+          <Boton to={`/entrar?volver=${encodeURIComponent(pathname)}`} tamano="pequeno"><Icono nombre="usuario" />{t('entrar')}</Boton>
+        ))}
+        {sencilla && nav}
       </div>
     </header>
     </>
