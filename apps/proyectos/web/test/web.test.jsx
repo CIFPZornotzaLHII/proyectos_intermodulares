@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import App from '../src/App.jsx';
+import { iniciales } from '../src/datos.js';
 
 // --- API falsa: tres proyectos, dos usuarios, reacciones con estado ---
 const proyecto = (id, titulo, ciclo, reacciones, autores = []) => ({
@@ -78,6 +79,22 @@ describe('portada', () => {
     expect(peticiones.filter(p => p === 'GET proyectos').length).toBe(1);
   });
 
+  it('si la portada del destacado no carga, enseña las iniciales; el siguiente vuelve a probar su imagen (D-NEW)', async () => {
+    proyectos.forEach(p => { p.portada = `img/no-existe-${p.ciclo}.png`; });
+    ir('/');
+    render(<App />);
+    await screen.findByText(/reacciones en total/);
+    const destacado = () => screen.getAllByRole('article')[0];
+    const titulo = () => within(destacado()).getAllByRole('heading', { level: 3 })[0].textContent;
+    const antes = titulo();
+    fireEvent.error(destacado().querySelector('img'));
+    expect(destacado().querySelector('img')).toBeNull();
+    expect(within(destacado()).getByText(iniciales(antes))).toHaveClass('text-indigo-claro');
+    fireEvent.click(screen.getByRole('button', { name: 'Enséñame otro' }));
+    await waitFor(() => expect(titulo()).not.toBe(antes));
+    expect(destacado().querySelector('img')).not.toBeNull();
+  });
+
   it('cambia a euskera sin recargar y lo recuerda', async () => {
     ir('/');
     render(<App />);
@@ -144,6 +161,18 @@ describe('galería', () => {
     fireEvent.click(within(ajena).getByRole('button', { name: 'Me gusta' }));
     await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveAttribute('aria-pressed', 'false'));
     expect(peticiones.filter(p => p === 'POST reacciones').length).toBe(2);
+  });
+
+  it('si la portada no carga, la tarjeta enseña las iniciales en vez de la imagen rota (D-NEW)', async () => {
+    proyectos[0].portada = 'img/no-existe.png';
+    ir('/galeria');
+    render(<App />);
+    await screen.findByText('Reservas de talleres');
+    const tarjeta = screen.getAllByRole('article').find(a => within(a).queryByText('Reservas de talleres'));
+    expect(within(tarjeta).queryByText('RD')).toBeNull();
+    fireEvent.error(tarjeta.querySelector('img'));
+    expect(tarjeta.querySelector('img')).toBeNull();
+    expect(within(tarjeta).getByText('RD')).toHaveClass('text-indigo-claro');
   });
 });
 
