@@ -68,7 +68,7 @@ export default function Galeria() {
           <label className="flex min-h-11 w-80 max-w-full items-center gap-2.5 rounded-[10px] border border-borde-claro bg-superficie px-3.5 text-texto-3">
             <Icono nombre="lupa" tam={18} />
             <span className="sr-only">{t('buscar')}</span>
-            <input type="search" value={consulta} onChange={e => setConsulta(e.target.value)} placeholder={t('buscar')}
+            <input type="search" value={consulta} onChange={e => setConsulta(e.target.value)} placeholder={t('buscar_corto')}
               className="min-w-0 flex-1 border-0 bg-transparent text-texto outline-0 placeholder:text-texto-4" />
           </label>
         </div>
