@@ -16,13 +16,19 @@ test.describe('galería', () => {
       await expect(t.locator('.insignia')).toHaveText(p.ciclo);
       await expect(t.getByText(p.equipo)).toBeVisible();
       await expect(t.getByText(p.etiqueta, { exact: true })).toBeVisible();
+      await expect(t.getByRole('link', { name: 'Ver proyecto', exact: true })).toHaveCount(0);   // las acciones van en el menú (D-NEW)
+      await t.getByRole('button', { name: 'Más opciones' }).click();
       await expect(t.getByRole('link', { name: 'Ver proyecto', exact: true })).toHaveAttribute('href', `/proyectos/p/${p.id}/`);
       await expect(t.getByRole('link', { name: `Ver proyecto: ${p.titulo}` })).toHaveAttribute('href', `/proyectos/p/${p.id}/`);
       await expect(t.getByRole('link', { name: 'Código' })).toHaveAttribute('target', '_blank');
+      if (p === PROYECTOS.WG) await expect(t.getByRole('link', { name: 'Vídeo' })).toHaveAttribute('href', /^https:\/\/youtu\.be\//);
+      if (p === PROYECTOS.PG) {   // sin vídeo: pendiente y desactivado, no un enlace roto
+        await expect(t.getByRole('button', { name: 'Vídeo pendiente' })).toBeDisabled();
+        await expect(t.getByRole('link', { name: 'Vídeo' })).toHaveCount(0);
+      }
+      await page.keyboard.press('Escape');
+      await expect(t.getByRole('button', { name: 'Más opciones' })).toHaveAttribute('aria-expanded', 'false');
     }
-    await expect(tarjeta(page, PROYECTOS.WG.titulo).getByRole('link', { name: 'Vídeo' })).toHaveAttribute('href', /^https:\/\/youtu\.be\//);
-    await expect(tarjeta(page, PROYECTOS.PG.titulo).getByText('Vídeo pendiente')).toBeVisible();   // sin vídeo: pendiente, no un enlace roto
-    await expect(tarjeta(page, PROYECTOS.PG.titulo).getByRole('link', { name: 'Vídeo' })).toHaveCount(0);
     await expect(page.getByText(/Grado (medio|superior)/)).toHaveCount(0);
   });
 
@@ -83,7 +89,9 @@ test.describe('galería', () => {
   });
 
   test('"Ver proyecto" abre la landing del grupo', async ({ page }) => {
-    await tarjeta(page, PROYECTOS.WG.titulo).getByRole('link', { name: 'Ver proyecto', exact: true }).click();
+    const t = tarjeta(page, PROYECTOS.WG.titulo);
+    await t.getByRole('button', { name: 'Más opciones' }).click();
+    await t.getByRole('link', { name: 'Ver proyecto', exact: true }).click();
     await expect(page).toHaveURL(/\/proyectos\/p\/WG\/reservas-talleres\/$/);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(PROYECTOS.WG.landing);
     await expect(page).toHaveTitle(/Reserva tu taller en 20 segundos/);

@@ -134,9 +134,60 @@ describe('galería', () => {
     expect(buscador()).toHaveAttribute('placeholder', 'Buscar');
     fireEvent.change(buscador(), { target: { value: 'tpv' } });
     await waitFor(() => expect(screen.getAllByRole('article').length).toBe(1));
-    expect(screen.getByText('Vídeo pendiente')).toBeInTheDocument();
+    const tpv = screen.getByRole('article');
+    fireEvent.click(within(tpv).getByRole('button', { name: 'Más opciones' }));
+    expect(within(tpv).getByRole('button', { name: 'Vídeo pendiente' })).toBeDisabled();
     fireEvent.change(buscador(), { target: { value: 'zzz' } });
     expect(await screen.findByText('Ningún proyecto coincide con la búsqueda.')).toBeInTheDocument();
+  });
+
+  it('las acciones de la tarjeta van en un menú de tres puntos sobre la portada (D-NEW)', async () => {
+    proyectos[1].repo = '';
+    ir('/galeria');
+    render(<App />);
+    await screen.findByText('Reservas de talleres');
+    expect(document.querySelectorAll('article a button, article a a').length).toBe(0);
+    const tarjeta = titulo => screen.getAllByRole('article').find(a => within(a).queryByText(titulo));
+    const t = within(tarjeta('Reservas de talleres'));
+    expect(t.queryByRole('link', { name: 'Ver proyecto' })).toBeNull();
+    const disparador = t.getByRole('button', { name: 'Más opciones' });
+    expect(disparador).toHaveAttribute('aria-expanded', 'false');
+    fireEvent.click(disparador);
+    expect(disparador).toHaveAttribute('aria-expanded', 'true');
+    expect(document.getElementById(disparador.getAttribute('aria-controls'))).not.toBeNull();
+    expect(t.getByRole('link', { name: 'Ver proyecto' })).toHaveAttribute('href', '/proyectos/p/WG/reservas/');
+    expect(t.getByRole('link', { name: 'Vídeo' })).toHaveAttribute('target', '_blank');
+    expect(t.getByRole('link', { name: 'Código' })).toHaveAttribute('target', '_blank');
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(disparador).toHaveAttribute('aria-expanded', 'false');
+    expect(t.queryByRole('link', { name: 'Ver proyecto' })).toBeNull();
+    expect(document.activeElement).toBe(disparador);
+    fireEvent.click(disparador);
+    fireEvent.pointerDown(document.body);
+    expect(disparador).toHaveAttribute('aria-expanded', 'false');
+    fireEvent.click(disparador);
+    const enlace = t.getByRole('link', { name: 'Ver proyecto' });
+    enlace.addEventListener('click', e => e.preventDefault()); // jsdom no navega
+    fireEvent.click(enlace);
+    expect(disparador).toHaveAttribute('aria-expanded', 'false');
+    // sin repo no hay "Código"
+    const r = within(tarjeta('Red segura para una asesoría'));
+    fireEvent.click(r.getByRole('button', { name: 'Más opciones' }));
+    expect(r.getByRole('link', { name: 'Vídeo' })).toBeInTheDocument();
+    expect(r.queryByRole('link', { name: 'Código' })).toBeNull();
+  });
+
+  it('las tarjetas de tendencias de la portada llevan el menú y conservan la píldora (D-NEW)', async () => {
+    ir('/');
+    render(<App />);
+    await screen.findByText(/reacciones en total/);
+    const tendencias = screen.getAllByRole('article').slice(1);
+    expect(tendencias.length).toBe(2);
+    tendencias.forEach(a => {
+      expect(within(a).queryByRole('link', { name: 'Ver proyecto' })).toBeNull();
+      expect(within(a).getByText(/reacciones$/)).toBeInTheDocument();
+      expect(within(a).getByRole('button', { name: 'Más opciones' })).toHaveAttribute('aria-expanded', 'false');
+    });
   });
 
   it('sin sesión invita a entrar; con sesión reacciona, quita la reacción y bloquea el propio proyecto', async () => {

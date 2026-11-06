@@ -48,15 +48,20 @@ test('con teclado se llega al inicio de sesión y el foco se ve', async ({ page 
   await expect(page.getByLabel('Usuario')).toBeVisible();
 });
 
-test('los botones de reacción miden al menos 36 px y los principales 40 px de alto', async ({ page }) => {
+test('los botones de reacción miden al menos 36 px y los del menú de tres puntos 44×44 px', async ({ page }) => {
   await page.goto('galeria');
   await expect(page.getByRole('article')).toHaveCount(3);
   const reacciones = await page.getByRole('button', { name: /^(Me gusta|Buena idea|Ambicioso|Fuego|Me encanta)$/ }).evaluateAll(bs => bs.map(b => b.getBoundingClientRect().height));
   expect(reacciones.length).toBe(15);
   for (const h of reacciones) expect(h).toBeGreaterThanOrEqual(36);
-  const principales = await page.getByRole('link', { name: 'Ver proyecto', exact: true }).evaluateAll(as => as.map(a => a.getBoundingClientRect().height));
-  expect(principales.length).toBe(3);
-  for (const h of principales) expect(h).toBeGreaterThanOrEqual(40);
+  const disparadores = page.getByRole('button', { name: 'Más opciones' });
+  const medidas = await disparadores.evaluateAll(bs => bs.map(b => { const r = b.getBoundingClientRect(); return [r.width, r.height]; }));
+  expect(medidas.length).toBe(3);
+  await disparadores.first().click();
+  const lista = page.locator(`[id="${await disparadores.first().getAttribute('aria-controls')}"]`);
+  await expect(lista.locator('a, button')).not.toHaveCount(0);
+  medidas.push(...await lista.locator('a, button').evaluateAll(es => es.map(e => { const r = e.getBoundingClientRect(); return [r.width, r.height]; })));
+  for (const [w, h] of medidas) { expect(w).toBeGreaterThanOrEqual(44); expect(h).toBeGreaterThanOrEqual(44); }
 });
 
 test.describe('con "reducir movimiento"', () => {
