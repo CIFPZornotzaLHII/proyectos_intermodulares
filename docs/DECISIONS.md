@@ -3,6 +3,16 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-27 · El tablero de la fábrica enseña el backlog y las métricas · 2026-11-06 · vigente
+Petición: "¿Por qué no se muestran los jobs en la interfaz de la factory?" → "en el panel local no se ve el backlog";
+y, entre reescribir el tablero como la pestaña Factory de mikels-core o ampliarlo, "dejar el tablero actual y
+añadirle paneles". Se hace así: `factory/dashboard/server.mjs` añade a `GET /api/state` el `backlog` (las líneas
+`- [ ]` / `- [x] … → job` de `backlog.md`, DATOS.md §1) y ya devolvía `metrics`; `index.html` pinta bajo el tablero
+un panel Backlog (orden de la cola, *Siguiente* en la primera pendiente, las reclamadas tachadas y en una línea con
+su job delante, que abre su panel) y otro Métricas (totales y medias, una magnitud por job a elegir, reparto de
+modelos), con los mismos paneles que la página de mikels-core pero sin dependencias. El mismo tablero se copia a
+factory-boilerplate, que es de donde vino. Hecho a mano en `main`, comprobado con captura.
+
 ### D-26 · Títulos de las landings en Impact sin negrita falsa y con aire · 2026-11-06 · vigente
 Petición (captura de un h2 de una landing): "Muchos subtítulos siguen con Impact y se ven mal", y "Impact bien
 ajustado" al preguntar si se dejaba Impact. En `proyectos/_plantilla/index.html` y las tres landings de ejemplo, el h1

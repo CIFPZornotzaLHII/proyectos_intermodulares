@@ -7,7 +7,7 @@
 //   node factory/dashboard/server.mjs --host 0.0.0.0   (solo dentro de Docker; expone el puerto)
 //
 // Sirve index.html y una API de solo lectura:
-//   GET /api/state              configuración + todos los jobs con sus veredictos por ronda
+//   GET /api/state              configuración + todos los jobs con sus veredictos por ronda + backlog + métricas
 //   GET /api/file?job=&path=    un fichero markdown/json de la carpeta del job
 //   GET /api/diff?job=          el diff de la rama (o del commit de merge si ya se fusionó)
 //   GET /api/log?job=           los commits de la rama
@@ -35,6 +35,7 @@ const EXAMPLES = flag('--examples');
 const JOBS_DIR = path.resolve(ROOT, opt('--jobs', EXAMPLES ? 'factory/examples/jobs' : 'factory/jobs'));
 const CONFIG_FILE = path.join(ROOT, 'factory', 'config.json');
 const METRICS_FILE = path.join(ROOT, 'factory', 'metrics.json');
+const BACKLOG_FILE = path.join(ROOT, 'factory', 'backlog.md');
 const PAUSED_FILE = path.join(ROOT, 'factory', 'PAUSED');
 const APPROVALS_DIR = path.join(ROOT, 'factory', 'approvals');
 
@@ -86,12 +87,26 @@ function loadJob(id) {
   return { ...job, reviewers, rounds, files: listFiles(dir), decision: decision || null, build_status: build || null };
 }
 
+// Las líneas `- [ ] <texto>` (pendiente) y `- [x] <texto> → <job-id | claimed>` (reclamada) de backlog.md, en orden
+// (DATOS.md §1). Solo las reclamadas llevan job: el texto de una pendiente puede contener flechas.
+function backlog() {
+  const text = readText(BACKLOG_FILE);
+  if (text == null) return null;
+  return text.split(/\r?\n/).flatMap((line) => {
+    const m = line.trim().match(/^- \[( |x)\] (.*)$/);
+    if (!m) return [];
+    const done = m[1] === 'x';
+    const i = done ? m[2].lastIndexOf(' → ') : -1;
+    return [{ text: (i >= 0 ? m[2].slice(0, i) : m[2]).trim(), done, job: i >= 0 ? m[2].slice(i + 3).trim() : null }];
+  });
+}
+
 function state() {
   const config = readJson(CONFIG_FILE) || {};
   let ids = [];
   try { ids = fs.readdirSync(JOBS_DIR, { withFileTypes: true }).filter((e) => e.isDirectory() && JOB_ID.test(e.name)).map((e) => e.name).sort(); } catch { /* sin carpeta: sin jobs */ }
   const metrics = readJson(METRICS_FILE);
-  return { root: ROOT, jobsDir: JOBS_DIR, examples: EXAMPLES, config, paused: fs.existsSync(PAUSED_FILE), metrics, jobs: ids.map(loadJob), generatedAt: new Date().toISOString() };
+  return { root: ROOT, jobsDir: JOBS_DIR, examples: EXAMPLES, config, paused: fs.existsSync(PAUSED_FILE), metrics, backlog: backlog(), jobs: ids.map(loadJob), generatedAt: new Date().toISOString() };
 }
 
 function git(gitArgs) {

@@ -57,6 +57,33 @@
   .meta .d.APPROVE { color: var(--pass); }
   .meta .d.BLOCKED { color: var(--bad); }
 
+  /* Paneles bajo el tablero: el backlog (la cola) y las métricas de los jobs */
+  .panels { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 12px; margin-top: 12px; align-items: start; }
+  @media (max-width: 1000px) { .panels { grid-template-columns: 1fr; } }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px 14px; }
+  .panel h2 { margin: 0 0 10px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; gap: 10px; font-family: var(--mono); }
+  .panel h2 b { color: var(--text); font-weight: 600; text-transform: none; letter-spacing: 0; }
+  .panel h3 { margin: 14px 0 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-family: var(--mono); font-weight: 600; }
+  .backlog { margin: 0; padding-left: 28px; display: flex; flex-direction: column; gap: 6px; }
+  .backlog li { padding-left: 4px; }
+  .backlog li::marker { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .backlog li.done { color: var(--muted); display: flex; gap: 8px; align-items: baseline; }
+  .backlog li.done .t { text-decoration: line-through; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .backlog .next { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #0f1115; background: var(--accent); border-radius: 4px; padding: 1px 6px; margin-right: 6px; vertical-align: 1px; }
+  .backlog .job { font: 11px var(--mono); color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; white-space: nowrap; }
+  .backlog .job[disabled] { color: var(--muted); cursor: default; }
+  .backlog code, .panel .empty code { font-family: var(--mono); font-size: 12px; background: var(--panel-2); padding: 1px 5px; border-radius: 4px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px 14px; margin: 0 0 12px; }
+  .stats div { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .stats b { display: block; font-size: 15px; color: var(--text); font-weight: 600; }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0; }
+  .chips button { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 2px 9px; font: 11px var(--mono); cursor: pointer; }
+  .chips button[aria-checked="true"] { color: var(--text); border-color: var(--accent); background: color-mix(in srgb, var(--accent) 18%, transparent); }
+  .bars { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 10px; align-items: center; font-family: var(--mono); font-size: 11px; }
+  .bars .l { color: var(--muted); white-space: nowrap; } .bars .v { color: var(--text); text-align: right; white-space: nowrap; }
+  .bars .b { height: 8px; border-radius: 999px; background: var(--panel-2); overflow: hidden; }
+  .bars .b i { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+
   /* Drawer */
   .drawer { position: fixed; top: 0; right: 0; height: 100vh; width: min(960px, 92vw); background: var(--panel); border-left: 1px solid var(--line); transform: translateX(105%); transition: transform .2s; z-index: 10; display: grid; grid-template-rows: auto auto 1fr; }
   .drawer.open { transform: none; }
@@ -103,7 +130,13 @@
   </div>
   <button class="close" id="pause" title="El cron no empieza vueltas mientras exista factory/PAUSED"></button>
 </header>
-<main><div class="board" id="board"></div></main>
+<main>
+  <div class="board" id="board"></div>
+  <div class="panels">
+    <section class="panel" aria-label="Backlog"><h2>Backlog <b id="backlog-n"></b></h2><ol class="backlog" id="backlog"></ol></section>
+    <section class="panel" aria-label="Métricas"><h2>Métricas <b id="metrics-n"></b></h2><div id="metrics"></div></section>
+  </div>
+</main>
 
 <div class="backdrop" id="backdrop"></div>
 <aside class="drawer" id="drawer" aria-label="Detalle del job">
@@ -172,15 +205,71 @@ function renderBoard() {
   if (problems.length) $('status').textContent += ` · ${problems.length} job(s) con etapa desconocida`;
 }
 
+// ---- Backlog (factory/backlog.md): la cola en orden, la primera pendiente es la siguiente ----
+function renderBacklog() {
+  const items = state.backlog, ol = $('backlog');
+  if (!items) { $('backlog-n').textContent = ''; ol.innerHTML = '<li class="empty" style="list-style:none">No hay <code>factory/backlog.md</code>.</li>'; return; }
+  const pending = items.filter((b) => !b.done).length, done = items.length - pending;
+  $('backlog-n').textContent = `${pending} pendiente${pending === 1 ? '' : 's'} · ${done} hecho${done === 1 ? '' : 's'}`;
+  let next = true;
+  ol.innerHTML = items.map((b) => {
+    const tag = !b.done && next ? (next = false, '<span class="next">Siguiente</span>') : '';
+    // reclamada: el job delante y el texto en una línea (tachado); pendiente: el texto entero
+    const link = b.job === 'claimed' ? '<span class="job" disabled>en marcha →</span>'
+      : b.job ? `<button class="job" data-id="${esc(b.job)}" ${job(b.job) ? '' : 'disabled'} title="${job(b.job) ? 'Abrir el job' : 'No hay job con ese id'}">${esc(b.job)} →</button>` : '';
+    return `<li class="${b.done ? 'done' : ''}" title="${b.done ? esc(b.text) : ''}">${tag}${link}<span class="t">${inline(b.text)}</span></li>`;
+  }).join('') || '<li class="empty" style="list-style:none">Backlog vacío.</li>';
+  for (const b of ol.querySelectorAll('button.job')) b.addEventListener('click', () => openJob(b.dataset.id));
+}
+
+// ---- Métricas (factory/metrics.json, lo escribe factory/metrics.py tras cada vuelta) ----
+const num = (n, d = 0) => new Intl.NumberFormat('es-ES', { maximumFractionDigits: d, minimumFractionDigits: d }).format(Number(n) || 0);
+const mtok = (n) => num(n / 1e6, 1) + ' M';
+const MAGNITUDES = [
+  ['minutes', 'Minutos', (v) => num(v) + ' min'], ['turns', 'Turnos', (v) => num(v) + ' turnos'], ['output_tokens', 'Tokens de salida', (v) => num(v) + ' tok'],
+  ['input_tokens', 'Tokens de entrada', (v) => mtok(v) + ' tok'], ['ctx_avg', 'ctx medio', (v) => num(v) + ' tok'], ['ctx_max', 'ctx máx', (v) => num(v) + ' tok'], ['round', 'Rondas', (v) => num(v) + ' rondas'],
+];
+let magnitude = 'minutes';
+
+function renderMetrics() {
+  const m = state.metrics, box = $('metrics');
+  const jobs = m && Array.isArray(m.jobs) ? m.jobs : null;
+  if (!jobs) { $('metrics-n').textContent = ''; box.innerHTML = '<div class="empty">Sin métricas todavía: las escribe <code>python -I factory/metrics.py</code> tras cada vuelta del cron.</div>'; return; }
+  $('metrics-n').textContent = `${jobs.length} jobs · ${ago(m.updated)}`;
+  const val = (j, k) => Number(j[k]) || 0;
+  const sum = (k) => jobs.reduce((s, j) => s + val(j, k), 0);
+  const mean = (k) => (jobs.length ? sum(k) / jobs.length : 0);
+  const models = {};
+  for (const j of jobs) for (const [k, v] of Object.entries(j.models || {})) models[k] = (models[k] || 0) + (Number(v) || 0);
+  const allTurns = Object.values(models).reduce((s, v) => s + v, 0);
+  const [, label, fmt] = MAGNITUDES.find((x) => x[0] === magnitude) || MAGNITUDES[0];
+  const max = Math.max(1, ...jobs.map((j) => val(j, magnitude)));
+  const bar = (l, frac, v, title = l) => `<span class="l" title="${esc(title)}">${esc(l)}</span><span class="b"><i style="width:${(100 * frac).toFixed(1)}%"></i></span><span class="v">${esc(v)}</span>`;
+  box.innerHTML = `
+    <div class="stats">
+      <div>Minutos (total · media)<b>${num(sum('minutes'))} · ${num(mean('minutes'))}</b></div>
+      <div>Turnos (total · media)<b>${num(sum('turns'))} · ${num(mean('turns'))}</b></div>
+      <div>Tokens de salida (total · media)<b>${num(sum('output_tokens'))} · ${num(mean('output_tokens'))}</b></div>
+      <div>Tokens de entrada (total · media)<b>${mtok(sum('input_tokens'))} · ${mtok(mean('input_tokens'))}</b></div>
+      <div>ctx máx<b>${num(Math.max(0, ...jobs.map((j) => val(j, 'ctx_max'))))}</b></div>
+      <div>Rondas medias<b>${num(mean('round'), 1)}</b></div>
+    </div>
+    <div class="chips" role="radiogroup" aria-label="Magnitud del gráfico">${MAGNITUDES.map(([k, l]) => `<button role="radio" aria-checked="${k === magnitude}" data-k="${k}">${l}</button>`).join('')}</div>
+    <div class="bars" aria-label="${esc(label)} por job">${jobs.map((j) => bar(j.id.slice(0, 3), val(j, magnitude) / max, fmt(val(j, magnitude)), j.id)).join('')}</div>
+    <h3>Modelos</h3>
+    <div class="bars" aria-label="Reparto de modelos">${Object.entries(models).sort((a, b) => b[1] - a[1]).map(([k, v]) => bar(k, allTurns ? v / allTurns : 0, `${num(v)} turnos · ${num(allTurns ? (100 * v) / allTurns : 0)} %`)).join('') || '<span class="l">—</span>'}</div>`;
+  for (const b of box.querySelectorAll('.chips button')) b.addEventListener('click', () => { magnitude = b.dataset.k; renderMetrics(); });
+}
+
 async function poll() {
   try {
     const s = await getJson('/api/state');
     $('pause').textContent = s.paused ? '⏸ Fábrica en pausa · reanudar' : '▶ Fábrica activa · pausar';
-    const json = JSON.stringify(s.jobs) + JSON.stringify(s.config);
+    const json = JSON.stringify(s.jobs) + JSON.stringify(s.config) + JSON.stringify(s.backlog) + JSON.stringify(s.metrics);
     state = s;
     $('dot').className = 'dot';
     $('status').textContent = 'actualizado ' + new Date().toLocaleTimeString();
-    if (json !== lastJson) { lastJson = json; renderBoard(); if (open.id) refreshDrawer(); }
+    if (json !== lastJson) { lastJson = json; renderBoard(); renderBacklog(); renderMetrics(); if (open.id) refreshDrawer(); }
   } catch (e) {
     $('dot').className = 'dot err';
     $('status').textContent = e.message;

@@ -737,6 +737,12 @@ Qué ves:
   pestañas más: **Cambios (diff)** y **Commits**.
 - La cabecera muestra de qué carpeta lee, los reviewers activos y
   `max_resumes`. Si arrancas con `--examples` lo avisa en ámbar.
+- **Debajo del tablero, dos paneles**: **Backlog** (las líneas de
+  `factory/backlog.md` en orden, con la etiqueta *Siguiente* en la primera
+  pendiente; las reclamadas, tachadas y en una línea, con su job delante, que
+  abre el panel del job si existe) y **Métricas** (lo que `factory/metrics.py`
+  deja en `factory/metrics.json`: totales y medias por job, una magnitud a
+  elegir pintada por job, y el reparto de modelos; sin fichero, lo dice).
 - Se refresca cada 2 segundos y solo repinta si algo cambió. Déjalo abierto
   en un monitor mientras corren los jobs.
 
@@ -744,7 +750,7 @@ Cómo lee los datos (por si quieres construir encima):
 
 | Endpoint | Devuelve |
 | --- | --- |
-| `GET /api/state` | `config` + todos los jobs, cada uno con `rounds` (veredictos por ronda, leídos de los ficheros `review-*.md`; la ronda en curso, de `job.json`), `files`, `decision`, `build_status`. |
+| `GET /api/state` | `config` + todos los jobs, cada uno con `rounds` (veredictos por ronda, leídos de los ficheros `review-*.md`; la ronda en curso, de `job.json`), `files`, `decision`, `build_status`; `backlog` (las líneas de `backlog.md`: `text`, `done`, `job`) y `metrics` (`metrics.json` tal cual, o `null`). |
 | `GET /api/file?job=<id>&path=<fichero>` | El texto del fichero. Solo rutas de la forma `spec.md`, `round-N/review-x.md`, etc. |
 | `GET /api/diff?job=<id>` | `git diff --stat --patch main...factory/<id>`, o `git diff <merge>^1 <merge>` si hay `merge_commit`. |
 | `GET /api/log?job=<id>` | Los commits de la rama o del merge. |
