@@ -3,6 +3,16 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-NEW · Página 404 con cabecera, pie y llamada a publicar · 2026-11-06 · vigente
+Petición: "La página 404 (`NoEncontrada` en `App.jsx`) con cabecera y pie como las demás y un texto de doble uso en ES
+y EU, "Este proyecto todavía no existe. ¿Es el tuyo?", con el enlace a la guía de publicación además del de la
+portada." (Evaluación de diseño, punto 4.) Se hace así: `NoEncontrada` sigue en `App.jsx` y se envuelve en
+`<Cabecera />` (completa, con navegación) y `<Pie />` (centrado); conserva el `<h1>404</h1>`; la clave `no_encontrada`
+pasa a "Este proyecto todavía no existe. ¿Es el tuyo?" / "Proiektu hau oraindik ez da existitzen. Zurea al da?"
+(euskera pendiente de revisión); debajo, `Boton` menta a `GUIA` (de `Llamada.jsx`, externo) con `t('guia')` como
+acción principal y `Boton` con borde a la portada. Un solo texto para todo 404 de la web; los de `/p/` y `/api/` siguen
+siendo de nginx y de la API.
+
 ### D-28 · Acciones de las tarjetas en un menú de tres puntos · 2026-11-06 · vigente
 Petición: "En todas las tarjetas de proyecto (`TarjetaProyecto` en `Tarjeta.jsx`: las de la galería y las tres de
 "Destacados" de la portada), quitar los botones "Ver proyecto", "Vídeo" y "Código" […] y llevarlos arriba a un botón
