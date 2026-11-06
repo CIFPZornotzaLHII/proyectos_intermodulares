@@ -3,6 +3,14 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-NEW · Más aire en los subtítulos en Impact · 2026-11-06 · vigente
+Petición: "Los subtítulos en Impact (h2 y h3 de 20 a 32 px) quedan muy pegados: las letras casi se tocan y, cuando
+ocupan dos líneas, las líneas también. Darles más aire entre letras (en torno a 0.05em) y algo más de interlineado
+(1.15-1.2), con una regla para los subtítulos en `index.css` en vez de clases sueltas." Se hace así: en `@layer base`
+una regla `h2, h3` con `tracking-[0.05em]` y `leading-[1.18]`, detrás de la común de títulos; el h3 de la tarjeta
+pierde su `leading-[1.22]`. Los h1 y los títulos grandes no cambian: el h3 del destacado lleva ahora
+`tracking-[0.025em]` explícito (lo que heredaba). Sigue Impact (D-10). Matiza D-17, no la sustituye.
+
 ### D-24 · Placeholder "Buscar" y sin "Cambia en cada visita" · 2026-11-06 · vigente
 Petición: "Quitar dos textos que no aportan, en ES y EU: el placeholder del buscador de la galería pasa a "Buscar" (el
 texto largo se queda como etiqueta accesible, hoy se corta en pantalla) y desaparece "Cambia en cada visita" junto a

@@ -90,7 +90,7 @@ export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, modo = 'galer
       className="flex h-full flex-col transition-transform duration-150 hover:-translate-y-0.5" data-ciclo={p.ciclo}>
       <PortadaProyecto p={p} />
       <div className="flex flex-1 flex-col gap-2.5 px-5 pt-[18px] pb-4">
-        <h3 className="text-[20px] leading-[1.22]"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
+        <h3 className="text-[20px]"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
         <p className="text-[13px] font-medium text-texto-3">{(p.equipo || []).join(' · ')}</p>
         <p className="text-[15px] text-texto-2">{p.resumen}</p>
         {modo === 'galeria' && (p.etiquetas || []).length > 0 && (
@@ -133,7 +133,7 @@ export function Destacado({ p }) {
 
       <div className="relative flex max-w-[960px] flex-col gap-5 px-12 pt-24 pb-11 max-md:gap-4 max-md:px-6 max-md:pb-7">
         <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-texto-3">{(p.equipo || []).join(' · ')} · {p.ciclo_nombre}</p>
-        <h3 className="text-[clamp(48px,7vw,112px)] leading-[0.92] [overflow-wrap:anywhere]"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
+        <h3 className="text-[clamp(48px,7vw,112px)] leading-[0.92] tracking-[0.025em] [overflow-wrap:anywhere]"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
         <p className="max-w-[60ch] text-[19px] leading-[1.5] text-texto-2">{p.resumen}</p>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
           <p className="flex items-baseline gap-2.5 text-[13px] text-texto-3"><span className="font-titulo text-[clamp(40px,5vw,64px)] leading-none text-menta">{totalReacciones(p)}</span> {t('reacciones_total_texto')}</p>

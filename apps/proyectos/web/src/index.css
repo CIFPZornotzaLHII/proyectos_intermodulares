@@ -55,6 +55,7 @@
   html { scroll-behavior: smooth; }
   body { @apply bg-onice text-texto font-sans text-[16px] leading-[1.55] antialiased; }
   h1, h2, h3 { @apply font-titulo font-normal leading-[1.1] tracking-[0.025em]; }   /* Impact necesita aire entre letras (D-17) */
+  h2, h3 { @apply leading-[1.18] tracking-[0.05em]; }   /* subtítulos de 20-32 px: más aire entre letras y líneas (D-NEW) */
   a { @apply text-menta hover:text-menta-clara; }
   button { font: inherit; cursor: pointer; }
   input { font: inherit; }
