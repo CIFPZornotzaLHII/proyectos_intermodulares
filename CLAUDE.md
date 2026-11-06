@@ -16,7 +16,7 @@ decisiones `D-n` en `docs/DECISIONS.md` (la más reciente arriba y **manda sobre
 ## Rutas importantes
 
 - `apps/proyectos/web/`: la web. `src/paginas/` (`Portada`, `Galeria`, `Entrar`), `src/componentes/` (cabecera, pie,
-  llamada, botón, iconos, `Tarjeta.jsx` con la tarjeta, el destacado y las reacciones), `src/i18n.jsx` (textos ES/EU,
+  llamada, botón, iconos, `Tarjeta.jsx` con la tarjeta y su menú de tres puntos, el destacado y las reacciones), `src/i18n.jsx` (textos ES/EU,
   `TEXTOS`), `src/api.js` (llamadas a la API; `BASE` = `import.meta.env.BASE_URL`), `src/sesion.jsx` (sesión
   compartida), `src/useProyectos.js`, `src/datos.js` (ordenar por votos, azar, filtros, `REACCIONES`), `src/index.css`
   (tema Tailwind en `@theme`: paleta y tipografías). `vite.config.js` fija la base `/proyectos/` (D-06) y sirve las
