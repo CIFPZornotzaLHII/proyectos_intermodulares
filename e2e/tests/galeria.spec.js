@@ -16,7 +16,7 @@ test.describe('galería', () => {
       await expect(t.locator('.insignia')).toHaveText(p.ciclo);
       await expect(t.getByText(p.equipo)).toBeVisible();
       await expect(t.getByText(p.etiqueta, { exact: true })).toBeVisible();
-      await expect(t.getByRole('link', { name: 'Ver proyecto', exact: true })).toHaveCount(0);   // las acciones van en el menú (D-NEW)
+      await expect(t.getByRole('link', { name: 'Ver proyecto', exact: true })).toHaveCount(0);   // las acciones van en el menú (D-28)
       await t.getByRole('button', { name: 'Más opciones' }).click();
       await expect(t.getByRole('link', { name: 'Ver proyecto', exact: true })).toHaveAttribute('href', `/proyectos/p/${p.id}/`);
       await expect(t.getByRole('link', { name: `Ver proyecto: ${p.titulo}` })).toHaveAttribute('href', `/proyectos/p/${p.id}/`);

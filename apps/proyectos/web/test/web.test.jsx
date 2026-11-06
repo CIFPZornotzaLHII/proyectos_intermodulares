@@ -141,7 +141,7 @@ describe('galería', () => {
     expect(await screen.findByText('Ningún proyecto coincide con la búsqueda.')).toBeInTheDocument();
   });
 
-  it('las acciones de la tarjeta van en un menú de tres puntos sobre la portada (D-NEW)', async () => {
+  it('las acciones de la tarjeta van en un menú de tres puntos sobre la portada (D-28)', async () => {
     proyectos[1].repo = '';
     ir('/galeria');
     render(<App />);
@@ -177,7 +177,7 @@ describe('galería', () => {
     expect(r.queryByRole('link', { name: 'Código' })).toBeNull();
   });
 
-  it('las tarjetas de tendencias de la portada llevan el menú y conservan la píldora (D-NEW)', async () => {
+  it('las tarjetas de tendencias de la portada llevan el menú y conservan la píldora (D-28)', async () => {
     ir('/');
     render(<App />);
     await screen.findByText(/reacciones en total/);

@@ -49,7 +49,7 @@
     from { opacity: 1; transform: none; }
     to { opacity: 0; transform: translateY(-12px); }
   }
-  /* Botones del menú de tres puntos de las tarjetas: bajan 6 px con fundido, escalonados por animationDelay (D-NEW) */
+  /* Botones del menú de tres puntos de las tarjetas: bajan 6 px con fundido, escalonados por animationDelay (D-28) */
   --animate-desplegar: desplegar 0.18s ease-out both;
   @keyframes desplegar {   /* sin "to": acaba en la opacidad propia del botón (el desactivado se queda atenuado) */
     from { opacity: 0; transform: translateY(-6px); }

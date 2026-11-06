@@ -46,7 +46,7 @@ export function PortadaProyecto({ p, className = '' }) {
 // Botón redondo de solo icono, 44 px, legible sobre cualquier portada
 const REDONDO = 'inline-flex size-11 items-center justify-center rounded-full border border-borde-claro bg-onice/80 text-texto no-underline hover:text-menta';
 
-// Menú de tres puntos sobre la portada (D-NEW): disclosure con aria-expanded; se cierra con Escape, al pulsar fuera o al elegir
+// Menú de tres puntos sobre la portada (D-28): disclosure con aria-expanded; se cierra con Escape, al pulsar fuera o al elegir
 function MenuProyecto({ p }) {
   const { t } = useIdioma();
   const [abierto, setAbierto] = useState(false);

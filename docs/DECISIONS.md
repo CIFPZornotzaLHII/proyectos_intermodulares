@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Acciones de las tarjetas en un menú de tres puntos · 2026-11-06 · vigente
+### D-28 · Acciones de las tarjetas en un menú de tres puntos · 2026-11-06 · vigente
 Petición: "En todas las tarjetas de proyecto (`TarjetaProyecto` en `Tarjeta.jsx`: las de la galería y las tres de
 "Destacados" de la portada), quitar los botones "Ver proyecto", "Vídeo" y "Código" […] y llevarlos arriba a un botón
 de tres puntos en la esquina superior derecha de la tarjeta, sobre la portada […]". Se hace así: `MenuProyecto` en
