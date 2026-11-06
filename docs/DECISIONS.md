@@ -3,6 +3,18 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-NEW · Acciones de las tarjetas en un menú de tres puntos · 2026-11-06 · vigente
+Petición: "En todas las tarjetas de proyecto (`TarjetaProyecto` en `Tarjeta.jsx`: las de la galería y las tres de
+"Destacados" de la portada), quitar los botones "Ver proyecto", "Vídeo" y "Código" […] y llevarlos arriba a un botón
+de tres puntos en la esquina superior derecha de la tarjeta, sobre la portada […]". Se hace así: `MenuProyecto` en
+`Tarjeta.jsx`, hermano del `<a>` de `PortadaProyecto` dentro de un envoltorio `relative` (`absolute top-[18px]
+right-[18px] z-[2]`); disclosure (`aria-expanded`, `aria-controls` con `useId`, no `role="menu"`) con un disparador
+redondo de 44 px (icono nuevo `puntos`, texto `mas_opciones`) que despliega en columna flecha (landing), play (vídeo,
+o `<button disabled>` "Vídeo pendiente") y código (solo con repo). Se cierra con Escape (el foco vuelve al
+disparador), con un `pointerdown` fuera, al pulsar de nuevo o al elegir. Animación `--animate-desplegar` (0,18 s,
+escalonada con `animationDelay`), aplicada con `motion-safe:` y anulada en el bloque `prefers-reduced-motion`.
+La píldora del total de las tendencias se queda; `BotonesProyecto` desaparece; el hero `Destacado` no cambia.
+
 ### D-27 · El tablero de la fábrica enseña el backlog y las métricas · 2026-11-06 · vigente
 Petición: "¿Por qué no se muestran los jobs en la interfaz de la factory?" → "en el panel local no se ve el backlog";
 y, entre reescribir el tablero como la pestaña Factory de mikels-core o ampliarlo, "dejar el tablero actual y
