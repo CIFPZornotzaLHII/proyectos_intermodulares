@@ -33,7 +33,7 @@ function Desplazamiento() {
 
 function NoEncontrada() {
   const { t } = useIdioma();
-  // Doble uso (D-NEW): avisa del error y, como suele ser un proyecto que aún no está, invita a publicarlo
+  // Doble uso (D-29): avisa del error y, como suele ser un proyecto que aún no está, invita a publicarlo
   return (
     <>
       <Cabecera />

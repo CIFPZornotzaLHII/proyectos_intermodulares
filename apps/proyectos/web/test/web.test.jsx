@@ -257,7 +257,7 @@ describe('inicio de sesión', () => {
   });
 });
 
-describe('página 404 (D-NEW)', () => {
+describe('página 404 (D-29)', () => {
   it('con cabecera y pie, invita a publicar con la guía y vuelve a la portada', async () => {
     ir('/esto-no-existe');
     render(<App />);

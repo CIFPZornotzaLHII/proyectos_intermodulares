@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Página 404 con cabecera, pie y llamada a publicar · 2026-11-06 · vigente
+### D-29 · Página 404 con cabecera, pie y llamada a publicar · 2026-11-06 · vigente
 Petición: "La página 404 (`NoEncontrada` en `App.jsx`) con cabecera y pie como las demás y un texto de doble uso en ES
 y EU, "Este proyecto todavía no existe. ¿Es el tuyo?", con el enlace a la guía de publicación además del de la
 portada." (Evaluación de diseño, punto 4.) Se hace así: `NoEncontrada` sigue en `App.jsx` y se envuelve en
