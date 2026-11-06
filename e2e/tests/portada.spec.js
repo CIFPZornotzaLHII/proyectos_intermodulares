@@ -59,7 +59,7 @@ test.describe('portada', () => {
     await page.getByRole('link', { name: 'Ver todos los proyectos' }).click();
     await expect(page).toHaveURL(/\/proyectos\/galeria$/);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Todos los proyectos');
-    // "Cómo publicar" desde la galería vuelve a la portada y baja hasta la llamada; en móvil no está (D-NEW)
+    // "Cómo publicar" desde la galería vuelve a la portada y baja hasta la llamada; en móvil no está (D-30)
     if (isMobile) return expect(page.getByRole('link', { name: 'Cómo publicar' })).toBeHidden();
     await page.getByRole('link', { name: 'Cómo publicar' }).click();
     await expect(page).toHaveURL(/\/proyectos\/?#publicar$/);   // el router deja /proyectos sin barra al ir a "/"
@@ -67,7 +67,7 @@ test.describe('portada', () => {
   });
 });
 
-// En móvil (D-NEW) la cabecera va en dos filas: marca, ES/EU y sesión arriba; la navegación debajo
+// En móvil (D-30) la cabecera va en dos filas: marca, ES/EU y sesión arriba; la navegación debajo
 test('en móvil la cabecera ocupa dos filas y no desborda', async ({ page, isMobile }) => {
   test.skip(!isMobile, 'solo móvil');
   await page.goto('.');

@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Cabecera móvil en dos filas, sin "Cómo publicar" · 2026-11-06 · vigente
+### D-30 · Cabecera móvil en dos filas, sin "Cómo publicar" · 2026-11-06 · vigente
 Petición: "En la cabecera en móvil (`Cabecera.jsx`, menos de 768 px): dos filas en vez de tres, marca, idioma y sesión
 en la primera y la navegación en la segunda, y sin "Cómo publicar" (ya está en la llamada del final de cada página)."
 (Evaluación de diseño, punto 14.) Se hace así: el `<nav aria-label="Principal">` lleva solo la navegación; ES/EU y la

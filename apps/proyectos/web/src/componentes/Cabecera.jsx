@@ -34,7 +34,7 @@ export default function Cabecera({ sencilla = false, sobreIndigo = false }) {
 
   const fija = fijada !== 'libre';
   const tenue = sobreIndigo && !fija ? 'text-texto/90' : 'text-texto-3';
-  // En móvil (D-NEW) la navegación baja a una segunda fila; en Entrar, "Volver" hace de navegación y va al final
+  // En móvil (D-30) la navegación baja a una segunda fila; en Entrar, "Volver" hace de navegación y va al final
   const nav = (
     <nav className="flex flex-wrap items-center gap-[18px] text-[14px] font-semibold max-md:order-last max-md:basis-full" aria-label="Principal">
       {sencilla ? (
