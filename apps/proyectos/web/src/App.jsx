@@ -38,7 +38,7 @@ function NoEncontrada() {
     <>
       <Cabecera />
       <main className="contenedor flex min-h-[60vh] flex-col items-center justify-center gap-4 text-center">
-        <h1 className="text-[40px]">404</h1>
+        <h1 className="text-display">404</h1>
         <p className="text-texto-2">{t('no_encontrada')}</p>
         <div className="flex flex-wrap justify-center gap-3">
           <Boton variante="menta" href={GUIA} externo>{t('guia')}</Boton>

@@ -19,7 +19,7 @@ decisiones `D-n` en `docs/DECISIONS.md` (la más reciente arriba y **manda sobre
   llamada, botón, iconos, `Tarjeta.jsx` con la tarjeta y su menú de tres puntos, el destacado y las reacciones), `src/i18n.jsx` (textos ES/EU,
   `TEXTOS`), `src/api.js` (llamadas a la API; `BASE` = `import.meta.env.BASE_URL`), `src/sesion.jsx` (sesión
   compartida), `src/useProyectos.js`, `src/datos.js` (ordenar por votos, azar, filtros, `REACCIONES`), `src/index.css`
-  (tema Tailwind en `@theme`: paleta y tipografías). `vite.config.js` fija la base `/proyectos/` (D-06) y sirve las
+  (tema Tailwind en `@theme`: paleta, tipografías y escala de tamaños). `vite.config.js` fija la base `/proyectos/` (D-06) y sirve las
   landings en desarrollo. Tests en `test/` (vitest + Testing Library, API falsa). `Dockerfile` compila y sirve con
   `nginx.conf` (SPA, `/p/` landings, `/api/`).
 - `apps/proyectos/web/src/reactbits/`: componentes de React Bits copiados tal cual (MIT + Commons Clause,
@@ -101,7 +101,8 @@ y `http://localhost/proyectos/`.
   Dalmau `<mikeldalmauc@gmail.com>`. Ningún identificador de modelo en commits ni en el código.
 - Reutiliza antes de crear: `Boton`, `Icono`, `Insignia`, utilidades `contenedor`, `etiqueta-mono`, `insignia`,
   `pildora`, `vacio` de `index.css`. Colores solo los del tema (`bg-onice`, `text-menta`…): la paleta por defecto de
-  Tailwind está desactivada a propósito.
+  Tailwind está desactivada a propósito. Tamaños de letra, solo los cinco del tema (`text-display`, `text-titulo`,
+  `text-entradilla`, `text-cuerpo`, `text-pequeno`), nunca `text-[Npx]`.
 - Una sola acción principal (menta) por bloque; el resto, botones con borde. Estados vacíos reales, nunca datos de
   relleno. Toques de 44 px, foco visible, `prefers-reduced-motion` respetado.
 - Textos nuevos: siempre en `TEXTOS.es` y `TEXTOS.eu` (`i18n.jsx`); nunca cadenas sueltas en los componentes.

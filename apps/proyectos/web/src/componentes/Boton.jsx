@@ -9,8 +9,8 @@ const VARIANTES = {
   pendiente: 'bg-transparent text-texto border-borde-claro border-dashed opacity-60 cursor-default',
 };
 const TAMANOS = {
-  normal: 'min-h-[46px] px-[22px] py-[11px] text-[15px] rounded-full',
-  pequeno: 'min-h-[40px] px-[16px] py-2 text-[14px] rounded-full',
+  normal: 'min-h-[46px] px-[22px] py-[11px] text-cuerpo rounded-full',
+  pequeno: 'min-h-[40px] px-[16px] py-2 text-cuerpo rounded-full',
 };
 
 export default function Boton({ variante = 'borde', tamano = 'normal', to, href, externo, className = '', children, ...resto }) {

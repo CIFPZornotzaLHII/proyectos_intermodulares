@@ -37,7 +37,7 @@ export function PortadaProyecto({ p, className = '' }) {
       className={`relative flex aspect-video items-center justify-center overflow-hidden bg-superficie-2 no-underline ${className}`}>
       {imagen
         ? <img src={ruta(p.portada)} alt="" loading="lazy" onError={alFallar} className="block size-full object-cover" />
-        : <span className="font-titulo text-[44px] text-indigo-claro opacity-80" aria-hidden="true">{iniciales(p.titulo)}</span>}
+        : <span className="font-titulo text-[44px] text-indigo-claro opacity-80" aria-hidden="true">{iniciales(p.titulo)}</span>}{/* fuera de la escala (D-32): iniciales decorativas, aria-hidden */}
       <span className="absolute top-[18px] left-[18px] z-[1] inline-flex gap-2"><Insignia p={p} /></span>
     </a>
   );
@@ -92,15 +92,15 @@ export function Reacciones({ p, usuario, onReaccion, ocupado = false }) {
         return (
           <button key={r.emoji} type="button" aria-pressed={mia} aria-label={t(r.nombre)} title={t(r.nombre)} disabled={autor || ocupado}
             onClick={() => onReaccion && onReaccion(r.emoji)}
-            className={`inline-flex min-h-9 items-center gap-[5px] rounded-full border px-2.5 py-1.5 text-[13px] font-semibold transition-colors duration-150 disabled:cursor-default disabled:opacity-55
+            className={`inline-flex min-h-9 items-center gap-[5px] rounded-full border px-2.5 py-1.5 text-pequeno font-semibold transition-colors duration-150 disabled:cursor-default disabled:opacity-55
               ${mia ? 'border-menta bg-menta/12 text-menta' : 'border-borde-claro bg-superficie-2 text-texto-2 hover:text-texto'}`}>
             <Icono nombre={r.icono} tam={18} />{n > 0 && <span>{n}</span>}
           </button>
         );
       })}
       {autor
-        ? <span className="ml-auto whitespace-nowrap text-[12px] text-texto-4">{t('es_tu_proyecto')}</span>
-        : !usuario && <span className="ml-auto text-[12px] text-texto-4"><Link to="/entrar?volver=/galeria" className="font-semibold">{t('inicia_para_reaccionar')}</Link></span>}
+        ? <span className="ml-auto whitespace-nowrap text-pequeno text-texto-4">{t('es_tu_proyecto')}</span>
+        : !usuario && <span className="ml-auto text-pequeno text-texto-4"><Link to="/entrar?volver=/galeria" className="font-semibold">{t('inicia_para_reaccionar')}</Link></span>}
     </div>
   );
 }
@@ -114,12 +114,12 @@ export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, modo = 'galer
       className="flex h-full flex-col transition-transform duration-150 hover:-translate-y-0.5" data-ciclo={p.ciclo}>
       <div className="relative"><PortadaProyecto p={p} /><MenuProyecto p={p} /></div>
       <div className="flex flex-1 flex-col gap-2.5 px-5 pt-[18px] pb-4">
-        <h3 className="text-[20px]"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
-        <p className="text-[13px] font-medium text-texto-3">{(p.equipo || []).join(' · ')}</p>
-        <p className="text-[15px] text-texto-2">{p.resumen}</p>
+        <h3 className="text-titulo"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
+        <p className="text-pequeno font-medium text-texto-3">{(p.equipo || []).join(' · ')}</p>
+        <p className="text-cuerpo text-texto-2">{p.resumen}</p>
         {modo === 'galeria' && (p.etiquetas || []).length > 0 && (
           <div className="flex flex-wrap gap-1.5">
-            {p.etiquetas.map(e => <span key={e} className="rounded-full bg-superficie-2 px-[9px] py-[3px] text-[12px] text-texto-3">{e}</span>)}
+            {p.etiquetas.map(e => <span key={e} className="rounded-full bg-superficie-2 px-[9px] py-[3px] text-pequeno text-texto-3">{e}</span>)}
           </div>
         )}
         {modo !== 'galeria' && <div className="mt-auto flex flex-wrap items-center gap-2 pt-1.5">
@@ -134,7 +134,7 @@ export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, modo = 'galer
 // Proyecto destacado de la portada como hero section (D-20): la foto a sangre ocupa todo el bloque, con el grano de
 // React Bits (Noise) y un degradado de ónice desde abajo a la izquierda; encima, abajo a la izquierda, el texto con
 // mucha escala (título de portada en Impact, cifra grande en menta) y una sola acción menta; vídeo y código, enlaces.
-const ENLACE_DISCRETO = 'inline-flex min-h-[44px] items-center gap-2 text-[15px] font-semibold text-texto-2 no-underline hover:text-menta';
+const ENLACE_DISCRETO = 'inline-flex min-h-[44px] items-center gap-2 text-cuerpo font-semibold text-texto-2 no-underline hover:text-menta';
 
 export function Destacado({ p }) {
   const { t } = useIdioma();
@@ -146,18 +146,18 @@ export function Destacado({ p }) {
       className="flex min-h-[min(80vh,720px)] flex-col justify-end max-md:min-h-[560px]">
       {imagen
         ? <img src={ruta(p.portada)} alt="" onError={alFallar} className="absolute inset-0 block size-full object-cover" />
-        : <span aria-hidden="true" className="absolute inset-x-0 top-0 flex h-3/5 items-center justify-center font-titulo text-[clamp(160px,28vw,380px)] leading-none text-indigo-claro opacity-80">{iniciales(p.titulo)}</span>}
+        : <span aria-hidden="true" className="absolute inset-x-0 top-0 flex h-3/5 items-center justify-center font-titulo text-[clamp(160px,28vw,380px)] leading-none text-indigo-claro opacity-80">{iniciales(p.titulo)}</span>}{/* fuera de la escala (D-32): iniciales decorativas, aria-hidden */}
       <Noise opacity={0.14} size={1.5} fps={12} contrast={0.5} blendMode="soft-light" />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgba(1,1,13,1)_0%,rgba(1,1,13,0.9)_30%,rgba(1,1,13,0.5)_55%,transparent_80%)]" />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_70%_at_0%_100%,rgba(1,1,13,0.75)_0%,transparent_70%)]" />
       <span className="absolute top-[18px] left-[18px] inline-flex gap-2"><Insignia p={p} /></span>
 
       <div className="relative flex max-w-[960px] flex-col gap-5 px-12 pt-24 pb-11 max-md:gap-4 max-md:px-6 max-md:pb-7">
-        <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-texto-3">{(p.equipo || []).join(' · ')} · {p.ciclo_nombre}</p>
-        <h3 className="text-[clamp(48px,7vw,112px)] leading-[0.92] tracking-[0.025em] [overflow-wrap:anywhere]"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
-        <p className="max-w-[60ch] text-[19px] leading-[1.5] text-texto-2">{p.resumen}</p>
+        <p className="font-mono text-pequeno uppercase tracking-[0.16em] text-texto-3">{(p.equipo || []).join(' · ')} · {p.ciclo_nombre}</p>
+        <h3 className="text-display leading-[0.92] tracking-[0.025em] [overflow-wrap:anywhere]"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
+        <p className="max-w-[60ch] text-entradilla text-texto-2">{p.resumen}</p>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-          <p className="flex items-baseline gap-2.5 text-[13px] text-texto-3"><span className="font-titulo text-[clamp(40px,5vw,64px)] leading-none text-menta">{totalReacciones(p)}</span> {t('reacciones_total_texto')}</p>
+          <p className="flex items-baseline gap-2.5 text-pequeno text-texto-3"><span className="font-titulo text-titulo leading-none text-menta">{totalReacciones(p)}</span> {t('reacciones_total_texto')}</p>
           {resumen.length > 0 && <div className="flex flex-wrap gap-2">
             {resumen.map(x => <span key={x.emoji} className="pildora" title={t(x.nombre)}><Icono nombre={x.icono} tam={15} className="text-menta" />{p.reacciones[x.emoji]}</span>)}
           </div>}
@@ -166,7 +166,7 @@ export function Destacado({ p }) {
           <Boton variante="menta" href={ruta(p.url)}>{t('ver_proyecto')}<Icono nombre="flecha" grosor={2.2} /></Boton>
           {p.video
             ? <a href={p.video} target="_blank" rel="noopener" className={ENLACE_DISCRETO}><Icono nombre="play" grosor={2} />{t('video_5')}</a>
-            : <span className="inline-flex min-h-[44px] items-center text-[15px] font-semibold text-texto-4">{t('video_pendiente')}</span>}
+            : <span className="inline-flex min-h-[44px] items-center text-cuerpo font-semibold text-texto-4">{t('video_pendiente')}</span>}
           {p.repo && <a href={p.repo} target="_blank" rel="noopener" className={ENLACE_DISCRETO}><Icono nombre="codigo" grosor={2} />{t('codigo')}</a>}
         </div>
       </div>

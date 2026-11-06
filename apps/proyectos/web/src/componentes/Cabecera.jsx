@@ -36,7 +36,7 @@ export default function Cabecera({ sencilla = false, sobreIndigo = false }) {
   const tenue = sobreIndigo && !fija ? 'text-texto/90' : 'text-texto-3';
   // En móvil (D-30) la navegación baja a una segunda fila; en Entrar, "Volver" hace de navegación y va al final
   const nav = (
-    <nav className="flex flex-wrap items-center gap-[18px] text-[14px] font-semibold max-md:order-last max-md:basis-full" aria-label="Principal">
+    <nav className="flex flex-wrap items-center gap-[18px] text-cuerpo font-semibold max-md:order-last max-md:basis-full" aria-label="Principal">
       {sencilla ? (
         <Boton to="/galeria" tamano="pequeno"><Icono nombre="atras" tam={16} grosor={2} />{t('volver_proyectos')}</Boton>
       ) : (
@@ -56,14 +56,14 @@ export default function Cabecera({ sencilla = false, sobreIndigo = false }) {
         <Link to="/" className="mr-auto flex items-center gap-6 text-texto no-underline hover:text-texto">
           <img src={ruta('img/logo.png')} alt={t('logo_alt')} width="116" height="52" className="block h-[52px] w-auto max-md:h-10" />
           <span className="flex flex-col leading-[1.15] max-md:sr-only">
-            <strong className="font-titulo text-[18px] tracking-[0.01em]">{t('marca')}</strong>
-            <span className={`text-[12px] ${tenue}`}>CIFP Zornotza LHII · {t('marca_sub')}</span>
+            <strong className="font-titulo text-entradilla tracking-[0.01em]">{t('marca')}</strong>
+            <span className={`text-pequeno ${tenue}`}>CIFP Zornotza LHII · {t('marca_sub')}</span>
           </span>
         </Link>
 
         {!sencilla && nav}
 
-        <span className="inline-flex overflow-hidden rounded-lg border border-borde text-[13px] font-semibold" role="group" aria-label={t('idioma')}>
+        <span className="inline-flex overflow-hidden rounded-lg border border-borde text-pequeno font-semibold" role="group" aria-label={t('idioma')}>
           {['es', 'eu'].map(cod => (
             <button key={cod} type="button" onClick={() => cambiarIdioma(cod)} aria-pressed={idioma === cod}
               className={`min-h-8 border-0 px-3 py-1.5 ${idioma === cod ? 'bg-borde text-texto' : `bg-transparent ${tenue} hover:text-texto`}`}>
@@ -73,11 +73,11 @@ export default function Cabecera({ sencilla = false, sobreIndigo = false }) {
         </span>
 
         {!sencilla && (usuario ? (
-          <span className="inline-flex items-center gap-2.5 text-[14px] font-semibold">
-            <span className="inline-flex size-[34px] items-center justify-center rounded-full bg-indigo text-[13px] font-bold text-blanco" aria-hidden="true">{iniciales(usuario.nombre || usuario.login)}</span>
+          <span className="inline-flex items-center gap-2.5 text-cuerpo font-semibold">
+            <span className="inline-flex size-[34px] items-center justify-center rounded-full bg-indigo text-pequeno font-bold text-blanco" aria-hidden="true">{iniciales(usuario.nombre || usuario.login)}</span>
             <span className="flex flex-col leading-[1.15] max-md:sr-only">
               <span>{usuario.nombre || usuario.login}</span>
-              <small className={`font-medium ${tenue}`}>{usuario.ciclo || ''}</small>
+              <small className={`text-pequeno font-medium ${tenue}`}>{usuario.ciclo || ''}</small>
             </span>
             <Boton tamano="pequeno" onClick={salir}>{t('salir')}</Boton>
           </span>

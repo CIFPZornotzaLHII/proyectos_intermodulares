@@ -96,6 +96,6 @@ export const useIdioma = () => useContext(IdiomaContexto);
 export function conCodigo(texto) {
   return texto.split(/(<code>.*?<\/code>)/).map((trozo, i) => {
     const m = trozo.match(/^<code>(.*?)<\/code>$/);
-    return m ? <code key={i} className="rounded-md bg-superficie-2 px-2 py-0.5 text-[14px]">{m[1]}</code> : trozo;
+    return m ? <code key={i} className="rounded-md bg-superficie-2 px-2 py-0.5">{m[1]}</code> : trozo;
   });
 }

@@ -3,6 +3,20 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-32 · Escala tipográfica de cinco tamaños · 2026-11-06 · vigente
+Petición: "Tipografía del cuerpo en toda la web: una escala de cinco tamaños (display, título, entradilla 18 px, cuerpo
+16 px, pequeño 13 px) en vez de los 12 que conviven hoy en la portada (11 a 137 px), y nada legible por debajo de 13 px
+(las etiquetas, "Es tu proyecto", "Inicia sesión para reaccionar" y el subtítulo de la cabecera van a 12 y 11).
+`index.css` y componentes; sin tocar las fuentes de los títulos (D-10, D-17)." (Evaluación de diseño, punto 9.) Se hace
+así: `@theme` quita la escala de Tailwind (`--text-*: initial`) y define cinco tokens con su interlineado:
+`--text-display` `clamp(48px,7vw,112px)` / 0.92, `--text-titulo` `clamp(24px,3vw,32px)` / 1.18, `--text-entradilla`
+18 px / 1.5, `--text-cuerpo` 16 px / 1.55 y `--text-pequeno` 13 px / 1.45, el mínimo para cualquier texto legible.
+Todo `src/` (fuera de `reactbits/`) usa solo `text-display`, `text-titulo`, `text-entradilla`, `text-cuerpo` o
+`text-pequeno`; los elementos que ya fijaban su `leading-*` lo conservan. Dos excepciones, comentadas en el código: las
+cuatro líneas del título del héroe (composición de D-17) y las iniciales de sustitución de las portadas (decorativas,
+`aria-hidden`). Cambios visibles: el h3 de la tarjeta pasa de 20 a 24-32 px, el total de reacciones del destacado baja
+a 24-32 px, el 404 sube a display, botones, navegación y filtros suben de 14-15 a 16 px, y la insignia de 11 a 13 px.
+
 ### D-31 · Ejemplo de usuario como ayuda bajo el campo en Entrar · 2026-11-06 · vigente
 Petición: "En la página de entrar, el ejemplo "ane.garcia" pasa a texto de ayuda bajo el campo ("por ejemplo,
 ane.garcia", en ES y EU) en vez de placeholder, que en un campo oscuro parece un valor ya escrito." (Evaluación de
