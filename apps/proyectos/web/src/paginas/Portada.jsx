@@ -53,14 +53,14 @@ export default function Portada() {
         <Noise opacity={0.14} size={1.5} fps={12} contrast={0.5} blendMode="soft-light" />
 
         <div className="contenedor relative flex min-h-[calc(100vh-80px)] flex-col justify-center gap-12 py-12 max-md:min-h-0 max-md:gap-8 max-md:py-10">
-          <h1 className="sr-only">{t('portada_titulo')}</h1>
-
           {/* Título a dos columnas; la mascota (img/patata.png, recorte con fondo transparente) va detrás, posicionada
               respecto al contenedor del héroe: ocupa todo su alto, con la cola bajo la cabecera y las patas en el borde
               inferior, por detrás de las cifras. Las letras pisan sus bordes como en la referencia. En móvil va entre los
-              dos bloques del título. */}
-          <div aria-hidden="true" className="grid items-center gap-y-5 md:min-h-[58vh] md:grid-cols-2">
-            <div className="pointer-events-none order-2 flex justify-center animate-aparecer [animation-delay:150ms] md:absolute md:inset-x-0 md:top-10 md:-bottom-10 md:order-none">
+              dos bloques del título. Es el h1 de la página (D-33): lo visible va aria-hidden, pintado desde el primer
+              frame (sin animación de entrada), y el nombre accesible es el texto de D-05 en sr-only. tracking-normal anula el
+              del h1 global (index.css), que antes no heredaban las líneas en serif. */}
+          <h1 className="grid items-center tracking-normal gap-y-5 md:min-h-[58vh] md:grid-cols-2">
+            <span aria-hidden="true" className="pointer-events-none order-2 flex justify-center animate-aparecer [animation-delay:150ms] md:absolute md:inset-x-0 md:top-10 md:-bottom-10 md:order-none">
               {/* React Bits Magnet: la mascota se desplaza unos píxeles hacia el cursor, sin inclinarla (nada en táctil ni con reduced-motion).
                   Alto en cadena (envoltorio, interior, imagen) y max-w-none: con la altura fijada, el max-width: 100% del
                   preflight de Tailwind la aplastaba en horizontal cuando la caja de Magnet era más estrecha que la imagen. */}
@@ -68,16 +68,17 @@ export default function Portada() {
                 <img src={ruta('img/patata.png')} alt="" width="1122" height="1402"
                   className="mx-auto block h-auto w-[min(70vw,300px)] md:h-full md:w-auto md:max-w-none md:mask-b-from-80%" />
               </Magnet>
-            </div>
-            <div className="relative z-[1] order-1 flex min-w-0 flex-col animate-aparecer md:order-none">
+            </span>
+            <span aria-hidden="true" className="relative z-[1] order-1 flex min-w-0 flex-col md:order-none">
               <span className="font-titulo text-[clamp(64px,9.5vw,150px)] leading-[0.9] tracking-[0.03em] uppercase text-texto/90">{t('portada_titulo_1')}</span>{/* fuera de la escala: composición del héroe fijada por D-17 */}
               <span className="font-serif italic text-[clamp(40px,5vw,84px)] leading-[0.95] text-texto/90">{t('portada_titulo_2')}</span>{/* fuera de la escala: composición del héroe fijada por D-17 */}
-            </div>
-            <div className="relative z-[1] order-3 flex min-w-0 flex-col animate-aparecer [animation-delay:300ms] md:order-none md:items-end md:text-right">
+            </span>
+            <span aria-hidden="true" className="relative z-[1] order-3 flex min-w-0 flex-col md:order-none md:items-end md:text-right">
               <span className="font-titulo text-[clamp(64px,9.5vw,150px)] leading-[0.9] tracking-[0.03em] text-texto/90">{t('portada_titulo_3')}</span>{/* fuera de la escala: composición del héroe fijada por D-17 */}
               <span className="font-serif italic text-[clamp(40px,5vw,84px)] leading-[0.95] text-texto/90">{t('portada_titulo_4')}</span>{/* fuera de la escala: composición del héroe fijada por D-17 */}
-            </div>
-          </div>
+            </span>
+            <span className="sr-only">{t('portada_titulo')}</span>
+          </h1>
 
           <div className="grid items-end gap-8 md:grid-cols-[1fr_minmax(160px,1fr)_1fr]">
             <div className="flex max-w-[460px] flex-col gap-5 animate-aparecer [animation-delay:300ms]">

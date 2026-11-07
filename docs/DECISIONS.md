@@ -3,6 +3,17 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-33 · H1 visible en la portada · 2026-11-07 · vigente
+Petición: "En la portada, que el título partido ("PROYECTOS intermodulares / 26·27 Zornotza LHII", `Portada.jsx`) sea
+el `h1` visible de la página, pintado en el primer frame (sin esperar a `animate-aparecer`), y desaparezca el `h1`
+oculto `sr-only`; el texto accesible completo sigue siendo "Proyectos intermodulares 26-27" (D-05)." (tasteskill: "sin
+h1 visible" y "título no legible a 1,2 s".) Se hace así: la rejilla del título del héroe pasa a ser el `h1`, con las
+mismas clases (más `tracking-normal`, para que el estilo global de `h1` no cambie el espaciado de las líneas en serif);
+las dos columnas y el envoltorio de la mascota pasan a `span` con `aria-hidden`, y dentro va un `span.sr-only` con
+`portada_titulo` (el texto de D-05, ES y EU), que es el nombre accesible. Las columnas del título pierden
+`animate-aparecer`: se pintan en el primer frame; la mascota, la entradilla, la lista y las cifras conservan su
+animación. Sustituye la parte "en `sr-only`" de D-17. Las pruebas e2e comprueban el nombre accesible del `h1`.
+
 ### D-32 · Escala tipográfica de cinco tamaños · 2026-11-06 · vigente
 Petición: "Tipografía del cuerpo en toda la web: una escala de cinco tamaños (display, título, entradilla 18 px, cuerpo
 16 px, pequeño 13 px) en vez de los 12 que conviven hoy en la portada (11 a 137 px), y nada legible por debajo de 13 px
@@ -174,7 +185,7 @@ botón menta en píldora, lista corta con filetes a la derecha y fila de logos a
 - **Héroe**: `bg-indigo` plano, sin degradado (sustituye a D-09) y sin LiquidEther (sale de la lista de D-07; el
   fichero se queda en `reactbits/` por si vuelve). Título partido: "PROYECTOS / *intermodulares*" a la izquierda y
   "26·27 / *Zornotza LHII*" a la derecha (Impact + Instrument Serif itálica, Google Fonts; el `h1` sigue siendo
-  "Proyectos intermodulares 26-27", D-05, en `sr-only`). En medio, la portada del proyecto destacado teñida de
+  "Proyectos intermodulares 26-27", D-05, en `sr-only` (sustituido por D-33)). En medio, la portada del proyecto destacado teñida de
   índigo con `mix-blend-luminosity` y una máscara radial: la foto cambia en cada visita, como el destacado.
   Debajo, la entradilla y los dos botones (textos de D-05), la lista de lo que se pide a cada grupo (`hero_1..4`) y
   las cifras como fila de cierre. BlurText deja de usarse en la portada.

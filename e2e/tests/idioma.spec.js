@@ -10,7 +10,7 @@ test('cambia a euskera sin recargar, lo recuerda tras recargar y vuelve a castel
 
   await idioma.getByRole('button', { name: 'EU' }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'eu');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Proiektu intermodularrak 26-27');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName('Proiektu intermodularrak 26-27');
   await expect(page.getByRole('heading', { level: 2, name: 'Proiektu nabarmendua' })).toBeVisible();
   await expect(page.getByRole('heading', { level: 2, name: 'Joerak' })).toBeVisible();
   await expect(page.locator('dl dt')).toHaveText(['Proiektuak', 'Ikasleak', 'Erreakzioak']);
@@ -19,7 +19,7 @@ test('cambia a euskera sin recargar, lo recuerda tras recargar y vuelve a castel
 
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('lang', 'eu');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Proiektu intermodularrak 26-27');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName('Proiektu intermodularrak 26-27');
 
   // la galería y el login también salen en euskera
   await page.getByRole('banner').getByRole('link', { name: 'Proiektuak', exact: true }).click();

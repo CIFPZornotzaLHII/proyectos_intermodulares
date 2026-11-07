@@ -40,7 +40,7 @@ test.describe('proxy y rutas de la web', () => {
     await expect(page.getByRole('link', { name: 'Guía para publicar' })).toHaveAttribute('href', /proyectos\/LEEME\.md$/);
     await page.getByRole('link', { name: 'Ir a la portada' }).click();
     await expect(page).toHaveURL(/\/proyectos\/?$/);   // el router deja /proyectos sin barra al ir a "/"
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Proyectos intermodulares 26-27');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName('Proyectos intermodulares 26-27');
   });
 
   test('los recursos estáticos llegan con su tipo', async ({ request }) => {
