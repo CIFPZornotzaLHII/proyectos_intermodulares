@@ -99,7 +99,7 @@ y `http://localhost/proyectos/`.
   revisión por un hablante.
 - Commits: una línea, en imperativo, sin prefijos (`Añade el filtro por etiqueta a la galería (D-13)`). Autor Mikel
   Dalmau `<mikeldalmauc@gmail.com>`. Ningún identificador de modelo en commits ni en el código.
-- Reutiliza antes de crear: `Boton`, `Icono`, `Insignia`, utilidades `contenedor`, `etiqueta-mono`, `insignia`,
+- Reutiliza antes de crear: `Boton`, `Icono`, `Insignia`, utilidades `contenedor`, `insignia`,
   `pildora`, `vacio` de `index.css`. Colores solo los del tema (`bg-onice`, `text-menta`…): la paleta por defecto de
   Tailwind está desactivada a propósito. Tamaños de letra, solo los cinco del tema (`text-display`, `text-titulo`,
   `text-entradilla`, `text-cuerpo`, `text-pequeno`), nunca `text-[Npx]`.

@@ -34,7 +34,7 @@ manda sobre este documento).
 
 Paleta: ónice `#01010D` (fondo), índigo eléctrico `#6331FB` (el campo del héroe de la portada y acentos secundarios),
 menta tropical `#70FBB7` (única acción principal por bloque). Títulos en Impact (Anton de respaldo), una palabra en
-Instrument Serif itálica por línea en el título de la portada, texto IBM Plex Sans, etiquetas IBM Plex Mono. Botones
+Instrument Serif itálica por línea en el título de la portada, texto IBM Plex Sans; monoespaciada del sistema solo para código, sin etiquetas sobre los títulos. Botones
 en píldora. Componentes animados **de React Bits, copiados tal cual** (`apps/proyectos/web/src/reactbits/`), nunca
 reimplementados. Tarjetas con `SpotlightCard`; aparición al hacer scroll con `AnimatedContent`. Estados vacíos reales,
 focus visible, toques de 44 px, `prefers-reduced-motion` respetado. En móvil la cabecera va en dos filas (marca, idioma y
