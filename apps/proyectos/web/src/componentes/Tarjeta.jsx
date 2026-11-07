@@ -153,7 +153,7 @@ export function Destacado({ p }) {
       <span className="absolute top-[18px] left-[18px] inline-flex gap-2"><Insignia p={p} /></span>
 
       <div className="relative flex max-w-[960px] flex-col gap-5 px-12 pt-24 pb-11 max-md:gap-4 max-md:px-6 max-md:pb-7">
-        <p className="font-mono text-pequeno uppercase tracking-[0.16em] text-texto-3">{(p.equipo || []).join(' · ')} · {p.ciclo_nombre}</p>
+        <p className="text-pequeno uppercase tracking-[0.16em] text-texto-3">{(p.equipo || []).join(' · ')} · {p.ciclo_nombre}</p>
         <h3 className="text-display leading-[0.92] tracking-[0.025em] [overflow-wrap:anywhere]"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
         <p className="max-w-[60ch] text-entradilla text-texto-2">{p.resumen}</p>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">

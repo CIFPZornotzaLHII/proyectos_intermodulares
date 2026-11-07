@@ -112,8 +112,8 @@ export default function Portada() {
       <section id="destacado" className="contenedor flex flex-col gap-7 pt-24 pb-6 scroll-mt-6">
         <div className="flex flex-wrap items-baseline justify-between gap-3">
           <div className="flex flex-col gap-1.5">
-            <span className="etiqueta-mono">{t('destacado_etiqueta')}</span>
             <h2 className="text-titulo">{t('destacado_titulo')}</h2>
+            <p className="text-cuerpo text-texto-2">{t('destacado_texto')}</p>
           </div>
           {top.length > 1 && (
             <button type="button" onClick={otro} className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-borde-claro bg-transparent px-3 py-1.5 text-pequeno font-semibold text-texto hover:border-menta hover:text-menta">
@@ -138,7 +138,6 @@ export default function Portada() {
         <section className="contenedor flex flex-col gap-7 pt-10 pb-16">
           <div className="flex flex-wrap items-baseline justify-between gap-3">
             <div className="flex flex-col gap-1.5">
-              <span className="etiqueta-mono">{t('destacados_etiqueta')}</span>
               <h2 className="text-titulo">{t('destacados_titulo')}</h2>
             </div>
             <Link to="/galeria" className="inline-flex min-h-[44px] items-center gap-2 text-cuerpo font-semibold no-underline">

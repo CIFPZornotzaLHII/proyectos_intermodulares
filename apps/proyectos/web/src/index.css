@@ -1,7 +1,7 @@
 /* Web de proyectos intermodulares · Tailwind v4 con la paleta del centro:
    ónice #01010D (fondo), índigo eléctrico #6331FB (acento secundario), menta tropical #70FBB7 (acción principal).
    Tipografías: Impact/Anton (títulos), Instrument Serif itálica (una palabra por línea del título de la portada, D-17),
-   IBM Plex Sans (texto), IBM Plex Mono (etiquetas y datos). */
+   IBM Plex Sans (texto); monoespaciada del sistema solo para `<code>`. */
 @import "tailwindcss";
 
 @theme {
@@ -28,7 +28,7 @@
   --font-titulo: Impact, Anton, 'Arial Narrow Bold', sans-serif; /* Impact es de Windows/macOS; Anton (Google Fonts) es su gemela para Linux y Android */
   --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
   --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   /* Escala tipográfica de cinco tamaños, la única posible (D-32): display y título fluidos, entradilla 18, cuerpo 16
      y pequeño 13, el mínimo para texto legible. Fuera de ella solo el título del héroe (D-17) y las iniciales decorativas */
@@ -90,9 +90,6 @@
 /* Clases pequeñas que se repiten en varias páginas */
 @utility contenedor {
   @apply mx-auto w-full max-w-[1280px] px-6;
-}
-@utility etiqueta-mono {
-  @apply font-mono text-pequeno uppercase tracking-[0.18em] text-menta;
 }
 @utility insignia {
   @apply inline-flex items-center rounded-full border border-borde-claro bg-onice px-[11px] py-[5px] text-pequeno font-bold uppercase tracking-[0.04em] whitespace-nowrap text-texto;
