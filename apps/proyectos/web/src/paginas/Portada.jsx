@@ -56,7 +56,7 @@ export default function Portada() {
           {/* Título a dos columnas; la mascota (img/patata.png, recorte con fondo transparente) va detrás, posicionada
               respecto al contenedor del héroe: ocupa todo su alto, con la cola bajo la cabecera y las patas en el borde
               inferior, por detrás de las cifras. Las letras pisan sus bordes como en la referencia. En móvil va entre los
-              dos bloques del título. Es el h1 de la página (D-NEW): lo visible va aria-hidden, pintado desde el primer
+              dos bloques del título. Es el h1 de la página (D-33): lo visible va aria-hidden, pintado desde el primer
               frame (sin animación de entrada), y el nombre accesible es el texto de D-05 en sr-only. tracking-normal anula el
               del h1 global (index.css), que antes no heredaban las líneas en serif. */}
           <h1 className="grid items-center tracking-normal gap-y-5 md:min-h-[58vh] md:grid-cols-2">

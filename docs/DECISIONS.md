@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · H1 visible en la portada · 2026-11-07 · vigente
+### D-33 · H1 visible en la portada · 2026-11-07 · vigente
 Petición: "En la portada, que el título partido ("PROYECTOS intermodulares / 26·27 Zornotza LHII", `Portada.jsx`) sea
 el `h1` visible de la página, pintado en el primer frame (sin esperar a `animate-aparecer`), y desaparezca el `h1`
 oculto `sr-only`; el texto accesible completo sigue siendo "Proyectos intermodulares 26-27" (D-05)." (tasteskill: "sin
@@ -185,7 +185,7 @@ botón menta en píldora, lista corta con filetes a la derecha y fila de logos a
 - **Héroe**: `bg-indigo` plano, sin degradado (sustituye a D-09) y sin LiquidEther (sale de la lista de D-07; el
   fichero se queda en `reactbits/` por si vuelve). Título partido: "PROYECTOS / *intermodulares*" a la izquierda y
   "26·27 / *Zornotza LHII*" a la derecha (Impact + Instrument Serif itálica, Google Fonts; el `h1` sigue siendo
-  "Proyectos intermodulares 26-27", D-05, en `sr-only` (sustituido por D-NEW)). En medio, la portada del proyecto destacado teñida de
+  "Proyectos intermodulares 26-27", D-05, en `sr-only` (sustituido por D-33)). En medio, la portada del proyecto destacado teñida de
   índigo con `mix-blend-luminosity` y una máscara radial: la foto cambia en cada visita, como el destacado.
   Debajo, la entradilla y los dos botones (textos de D-05), la lista de lo que se pide a cada grupo (`hero_1..4`) y
   las cifras como fila de cierre. BlurText deja de usarse en la portada.
