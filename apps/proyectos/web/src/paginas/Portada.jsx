@@ -90,7 +90,7 @@ export default function Portada() {
             </div>
             <div className="max-md:hidden" />
             <ul className="flex flex-col text-pequeno font-semibold uppercase tracking-[0.1em] text-blanco/85 animate-aparecer [animation-delay:450ms] md:text-right">
-              {LISTA_HERO.map(k => <li key={k} className="border-b border-blanco/30 py-2.5 last:border-b-0">{t(k)}</li>)}
+              {LISTA_HERO.map(k => <li key={k} className="py-2.5">{t(k)}</li>)}
             </ul>
           </div>
 

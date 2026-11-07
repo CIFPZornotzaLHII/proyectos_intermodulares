@@ -85,7 +85,7 @@ export function Reacciones({ p, usuario, onReaccion, ocupado = false }) {
   const { t } = useIdioma();
   const autor = esAutor(p, usuario);
   return (
-    <div className="flex flex-wrap items-center gap-1.5 border-t border-borde px-5 py-2.5">
+    <div className="flex flex-wrap items-center gap-1.5 px-5 py-2.5">
       {REACCIONES.map(r => {
         const n = (p.reacciones && p.reacciones[r.emoji]) || 0;
         const mia = (p.mias || []).includes(r.emoji);
