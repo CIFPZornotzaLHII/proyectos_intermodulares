@@ -3,6 +3,21 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-34 · Sin etiquetas monoespaciadas ni IBM Plex Mono · 2026-11-07 · vigente
+Petición: "Quitar las etiquetas monoespaciadas sobre los títulos (`etiqueta-mono`: "Entre los diez más votados", "Lo
+que más está gustando", "CIFP Zornotza LHII · Curso 2026-27" en la galería) metiendo lo que aporten en el título o en
+la frase de apoyo, poner las coordenadas del pie en la fuente de texto, y dejar de cargar IBM Plex Mono (solo `<code>`
+la necesita; usar la del sistema). ES y EU." (tasteskill: eyebrows y mono fuera de código; la web pasa de 4
+tipografías a 3.) Se hace así: desaparece la utilidad `etiqueta-mono`. En la portada, "Entre los diez más votados" pasa
+a una frase de apoyo bajo "Proyecto destacado" (`destacado_texto`: "Uno al azar entre los diez más votados." / EU
+"Bozkatuenen hamarren arteko bat, ausaz.", `text-cuerpo text-texto-2`); "Lo que más está gustando" se quita sin
+sustituto (repetía "Tendencias"); en la galería "CIFP Zornotza LHII · Curso 2026-27" se quita sin sustituto (el curso
+está en la cabecera y el centro en el pie). Se borran `destacado_etiqueta`, `destacados_etiqueta` y `portada_etiqueta`.
+Las coordenadas del pie y la línea equipo · ciclo del destacado (`Tarjeta.jsx`) pierden `font-mono` y heredan IBM Plex
+Sans. `index.html` deja de pedir IBM Plex Mono a Google Fonts y `--font-mono` pasa a la pila del sistema
+(`ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`), que solo usa `code`. El e2e de la portada comprueba la
+frase del destacado en lugar del texto de la galería. La plantilla del alumnado (`proyectos/_plantilla/`) no cambia.
+
 ### D-33 · H1 visible en la portada · 2026-11-07 · vigente
 Petición: "En la portada, que el título partido ("PROYECTOS intermodulares / 26·27 Zornotza LHII", `Portada.jsx`) sea
 el `h1` visible de la página, pintado en el primer frame (sin esperar a `animate-aparecer`), y desaparezca el `h1`

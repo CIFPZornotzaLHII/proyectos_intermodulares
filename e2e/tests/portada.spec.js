@@ -12,7 +12,7 @@ test.describe('portada', () => {
     const h1 = page.getByRole('heading', { level: 1 });
     await expect(h1).toBeVisible();
     await expect(h1).toHaveAccessibleName('Proyectos intermodulares 26-27');
-    await expect(page.getByText('CIFP Zornotza LHII · Curso 2026-27').first()).toBeVisible();
+    await expect(page.locator('#destacado').getByText('Uno al azar entre los diez más votados.')).toBeVisible();
     // cifras (CountUp, arranca al entrar en pantalla; cierran el héroe): 3 proyectos, 7 alumnos, 0 reacciones
     await expect(page.locator('dl dt')).toHaveText(['Proyectos', 'Alumnos', 'Reacciones']);
     await page.locator('dl').scrollIntoViewIfNeeded();
