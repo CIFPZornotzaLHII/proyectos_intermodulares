@@ -3,6 +3,14 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-36 · Microetiquetas de la portada en caja normal · 2026-11-07 · vigente
+Petición: "La lista del héroe de la portada ("Una landing por proyecto"…) y las etiquetas de las cifras
+(`Portada.jsx`), hoy en mayúsculas de 12 px con tracking, pasan a caja normal a 14-15 px, legibles; la insignia del
+ciclo en las tarjetas (`insignia`, 11 px) sube a 12-13 px." (tasteskill: micro-labels.) Se hace así: la lista del
+héroe y las etiquetas de las cifras (`<dt>`) pierden `uppercase` y `tracking-[…]` y pasan de `text-pequeno` (13 px) a
+`text-cuerpo` (16 px), porque la escala de D-32 no tiene 14-15 px y no se añade un sexto tamaño. La insignia se queda
+como está: desde D-32 ya mide 13 px (`text-pequeno`), dentro de lo pedido.
+
 ### D-35 · Sin filetes de 1 px: espacio o escalón de tono · 2026-11-07 · vigente
 Petición: "Sustituir los filetes de 1 px por espacio o un escalón de tono: la lista del héroe de la portada (`border-b`
 entre líneas), la fila de cifras (`border-t`), la cabecera cuando está fija (`border-b`), la llamada a publicar
