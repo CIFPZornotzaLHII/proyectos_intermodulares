@@ -49,7 +49,7 @@ export default function Galeria() {
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(10,10,31,0.96)_0%,rgba(10,10,31,0.8)_45%,rgba(10,10,31,0.2)_100%)]" aria-hidden="true" />
         <div className="contenedor relative flex min-h-[46vh] flex-col justify-end gap-3 pt-14 pb-12 max-md:min-h-0">
           <h1 className="text-display leading-[0.92] tracking-[0.03em] uppercase text-texto/90">{t('galeria_titulo')}</h1>
-          <p className="max-w-[640px] text-entradilla text-texto-2">{t('galeria_texto')}</p>
+          <p className="max-w-[640px] text-entradilla text-texto">{t('galeria_texto')}</p>
         </div>
       </section>
 

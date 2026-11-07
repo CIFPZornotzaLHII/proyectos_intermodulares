@@ -258,6 +258,16 @@ describe('inicio de sesión', () => {
     await screen.findByRole('link', { name: 'Iniciar sesión' });
   });
 
+  it('el resumen de la tarjeta y la entradilla del login van en texto pleno, no en texto-2 (D-NEW)', async () => {
+    ir('/galeria');
+    const { unmount } = render(<App />);
+    expect(await screen.findByText('Resumen de Reservas de talleres')).not.toHaveClass('text-texto-2');
+    unmount();
+    ir('/entrar');
+    render(<App />);
+    expect(await screen.findByText(/^Ver los proyectos es libre\./)).not.toHaveClass('text-texto-2');
+  });
+
   it('enseña el ejemplo de usuario como ayuda bajo el campo, no como placeholder (D-31)', async () => {
     ir('/entrar');
     render(<App />);
