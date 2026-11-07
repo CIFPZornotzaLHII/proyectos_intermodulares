@@ -44,8 +44,8 @@ export default function Entrar() {
           <div className="flex max-w-[460px] flex-[1_1_360px] flex-col gap-4">
             <span className="insignia self-start border-menta bg-menta text-onice">{t('solo_centro')}</span>
             <h1 className="text-titulo">{t('sesion_titulo')}</h1>
-            <p className="text-entradilla text-texto-2">{t('sesion_texto')}</p>
-            <ul className="flex flex-col gap-2.5 text-texto-2">
+            <p className="text-entradilla text-texto">{t('sesion_texto')}</p>
+            <ul className="flex flex-col gap-2.5 text-texto">
               {['sesion_p1', 'sesion_p2', 'sesion_p3'].map(k => (
                 <li key={k} className="flex items-start gap-2.5"><Icono nombre="check" tam={20} grosor={2.2} className="mt-[3px] text-menta" /><span>{t(k)}</span></li>
               ))}

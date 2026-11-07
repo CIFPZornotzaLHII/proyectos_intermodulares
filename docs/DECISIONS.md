@@ -3,6 +3,16 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-NEW · Texto corrido en texto pleno · 2026-11-07 · vigente
+Petición: "El texto corrido de las tres páginas en `texto` pleno (#F3F2FF) y `texto-2` solo para notas y pies: hoy el
+cuerpo va en gris suave (6,2:1 sobre ónice) y se lee apagado. Resúmenes de tarjeta, entradillas y párrafos del
+login." (tasteskill: grey-body.) Se hace así, sin tocar el tema: pasan de `text-texto-2` a `text-texto` el resumen de
+la tarjeta y el del destacado (`Tarjeta.jsx`), la entradilla de la galería (`Galeria.jsx`), el párrafo de la llamada a
+publicar (`Llamada.jsx`) y la entradilla y la lista de puntos del login (`Entrar.jsx`). Se quedan en `texto-2` las
+notas (frase bajo "Proyecto destacado" en `Portada.jsx`), las etiquetas de los campos del login y los controles
+(botones de reacción sin marcar y enlaces discretos del destacado). La cifra 6,2:1 no cuadra con `texto-2` (unos 13:1);
+se sigue la lista de textos de la petición.
+
 ### D-36 · Microetiquetas de la portada en caja normal · 2026-11-07 · vigente
 Petición: "La lista del héroe de la portada ("Una landing por proyecto"…) y las etiquetas de las cifras
 (`Portada.jsx`), hoy en mayúsculas de 12 px con tracking, pasan a caja normal a 14-15 px, legibles; la insignia del
