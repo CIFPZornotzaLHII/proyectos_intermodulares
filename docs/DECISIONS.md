@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Sin filetes de 1 px: espacio o escalón de tono · 2026-11-07 · vigente
+### D-35 · Sin filetes de 1 px: espacio o escalón de tono · 2026-11-07 · vigente
 Petición: "Sustituir los filetes de 1 px por espacio o un escalón de tono: la lista del héroe de la portada (`border-b`
 entre líneas), la fila de cifras (`border-t`), la cabecera cuando está fija (`border-b`), la llamada a publicar
 (`border-y`), la fila de reacciones de la tarjeta (`border-t`) y la franja de la galería (`border-b`). Los bordes de
