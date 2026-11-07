@@ -8,7 +8,7 @@ export const GUIA = `${REPO}/blob/main/proyectos/LEEME.md`;
 export default function Llamada({ variante = 'menta', className = '' }) {
   const { t } = useIdioma();
   return (
-    <section id="publicar" className={`border-y border-borde bg-superficie ${className}`}>
+    <section id="publicar" className={`bg-superficie ${className}`}>
       <div className="contenedor flex flex-wrap items-center justify-between gap-8 py-14">
         <div>
           <h2 className="text-titulo">{t('llamada_titulo')}</h2>

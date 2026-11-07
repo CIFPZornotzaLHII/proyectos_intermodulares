@@ -42,7 +42,7 @@ export default function Galeria() {
       <Cabecera />
 
       {/* Franja: título de la galería sobre una rejilla de puntos reactiva (React Bits DotGrid) */}
-      <section className="relative overflow-hidden border-b border-borde bg-superficie">
+      <section className="relative overflow-hidden bg-superficie">
         <div className="absolute inset-0 opacity-70" aria-hidden="true">
           <DotGrid dotSize={3} gap={22} baseColor="#26224F" activeColor="#70FBB7" proximity={150} shockRadius={260} shockStrength={4} glow={0.6} />
         </div>

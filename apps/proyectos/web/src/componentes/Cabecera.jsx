@@ -51,7 +51,7 @@ export default function Cabecera({ sencilla = false, sobreIndigo = false }) {
     <>
       {fija && <div style={{ height: alto }} aria-hidden="true" />}
     <header ref={ref} onAnimationEnd={e => { if (e.animationName === 'subir') setFijada('libre'); }}
-      className={`inset-x-0 top-0 z-20 ${fija ? `fixed border-b border-borde bg-onice/90 backdrop-blur-md ${fijada === 'fija' ? 'animate-bajar' : 'animate-subir'}` : 'relative bg-transparent'}`}>
+      className={`inset-x-0 top-0 z-20 ${fija ? `fixed bg-superficie/90 backdrop-blur-md ${fijada === 'fija' ? 'animate-bajar' : 'animate-subir'}` : 'relative bg-transparent'}`}>
       <div className="contenedor flex flex-wrap items-center gap-x-[18px] gap-y-4 py-3.5 max-md:gap-x-3 max-md:gap-y-1">
         <Link to="/" className="mr-auto flex items-center gap-6 text-texto no-underline hover:text-texto">
           <img src={ruta('img/logo.png')} alt={t('logo_alt')} width="116" height="52" className="block h-[52px] w-auto max-md:h-10" />
