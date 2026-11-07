@@ -89,7 +89,7 @@ export default function Portada() {
               </div>
             </div>
             <div className="max-md:hidden" />
-            <ul className="flex flex-col text-pequeno font-semibold uppercase tracking-[0.1em] text-blanco/85 animate-aparecer [animation-delay:450ms] md:text-right">
+            <ul className="flex flex-col text-cuerpo font-semibold text-blanco/85 animate-aparecer [animation-delay:450ms] md:text-right">
               {LISTA_HERO.map(k => <li key={k} className="py-2.5">{t(k)}</li>)}
             </ul>
           </div>
@@ -98,7 +98,7 @@ export default function Portada() {
           <dl className="flex flex-wrap items-baseline justify-center gap-x-12 gap-y-3 relative pt-6 animate-aparecer [animation-delay:450ms]">
             {cifras.map(c => (
               <div key={c.clave} className="flex items-baseline gap-2.5">
-                <dt className="order-2 text-pequeno font-semibold uppercase tracking-[0.12em] text-blanco/80">{t(c.clave)}</dt>
+                <dt className="order-2 text-cuerpo font-semibold text-blanco/80">{t(c.clave)}</dt>
                 <dd className={`order-1 font-titulo text-titulo leading-none ${c.menta ? 'text-menta' : ''}`}>
                   {estado === 'ok' ? <CountUp to={c.valor} duration={1.4} separator="." /> : '—'}
                 </dd>
