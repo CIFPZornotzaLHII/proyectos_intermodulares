@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Texto corrido en texto pleno · 2026-11-07 · vigente
+### D-37 · Texto corrido en texto pleno · 2026-11-07 · vigente
 Petición: "El texto corrido de las tres páginas en `texto` pleno (#F3F2FF) y `texto-2` solo para notas y pies: hoy el
 cuerpo va en gris suave (6,2:1 sobre ónice) y se lee apagado. Resúmenes de tarjeta, entradillas y párrafos del
 login." (tasteskill: grey-body.) Se hace así, sin tocar el tema: pasan de `text-texto-2` a `text-texto` el resumen de
