@@ -9,7 +9,9 @@ test.describe('portada', () => {
 
   test('título, cifras y proyecto destacado', async ({ page }) => {
     await expect(page).toHaveTitle(/Proyectos intermodulares · CIFP Zornotza LHII/);
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Proyectos intermodulares 26-27');
+    const h1 = page.getByRole('heading', { level: 1 });
+    await expect(h1).toBeVisible();
+    await expect(h1).toHaveAccessibleName('Proyectos intermodulares 26-27');
     await expect(page.getByText('CIFP Zornotza LHII · Curso 2026-27').first()).toBeVisible();
     // cifras (CountUp, arranca al entrar en pantalla; cierran el héroe): 3 proyectos, 7 alumnos, 0 reacciones
     await expect(page.locator('dl dt')).toHaveText(['Proyectos', 'Alumnos', 'Reacciones']);
