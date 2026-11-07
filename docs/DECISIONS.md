@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Sin etiquetas monoespaciadas ni IBM Plex Mono · 2026-11-07 · vigente
+### D-34 · Sin etiquetas monoespaciadas ni IBM Plex Mono · 2026-11-07 · vigente
 Petición: "Quitar las etiquetas monoespaciadas sobre los títulos (`etiqueta-mono`: "Entre los diez más votados", "Lo
 que más está gustando", "CIFP Zornotza LHII · Curso 2026-27" en la galería) metiendo lo que aporten en el título o en
 la frase de apoyo, poner las coordenadas del pie en la fuente de texto, y dejar de cargar IBM Plex Mono (solo `<code>`
