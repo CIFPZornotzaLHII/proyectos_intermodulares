@@ -3,6 +3,19 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-NEW · Sin filetes de 1 px: espacio o escalón de tono · 2026-11-07 · vigente
+Petición: "Sustituir los filetes de 1 px por espacio o un escalón de tono: la lista del héroe de la portada (`border-b`
+entre líneas), la fila de cifras (`border-t`), la cabecera cuando está fija (`border-b`), la llamada a publicar
+(`border-y`), la fila de reacciones de la tarjeta (`border-t`) y la franja de la galería (`border-b`). Los bordes de
+los campos del formulario se quedan." (tasteskill: hairlines.) Se hace así, sin colores nuevos en el tema:
+- Lista del héroe (`Portada.jsx`): espacio; los `<li>` pierden `border-b border-blanco/30 last:border-b-0` y quedan con `py-2.5`.
+- Fila de cifras (`Portada.jsx`): espacio; ya no tenía `border-t` (separa con `pt-6`), no cambia.
+- Cabecera fija (`Cabecera.jsx`): tono; quita `border-b border-borde` y el fondo pasa de `bg-onice/90` a `bg-superficie/90`.
+- Llamada a publicar (`Llamada.jsx`): tono; quita `border-y border-borde` y conserva `bg-superficie` sobre `onice`.
+- Reacciones de la tarjeta (`Tarjeta.jsx`): espacio; quita `border-t border-borde` y conserva `px-5 py-2.5`.
+- Franja de la galería (`Galeria.jsx`): tono; quita `border-b border-borde` y conserva `bg-superficie` sobre `onice`.
+Se quedan los bordes de campos, buscador, filtros, píldoras, botones, insignias, `vacio`, selector de idioma y SpotlightCard.
+
 ### D-34 · Sin etiquetas monoespaciadas ni IBM Plex Mono · 2026-11-07 · vigente
 Petición: "Quitar las etiquetas monoespaciadas sobre los títulos (`etiqueta-mono`: "Entre los diez más votados", "Lo
 que más está gustando", "CIFP Zornotza LHII · Curso 2026-27" en la galería) metiendo lo que aporten en el título o en
