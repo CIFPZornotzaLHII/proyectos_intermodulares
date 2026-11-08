@@ -3,6 +3,17 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-NEW · Una sola reacción por alumno y proyecto · 2026-11-08 · vigente
+Petición: "Una sola reacción por alumno y proyecto (hoy se pueden poner las cinco): en `reaccionar` de
+`apps/proyectos/api/server.js`, elegir una reacción distinta sustituye a la anterior (el total no cambia), repetir la
+misma la quita y elegir la primera la añade; `mias` pasa a tener como mucho un elemento. Al cargar `reacciones.json`,
+si un usuario tiene varias en el mismo proyecto, quedarse con la más reciente (`fecha`) y guardar." Cambia la regla de
+reacciones de D-01. Se hace así: `reaccionar` busca la reacción del usuario en el proyecto (cualquier emoji); si no hay,
+la añade; si es la misma, la quita; si es otra, sustituye su emoji y su `fecha` en el mismo registro. Al arrancar, la
+API deduplica `reacciones.json` por `login` + `proyecto` quedándose con la de `fecha` más reciente (a igual fecha o
+sin fecha, la última del fichero), y solo si quitó alguna reescribe el fichero y lo avisa por consola. `mias` sigue
+siendo una lista, ahora de como mucho un emoji. La web no cambia: la fila de cinco píldoras enciende como mucho una.
+
 ### D-44 · Compartir la landing desde la tarjeta de la galería · 2026-11-08 · vigente
 Petición: "En la tarjeta de la galería, enlace "Compartir" que copie la URL de la landing al portapapeles y lo confirme
 en pantalla (sin librerías)." Se hace así: el menú de tres puntos (D-28) de las tarjetas de la galería lleva un cuarto

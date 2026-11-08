@@ -21,7 +21,8 @@ manda sobre este documento).
    filtro por etiqueta (las etiquetas de cada tarjeta son botones, `?etiqueta=`, se combina con `?ciclo=`; la activa se
    ve como chip en la barra y se quita desde él), buscador (título, resumen, equipo, etiquetas), un botón "Compartir" en el menú de cada tarjeta que copia el
    enlace de su landing (D-44) y las cinco reacciones (👏 💡 🚀 🔥 ❤️, pintadas con iconos). Sin sesión
-   se invita a entrar; con sesión se añade o quita la reacción; nadie reacciona a su propio proyecto.
+   se invita a entrar; con sesión cada alumno deja como mucho una reacción por proyecto: elegir otra la cambia y repetir
+   la misma la quita (D-NEW); nadie reacciona a su propio proyecto.
 3. **Entrar** (`/proyectos/entrar`): usuario y contraseña del centro (cuentas creadas por el profesorado), sesión de 30
    días en cookie firmada, vuelta a la página de origen.
 4. **Landings** (`/proyectos/p/<ciclo>/<carpeta>/`): el `index.html` de cada grupo, servido tal cual desde `proyectos/`.
