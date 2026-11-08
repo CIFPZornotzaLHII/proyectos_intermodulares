@@ -150,7 +150,7 @@ describe('galería', () => {
     expect(await screen.findByText('Ningún proyecto coincide con la búsqueda.')).toBeInTheDocument();
   });
 
-  it('las etiquetas de la tarjeta filtran y se quitan con el chip de la barra (D-NEW)', async () => {
+  it('las etiquetas de la tarjeta filtran y se quitan con el chip de la barra (D-41)', async () => {
     proyectos[0].etiquetas = ['mysql', 'laravel'];
     proyectos[2].etiquetas = ['mysql'];
     ir('/galeria');
@@ -168,7 +168,7 @@ describe('galería', () => {
     expect(screen.queryByRole('button', { name: /Quitar el filtro de etiqueta/ })).toBeNull();
   });
 
-  it('ciclo y etiqueta se combinan y se conservan entre sí en la URL (D-NEW)', async () => {
+  it('ciclo y etiqueta se combinan y se conservan entre sí en la URL (D-41)', async () => {
     proyectos[0].etiquetas = ['mysql'];
     proyectos[2].etiquetas = ['mysql'];
     ir('/galeria?ciclo=WG');

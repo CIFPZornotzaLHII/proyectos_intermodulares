@@ -25,7 +25,7 @@ export default function Galeria() {
   const [error, setError] = useState('');
   const navegar = useNavigate();
 
-  // Cambia un parámetro de la URL conservando el otro (ciclo y etiqueta se combinan, D-NEW)
+  // Cambia un parámetro de la URL conservando el otro (ciclo y etiqueta se combinan, D-41)
   const poner = (clave, valor) => {
     const q = new URLSearchParams(parametros);
     if (valor) q.set(clave, valor); else q.delete(clave);

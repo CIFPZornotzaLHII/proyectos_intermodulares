@@ -32,7 +32,7 @@ test.describe('galería', () => {
     await expect(page.getByText(/Grado (medio|superior)/)).toHaveCount(0);
   });
 
-  test('las etiquetas de la tarjeta filtran la galería y el chip de la barra quita el filtro (D-NEW)', async ({ page }) => {
+  test('las etiquetas de la tarjeta filtran la galería y el chip de la barra quita el filtro (D-41)', async ({ page }) => {
     await tarjeta(page, PROYECTOS.WG.titulo).getByRole('button', { name: 'Filtrar por la etiqueta mysql' }).click();
     await expect(page).toHaveURL(/\?etiqueta=mysql$/);
     await expect(page.getByRole('article')).toHaveCount(2);

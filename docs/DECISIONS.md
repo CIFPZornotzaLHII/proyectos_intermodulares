@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Etiquetas de la tarjeta filtrables · 2026-11-08 · vigente
+### D-41 · Etiquetas de la tarjeta filtrables · 2026-11-08 · vigente
 Petición: "En la galería, que las etiquetas de cada tarjeta sean pulsables y filtren por esa etiqueta (como los chips
 de ciclo), con la etiqueta activa visible y en la URL (`?etiqueta=`)." Se hace así: en `TarjetaProyecto` (modo
 galería) cada etiqueta es un `<button aria-pressed>` con nombre "Filtrar por la etiqueta <e>", `min-h-9` como las
