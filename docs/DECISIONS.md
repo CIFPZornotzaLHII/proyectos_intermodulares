@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Botón para ver u ocultar la contraseña · 2026-11-08 · vigente
+### D-43 · Botón para ver u ocultar la contraseña · 2026-11-08 · vigente
 Petición: "En la página de entrar, botón para ver u ocultar la contraseña, accesible con teclado y con su texto en ES y
 EU." Se hace así: en `Entrar.jsx` el campo de contraseña va en un contenedor `relative` con un `<button type="button">`
 a la derecha, dentro del campo (`pr-24` en el input para que el texto no quede debajo), que alterna el `type` entre

@@ -323,7 +323,7 @@ describe('inicio de sesión', () => {
     expect(usuario).toHaveAccessibleDescription('Por ejemplo, ane.garcia');
   });
 
-  it('el botón Mostrar/Ocultar alterna la contraseña, con su texto en ES y EU (D-NEW)', async () => {
+  it('el botón Mostrar/Ocultar alterna la contraseña, con su texto en ES y EU (D-43)', async () => {
     ir('/entrar');
     const { unmount } = render(<App />);
     const campo = await screen.findByLabelText('Contraseña');

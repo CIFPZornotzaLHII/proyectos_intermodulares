@@ -66,7 +66,7 @@ export default function Entrar() {
               </div>
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="contrasena" className="text-pequeno font-semibold text-texto-2">{t('contrasena')}</label>
-                {/* el botón se nombra por su texto, sin aria-label: getByLabel('Contraseña') de los e2e busca por subcadena (D-NEW) */}
+                {/* el botón se nombra por su texto, sin aria-label: getByLabel('Contraseña') de los e2e busca por subcadena (D-43) */}
                 <div className="relative">
                   <input id="contrasena" name="contrasena" type={verContrasena ? 'text' : 'password'} autoComplete="current-password" required
                     className="min-h-[46px] w-full rounded-[10px] border border-borde-claro bg-onice py-2.5 pr-24 pl-3.5 text-texto focus:border-menta" />
