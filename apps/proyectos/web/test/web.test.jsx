@@ -150,6 +150,44 @@ describe('galería', () => {
     expect(await screen.findByText('Ningún proyecto coincide con la búsqueda.')).toBeInTheDocument();
   });
 
+  it('las etiquetas de la tarjeta filtran y se quitan con el chip de la barra (D-41)', async () => {
+    proyectos[0].etiquetas = ['mysql', 'laravel'];
+    proyectos[2].etiquetas = ['mysql'];
+    ir('/galeria');
+    render(<App />);
+    await screen.findByText('Reservas de talleres');
+    fireEvent.click(screen.getAllByRole('button', { name: 'Filtrar por la etiqueta mysql' })[0]);
+    await waitFor(() => expect(screen.getAllByRole('article').length).toBe(2));
+    expect(screen.queryByText('Red segura para una asesoría')).toBeNull();
+    expect(window.location.search).toBe('?etiqueta=mysql');
+    for (const b of screen.getAllByRole('button', { name: 'Filtrar por la etiqueta mysql' })) expect(b).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Filtrar por la etiqueta laravel' })).toHaveAttribute('aria-pressed', 'false');
+    fireEvent.click(screen.getByRole('button', { name: 'Quitar el filtro de etiqueta mysql' }));
+    await waitFor(() => expect(screen.getAllByRole('article').length).toBe(3));
+    expect(window.location.search).toBe('');
+    expect(screen.queryByRole('button', { name: /Quitar el filtro de etiqueta/ })).toBeNull();
+  });
+
+  it('ciclo y etiqueta se combinan y se conservan entre sí en la URL (D-41)', async () => {
+    proyectos[0].etiquetas = ['mysql'];
+    proyectos[2].etiquetas = ['mysql'];
+    ir('/galeria?ciclo=WG');
+    render(<App />);
+    await screen.findByText('Reservas de talleres');
+    fireEvent.click(screen.getByRole('button', { name: 'Filtrar por la etiqueta mysql' }));
+    await waitFor(() => expect(window.location.search).toBe('?ciclo=WG&etiqueta=mysql'));
+    expect(screen.getAllByRole('article').length).toBe(1);
+    fireEvent.click(screen.getByRole('button', { name: 'Todos · 3' }));
+    await waitFor(() => expect(screen.getAllByRole('article').length).toBe(2));
+    expect(window.location.search).toBe('?etiqueta=mysql');
+    fireEvent.click(screen.getByRole('button', { name: 'DAM · 1' }));
+    await waitFor(() => expect(window.location.search).toBe('?etiqueta=mysql&ciclo=PG'));
+    expect(screen.getByText('TPV para la cafetería')).toBeInTheDocument();
+    // pulsar la etiqueta activa la quita y conserva el ciclo
+    fireEvent.click(screen.getByRole('button', { name: 'Filtrar por la etiqueta mysql' }));
+    await waitFor(() => expect(window.location.search).toBe('?ciclo=PG'));
+  });
+
   it('las acciones de la tarjeta van en un menú de tres puntos sobre la portada (D-28)', async () => {
     proyectos[1].repo = '';
     ir('/galeria');

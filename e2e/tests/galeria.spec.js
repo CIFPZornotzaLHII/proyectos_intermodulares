@@ -32,6 +32,16 @@ test.describe('galería', () => {
     await expect(page.getByText(/Grado (medio|superior)/)).toHaveCount(0);
   });
 
+  test('las etiquetas de la tarjeta filtran la galería y el chip de la barra quita el filtro (D-41)', async ({ page }) => {
+    await tarjeta(page, PROYECTOS.WG.titulo).getByRole('button', { name: 'Filtrar por la etiqueta mysql' }).click();
+    await expect(page).toHaveURL(/\?etiqueta=mysql$/);
+    await expect(page.getByRole('article')).toHaveCount(2);
+    await expect(tarjeta(page, PROYECTOS.PG.titulo).getByRole('button', { name: 'Filtrar por la etiqueta mysql' })).toHaveAttribute('aria-pressed', 'true');
+    await page.getByRole('button', { name: 'Quitar el filtro de etiqueta mysql' }).click();
+    await expect(page).toHaveURL(/\/galeria$/);
+    await expect(page.getByRole('article')).toHaveCount(3);
+  });
+
   test('filtra por ciclo (y la URL se puede compartir) y busca por título, equipo o etiqueta', async ({ page }) => {
     const filtros = page.getByRole('group', { name: 'Filtrar por ciclo' });
     await expect(filtros.getByRole('button')).toHaveText(['Todos · 3', 'SMR · 1', 'DAW · 1', 'DAM · 1']);

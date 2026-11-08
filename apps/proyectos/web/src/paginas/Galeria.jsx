@@ -19,12 +19,19 @@ export default function Galeria() {
   const { lista, ciclos, estado, actualizar } = useProyectos();
   const [parametros, setParametros] = useSearchParams();
   const filtro = parametros.get('ciclo') || '';
+  const etiqueta = parametros.get('etiqueta') || '';
   const [consulta, setConsulta] = useState('');
   const [ocupado, setOcupado] = useState(null); // id del proyecto cuya reacción está en vuelo
   const [error, setError] = useState('');
   const navegar = useNavigate();
 
-  const visibles = lista.filter(p => (!filtro || p.ciclo === filtro) && coincide(p, consulta));
+  // Cambia un parámetro de la URL conservando el otro (ciclo y etiqueta se combinan, D-41)
+  const poner = (clave, valor) => {
+    const q = new URLSearchParams(parametros);
+    if (valor) q.set(clave, valor); else q.delete(clave);
+    setParametros(q, { replace: true });
+  };
+  const visibles = lista.filter(p => (!filtro || p.ciclo === filtro) && (!etiqueta || (p.etiquetas || []).includes(etiqueta)) && coincide(p, consulta));
   const cuenta = c => lista.filter(p => !c || p.ciclo === c).length;
 
   const onReaccion = async (p, emoji) => {
@@ -58,11 +65,17 @@ export default function Galeria() {
           <div className="flex flex-wrap gap-2" role="group" aria-label={t('filtrar_ciclo')}>
             {[{ codigo: '', nombre: t('todos') }, ...ciclos].map(c => (
               <button key={c.codigo} type="button" aria-pressed={filtro === c.codigo}
-                onClick={() => setParametros(c.codigo ? { ciclo: c.codigo } : {}, { replace: true })}
+                onClick={() => poner('ciclo', c.codigo)}
                 className={`pulsable min-h-10 rounded-full border px-4 py-2 text-cuerpo font-semibold ${filtro === c.codigo ? 'border-indigo bg-indigo text-blanco' : 'border-borde-claro bg-transparent text-texto hover:border-texto-3 hover:text-texto'}`}>
                 {c.nombre} · {cuenta(c.codigo)}
               </button>
             ))}
+            {etiqueta && (
+              <button type="button" aria-label={t('quitar_etiqueta', { e: etiqueta })} onClick={() => poner('etiqueta', '')}
+                className="pulsable inline-flex min-h-10 items-center gap-2 rounded-full border border-indigo bg-indigo px-4 py-2 text-cuerpo font-semibold text-blanco">
+                {t('etiqueta_activa', { e: etiqueta })}<span aria-hidden="true">×</span>
+              </button>
+            )}
           </div>
           <label className="flex min-h-11 w-80 max-w-full items-center gap-2.5 rounded-[10px] border border-borde-claro bg-superficie px-3.5 text-texto-3">
             <Icono nombre="lupa" tam={18} />
@@ -79,8 +92,9 @@ export default function Galeria() {
           {estado === 'error' && <div className="vacio">{t('error_carga')}</div>}
           {estado === 'ok' && visibles.length === 0 && <div className="vacio">{lista.length ? t('sin_resultados') : t('sin_proyectos')}</div>}
           {estado === 'ok' && visibles.length > 0 && (
-            <AnimatedContent key={filtro} className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6" distance={14} duration={0.5} stagger={0.06} threshold={0.05}>
-              {visibles.map(p => <TarjetaProyecto key={p.id} p={p} usuario={usuario} ocupado={ocupado === p.id} onReaccion={emoji => onReaccion(p, emoji)} />)}
+            <AnimatedContent key={`${filtro}|${etiqueta}`} className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6" distance={14} duration={0.5} stagger={0.06} threshold={0.05}>
+              {visibles.map(p => <TarjetaProyecto key={p.id} p={p} usuario={usuario} ocupado={ocupado === p.id} onReaccion={emoji => onReaccion(p, emoji)}
+                etiqueta={etiqueta} onEtiqueta={e => poner('etiqueta', e === etiqueta ? '' : e)} />)}
             </AnimatedContent>
           )}
         </div>

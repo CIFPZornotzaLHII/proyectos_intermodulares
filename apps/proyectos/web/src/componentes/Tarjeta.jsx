@@ -106,7 +106,7 @@ export function Reacciones({ p, usuario, onReaccion, ocupado = false }) {
 }
 
 // Tarjeta de la galería (con reacciones) o de "Tendencias" (con el total); las acciones van en el menú de tres puntos
-export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, modo = 'galeria' }) {
+export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, etiqueta, onEtiqueta, modo = 'galeria' }) {
   const { t } = useIdioma();
   return (
     <SpotlightCard role="article" spotlightColor="#70FBB7" intensity={0.12} spotlightSize={260} borderGlow={0.7}
@@ -119,7 +119,14 @@ export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, modo = 'galer
         <p className="text-cuerpo text-texto">{p.resumen}</p>
         {modo === 'galeria' && (p.etiquetas || []).length > 0 && (
           <div className="flex flex-wrap gap-1.5">
-            {p.etiquetas.map(e => <span key={e} className="rounded-full bg-superficie-2 px-[9px] py-[3px] text-pequeno text-texto-3">{e}</span>)}
+            {p.etiquetas.map(e => (
+              <button key={e} type="button" aria-pressed={etiqueta === e} aria-label={t('filtrar_etiqueta', { e })}
+                onClick={() => onEtiqueta && onEtiqueta(e)}
+                className={`pulsable inline-flex min-h-9 items-center rounded-full border px-[9px] py-[3px] text-pequeno
+                  ${etiqueta === e ? 'border-menta bg-menta/12 text-menta' : 'border-borde-claro bg-superficie-2 text-texto-3 hover:border-texto-3 hover:text-texto'}`}>
+                {e}
+              </button>
+            ))}
           </div>
         )}
         {modo !== 'galeria' && <div className="mt-auto flex flex-wrap items-center gap-2 pt-1.5">
