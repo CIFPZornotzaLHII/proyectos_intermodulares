@@ -18,6 +18,7 @@ export default function Entrar() {
   const navegar = useNavigate();
   const [error, setError] = useState('');
   const [enviando, setEnviando] = useState(false);
+  const [verContrasena, setVerContrasena] = useState(false);
 
   // con sesión ya iniciada no hay nada que hacer aquí
   useEffect(() => { if (!cargando && usuario) navegar(volver, { replace: true }); }, [cargando, usuario, volver, navegar]);
@@ -65,8 +66,15 @@ export default function Entrar() {
               </div>
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="contrasena" className="text-pequeno font-semibold text-texto-2">{t('contrasena')}</label>
-                <input id="contrasena" name="contrasena" type="password" autoComplete="current-password" required
-                  className="min-h-[46px] rounded-[10px] border border-borde-claro bg-onice px-3.5 py-2.5 text-texto focus:border-menta" />
+                {/* el botón se nombra por su texto, sin aria-label: getByLabel('Contraseña') de los e2e busca por subcadena (D-NEW) */}
+                <div className="relative">
+                  <input id="contrasena" name="contrasena" type={verContrasena ? 'text' : 'password'} autoComplete="current-password" required
+                    className="min-h-[46px] w-full rounded-[10px] border border-borde-claro bg-onice py-2.5 pr-24 pl-3.5 text-texto focus:border-menta" />
+                  <button type="button" aria-controls="contrasena" onClick={() => setVerContrasena(v => !v)}
+                    className="pulsable absolute top-1/2 right-1 min-h-11 min-w-11 -translate-y-1/2 rounded-lg px-3 text-pequeno font-semibold text-texto-2 hover:text-menta">
+                    {verContrasena ? t('ocultar_contrasena') : t('ver_contrasena')}
+                  </button>
+                </div>
               </div>
               {error && (
                 <div role="alert" className="flex items-start gap-2.5 rounded-[10px] border border-error/35 bg-error/12 px-3.5 py-3 text-pequeno text-error">
