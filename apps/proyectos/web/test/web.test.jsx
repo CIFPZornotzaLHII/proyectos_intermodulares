@@ -224,6 +224,44 @@ describe('galería', () => {
     expect(r.queryByRole('link', { name: 'Código' })).toBeNull();
   });
 
+  it('"Compartir" copia la URL absoluta de la landing, cierra el menú y lo confirma en la tarjeta (D-NEW)', async () => {
+    const writeText = vi.fn().mockResolvedValue();
+    vi.stubGlobal('navigator', { ...navigator, clipboard: { writeText } });
+    ir('/galeria');
+    render(<App />);
+    await screen.findByText('Reservas de talleres');
+    const t = within(screen.getAllByRole('article').find(a => within(a).queryByText('Reservas de talleres')));
+    const disparador = t.getByRole('button', { name: 'Más opciones' });
+    expect(t.getByRole('status')).toHaveTextContent('');
+    fireEvent.click(disparador);
+    fireEvent.click(t.getByRole('button', { name: 'Compartir' }));
+    expect(writeText).toHaveBeenCalledWith(`${window.location.origin}/proyectos/p/WG/reservas/`);
+    await waitFor(() => expect(t.getByRole('status')).toHaveTextContent('Enlace copiado'));
+    expect(disparador).toHaveAttribute('aria-expanded', 'false');
+    expect(document.activeElement).toBe(disparador);
+    // las dos vías fallan
+    writeText.mockRejectedValue(new Error('no'));
+    const execCommand = vi.fn(() => false);
+    document.execCommand = execCommand;
+    fireEvent.click(disparador);
+    fireEvent.click(t.getByRole('button', { name: 'Compartir' }));
+    await waitFor(() => expect(t.getByRole('status')).toHaveTextContent('No se ha podido copiar el enlace'));
+    expect(execCommand).toHaveBeenCalledWith('copy');
+    expect(document.querySelector('textarea')).toBeNull();
+    delete document.execCommand;
+  });
+
+  it('las tarjetas de tendencias de la portada no llevan "Compartir" (D-NEW)', async () => {
+    ir('/');
+    render(<App />);
+    await screen.findByText(/reacciones en total/);
+    screen.getAllByRole('article').slice(1).forEach(a => {
+      fireEvent.click(within(a).getByRole('button', { name: 'Más opciones' }));
+      expect(within(a).getByRole('link', { name: 'Ver proyecto' })).toBeInTheDocument();
+      expect(within(a).queryByRole('button', { name: 'Compartir' })).toBeNull();
+    });
+  });
+
   it('las tarjetas de tendencias de la portada llevan el menú y conservan la píldora (D-28)', async () => {
     ir('/');
     render(<App />);

@@ -21,6 +21,7 @@ test.describe('galería', () => {
       await expect(t.getByRole('link', { name: 'Ver proyecto', exact: true })).toHaveAttribute('href', `/proyectos/p/${p.id}/`);
       await expect(t.getByRole('link', { name: `Ver proyecto: ${p.titulo}` })).toHaveAttribute('href', `/proyectos/p/${p.id}/`);
       await expect(t.getByRole('link', { name: 'Código' })).toHaveAttribute('target', '_blank');
+      await expect(t.getByRole('button', { name: 'Compartir' })).toBeVisible();   // copia el enlace de la landing (D-NEW)
       if (p === PROYECTOS.WG) await expect(t.getByRole('link', { name: 'Vídeo' })).toHaveAttribute('href', /^https:\/\/youtu\.be\//);
       if (p === PROYECTOS.PG) {   // sin vídeo: pendiente y desactivado, no un enlace roto
         await expect(t.getByRole('button', { name: 'Vídeo pendiente' })).toBeDisabled();

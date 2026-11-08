@@ -15,6 +15,7 @@ const TRAZOS = {
   check: <path d="m5 12 5 5L20 7" />,
   alerta: <><circle cx="12" cy="12" r="9" /><path d="M12 8v5M12 16h.01" /></>,
   puntos: <path d="M12 5h.01M12 12h.01M12 19h.01" />,
+  enlace: <path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" />,
   barajar: <path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5" />,
 };
 
