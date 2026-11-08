@@ -3,6 +3,16 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-NEW · Etiquetas de la tarjeta filtrables · 2026-11-08 · vigente
+Petición: "En la galería, que las etiquetas de cada tarjeta sean pulsables y filtren por esa etiqueta (como los chips
+de ciclo), con la etiqueta activa visible y en la URL (`?etiqueta=`)." Se hace así: en `TarjetaProyecto` (modo
+galería) cada etiqueta es un `<button aria-pressed>` con nombre "Filtrar por la etiqueta <e>", `min-h-9` como las
+reacciones y su estado activo en menta; pulsarla pone `?etiqueta=<e>` (con `replace`) y pulsar la activa la quita.
+`Galeria.jsx` filtra por ciclo, etiqueta (comparación exacta) y búsqueda a la vez; los chips de ciclo y la etiqueta se
+conservan entre sí en la URL (`?ciclo=WG&etiqueta=mysql`). Con etiqueta activa, la barra de filtros pinta un chip
+"Etiqueta: <e> ×" (nombre "Quitar el filtro de etiqueta <e>") que la quita. Los recuentos de ciclo no cambian; una
+sola etiqueta a la vez; la portada no cambia.
+
 ### D-40 · Entrada escalonada por sección y respuesta al pulsar · 2026-11-08 · vigente
 Petición: "Movimiento: entrada escalonada de título, texto y tarjetas al entrar cada sección (`AnimatedContent` con
 `stagger`, 60-90 ms) en portada, galería y login, y respuesta al pasar el ratón o pulsar en botones, chips y tarjetas;

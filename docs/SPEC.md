@@ -18,7 +18,8 @@ manda sobre este documento).
    **proyecto destacado** elegido al azar entre los 10 con más reacciones (botón "Enséñame otro"); **Tendencias**:
    los 3 siguientes; enlace "Ver los N proyectos"; llamada a publicar; pie.
 2. **Galería** (`/proyectos/galeria`): todas las tarjetas con filtro por ciclo (chips con recuento, `?ciclo=`),
-   buscador (título, resumen, equipo, etiquetas) y las cinco reacciones (👏 💡 🚀 🔥 ❤️, pintadas con iconos). Sin sesión
+   filtro por etiqueta (las etiquetas de cada tarjeta son botones, `?etiqueta=`, se combina con `?ciclo=`; la activa se
+   ve como chip en la barra y se quita desde él), buscador (título, resumen, equipo, etiquetas) y las cinco reacciones (👏 💡 🚀 🔥 ❤️, pintadas con iconos). Sin sesión
    se invita a entrar; con sesión se añade o quita la reacción; nadie reacciona a su propio proyecto.
 3. **Entrar** (`/proyectos/entrar`): usuario y contraseña del centro (cuentas creadas por el profesorado), sesión de 30
    días en cookie firmada, vuelta a la página de origen.
