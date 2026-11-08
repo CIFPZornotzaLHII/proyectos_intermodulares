@@ -46,13 +46,42 @@ export function PortadaProyecto({ p, className = '' }) {
 // Botón redondo de solo icono, 44 px, legible sobre cualquier portada
 const REDONDO = 'inline-flex size-11 items-center justify-center rounded-full border border-borde-claro bg-onice/80 text-texto no-underline hover:text-menta';
 
-// Menú de tres puntos sobre la portada (D-28): disclosure con aria-expanded; se cierra con Escape, al pulsar fuera o al elegir
-function MenuProyecto({ p }) {
+// Copia texto al portapapeles; resuelve true o false. Sin navigator.clipboard (HTTP fuera de localhost) va la reserva (D-44)
+function copiar(texto) {
+  // shortcut: execCommand está obsoleto; quitarlo cuando la web se sirva por HTTPS (servidor/LEEME.md)
+  const reserva = () => {
+    const foco = document.activeElement; // select() le quita el foco; se devuelve al terminar
+    const area = document.createElement('textarea');
+    area.value = texto;
+    area.setAttribute('readonly', '');
+    area.style.position = 'fixed';
+    area.style.left = '-9999px';
+    document.body.appendChild(area);
+    area.select();
+    try { return document.execCommand('copy'); } catch { return false; } finally { area.remove(); foco && foco.focus(); }
+  };
+  return navigator.clipboard ? navigator.clipboard.writeText(texto).then(() => true, reserva) : Promise.resolve(reserva());
+}
+
+// Menú de tres puntos sobre la portada (D-28): disclosure con aria-expanded; se cierra con Escape, al pulsar fuera o al elegir.
+// Con `compartir` (solo en la galería, D-44) lleva un cuarto botón que copia la URL absoluta de la landing
+function MenuProyecto({ p, compartir = false }) {
   const { t } = useIdioma();
   const [abierto, setAbierto] = useState(false);
+  const [aviso, setAviso] = useState(null);
+  const reloj = useRef(null);
   const id = useId();
   const caja = useRef(null);
   const disparador = useRef(null);
+  useEffect(() => () => clearTimeout(reloj.current), []);
+  const copiarEnlace = async () => {
+    setAbierto(false);
+    disparador.current.focus();
+    const ok = await copiar(new URL(ruta(p.url), window.location.href).href);
+    clearTimeout(reloj.current);
+    setAviso(ok ? 'enlace_copiado' : 'enlace_no_copiado');
+    reloj.current = setTimeout(() => setAviso(null), 2500);
+  };
   useEffect(() => {
     if (!abierto) return;
     const fuera = e => { if (!caja.current.contains(e.target)) setAbierto(false); };
@@ -74,8 +103,13 @@ function MenuProyecto({ p }) {
             ? <a href={p.video} target="_blank" rel="noopener" aria-label={t('video')} title={t('video')} onClick={cerrar} {...entrada(1)}><Icono nombre="play" tam={18} grosor={2} /></a>
             : <button type="button" disabled aria-label={t('video_pendiente')} title={t('video_pendiente')} className={`${REDONDO} motion-safe:animate-desplegar cursor-default opacity-55`} style={entrada(1).style}><Icono nombre="play" tam={18} grosor={2} /></button>}
           {p.repo && <a href={p.repo} target="_blank" rel="noopener" aria-label={t('codigo')} title={t('codigo')} onClick={cerrar} {...entrada(2)}><Icono nombre="codigo" tam={18} grosor={2} /></a>}
+          {compartir && <button type="button" aria-label={t('compartir')} title={t('compartir')} onClick={copiarEnlace} {...entrada(3)}><Icono nombre="enlace" tam={18} grosor={2} /></button>}
         </div>
       )}
+      {/* siempre montada (vacía sin aviso) para que los lectores de pantalla anuncien el cambio */}
+      <p role="status" className="absolute top-0 right-14 flex h-11 items-center whitespace-nowrap">
+        {aviso && <span className="pildora">{aviso === 'enlace_copiado' && <Icono nombre="check" tam={15} className="text-menta" />}{t(aviso)}</span>}
+      </p>
     </div>
   );
 }
@@ -112,7 +146,7 @@ export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, etiqueta, onE
     <SpotlightCard role="article" spotlightColor="#70FBB7" intensity={0.12} spotlightSize={260} borderGlow={0.7}
       style={{ ...ESTILO_TARJETA, borderRadius: 'var(--radius-tarjeta)' }}
       className="flex h-full flex-col transition-transform duration-150 motion-safe:hover:-translate-y-1 motion-safe:active:translate-y-0" data-ciclo={p.ciclo}>
-      <div className="relative"><PortadaProyecto p={p} /><MenuProyecto p={p} /></div>
+      <div className="relative"><PortadaProyecto p={p} /><MenuProyecto p={p} compartir={modo === 'galeria'} /></div>
       <div className="flex flex-1 flex-col gap-2.5 px-5 pt-[18px] pb-4">
         <h3 className="text-titulo"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
         <p className="text-pequeno font-medium text-texto-3">{(p.equipo || []).join(' · ')}</p>

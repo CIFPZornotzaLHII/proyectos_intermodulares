@@ -3,6 +3,21 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-44 · Compartir la landing desde la tarjeta de la galería · 2026-11-08 · vigente
+Petición: "En la tarjeta de la galería, enlace "Compartir" que copie la URL de la landing al portapapeles y lo confirme
+en pantalla (sin librerías)." Se hace así: el menú de tres puntos (D-28) de las tarjetas de la galería lleva un cuarto
+botón redondo, el último, con el icono nuevo `enlace` y `aria-label`/`title` "Compartir" (EU "Partekatu");
+`TarjetaProyecto` pasa `compartir` a `MenuProyecto` solo con `modo === 'galeria'`, así que las tarjetas de Tendencias
+no lo llevan. Es un `<button>` (ejecuta una acción, no navega). Copia la URL absoluta,
+`new URL(ruta(p.url), window.location.href).href`, porque una ruta relativa no sirve pegada en un chat. Usa
+`navigator.clipboard.writeText` y, si no existe o falla, un `<textarea>` fuera de pantalla con
+`document.execCommand('copy')`: producción va por HTTP dentro de la VPN, donde `navigator.clipboard` no existe
+(atajo marcado con `shortcut:`, se quita al pasar a HTTPS). Al pulsar, el menú se cierra y el foco vuelve a "Más
+opciones". La confirmación vive en la tarjeta: una región `role="status"` siempre montada a la izquierda del
+disparador muestra 2,5 s una `pildora` con `check` menta y "Enlace copiado" (EU "Esteka kopiatuta"), o "No se ha
+podido copiar el enlace" (EU "Ezin izan da esteka kopiatu") si fallan las dos vías. Sin `navigator.share` ni toasts
+globales.
+
 ### D-43 · Botón para ver u ocultar la contraseña · 2026-11-08 · vigente
 Petición: "En la página de entrar, botón para ver u ocultar la contraseña, accesible con teclado y con su texto en ES y
 EU." Se hace así: en `Entrar.jsx` el campo de contraseña va en un contenedor `relative` con un `<button type="button">`
