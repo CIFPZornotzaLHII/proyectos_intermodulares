@@ -3,6 +3,19 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-42 · Cada página en su propio trozo de JS · 2026-11-08 · vigente
+Petición: "En la portada, dividir el JS en trozos por página (`React.lazy` en las tres rutas) para que la portada no
+cargue DotGrid ni Orb: el bundle actual pasa de 600 kB." Motivo: la portada no usa DotGrid (galería) ni Orb (entrar),
+pero los descargaba porque todo iba en un solo fichero. Se hace así: `App.jsx` carga `Portada`, `Galeria` y `Entrar`
+con `React.lazy` y envuelve `<Routes>` en `<Suspense fallback={null}>`; `NoEncontrada`, las redirecciones, la
+cabecera, el pie y los providers siguen estáticos. `Desplazamiento` ya no sale si el ancla aún no existe: la busca
+otra vez con el mismo `ResizeObserver` de dos segundos, para que "Cómo publicar" desde una galería abierta
+directamente llegue a `#publicar` aunque la portada no se haya descargado. Build antes: un único `index-*.js` de
+541,34 kB (185,90 kB gzip). Después: entrada `index-*.js` de 404,62 kB (139,37 kB gzip), `Portada` 82,54 kB, `Galeria`
+16,29 kB, `Entrar` 17,08 kB y `Tarjeta` 21,59 kB (compartido por portada y galería). Siguiente paso posible, no hecho:
+separar `gsap`/`motion`/React en trozos de vendor si hace falta bajar más la entrada. Una página nueva se añade igual,
+con `lazy(() => import(...))` en `App.jsx`.
+
 ### D-41 · Etiquetas de la tarjeta filtrables · 2026-11-08 · vigente
 Petición: "En la galería, que las etiquetas de cada tarjeta sean pulsables y filtren por esa etiqueta (como los chips
 de ciclo), con la etiqueta activa visible y en la URL (`?etiqueta=`)." Se hace así: en `TarjetaProyecto` (modo
