@@ -323,6 +323,22 @@ describe('inicio de sesión', () => {
     expect(usuario).toHaveAccessibleDescription('Por ejemplo, ane.garcia');
   });
 
+  it('el botón Mostrar/Ocultar alterna la contraseña, con su texto en ES y EU (D-43)', async () => {
+    ir('/entrar');
+    const { unmount } = render(<App />);
+    const campo = await screen.findByLabelText('Contraseña');
+    expect(campo).toHaveAttribute('type', 'password');
+    fireEvent.click(screen.getByRole('button', { name: 'Mostrar' }));
+    expect(campo).toHaveAttribute('type', 'text');
+    fireEvent.click(screen.getByRole('button', { name: 'Ocultar' }));
+    expect(campo).toHaveAttribute('type', 'password');
+    unmount();
+    localStorage.setItem('pi_idioma', 'eu');
+    ir('/entrar');
+    render(<App />);
+    expect(await screen.findByRole('button', { name: 'Erakutsi' })).toHaveAttribute('aria-controls', 'contrasena');
+  });
+
   it('ignora una ruta de vuelta externa', async () => {
     ir('/entrar?volver=//malo.example');
     sesion = { login: 'ane.garcia', nombre: 'Ane García', ciclo: 'DAW' };
