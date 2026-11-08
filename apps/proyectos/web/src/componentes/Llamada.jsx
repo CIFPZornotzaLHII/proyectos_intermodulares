@@ -1,3 +1,4 @@
+import AnimatedContent from '../reactbits/AnimatedContent.jsx';
 import { conCodigo, useIdioma } from '../i18n.jsx';
 import Boton from './Boton.jsx';
 import { REPO } from './Pie.jsx';
@@ -9,7 +10,7 @@ export default function Llamada({ variante = 'menta', className = '' }) {
   const { t } = useIdioma();
   return (
     <section id="publicar" className={`bg-superficie ${className}`}>
-      <div className="contenedor flex flex-wrap items-center justify-between gap-8 py-14">
+      <AnimatedContent className="contenedor flex flex-wrap items-center justify-between gap-8 py-14" distance={16} duration={0.55} stagger={0.08} threshold={0.05}>
         <div>
           <h2 className="text-titulo">{t('llamada_titulo')}</h2>
           <p className="mt-2.5 max-w-[640px] text-texto">{conCodigo(t('llamada_texto'))}</p>
@@ -17,7 +18,7 @@ export default function Llamada({ variante = 'menta', className = '' }) {
         <div className="flex flex-wrap gap-3">
           <Boton variante={variante} href={GUIA} externo>{t('guia')}</Boton>
         </div>
-      </div>
+      </AnimatedContent>
     </section>
   );
 }
