@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Tarjetas sin sombra en reposo · 2026-11-08 · vigente
+### D-38 · Tarjetas sin sombra en reposo · 2026-11-08 · vigente
 Petición: "Quitar la sombra de las tarjetas en reposo: `--spotlight-card-shadow` a `none` en `ESTILO_TARJETA`
 (`Tarjeta.jsx`), sin tocar el componente `SpotlightCard` (D-07); el brillo del foco al pasar el ratón se queda."
 (tasteskill: shadow.) Se hace así: la variable pasa a `none` en `ESTILO_TARJETA`, lo que alcanza también al destacado,
