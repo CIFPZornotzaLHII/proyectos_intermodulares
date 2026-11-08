@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Entrada escalonada por sección y respuesta al pulsar · 2026-11-08 · vigente
+### D-40 · Entrada escalonada por sección y respuesta al pulsar · 2026-11-08 · vigente
 Petición: "Movimiento: entrada escalonada de título, texto y tarjetas al entrar cada sección (`AnimatedContent` con
 `stagger`, 60-90 ms) en portada, galería y login, y respuesta al pasar el ratón o pulsar en botones, chips y tarjetas;
 todo con `prefers-reduced-motion` respetado. Hoy la galería mueve 13 elementos y el login 1." (tasteskill:
