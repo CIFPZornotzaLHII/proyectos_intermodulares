@@ -9,7 +9,8 @@ tracking 0.03em), dos columnas iguales para que los márgenes izquierdo y derech
 el formulario como superficie rellena sin borde de 1 px, y la píldora "Solo alumnado y profesorado" convertida en la
 primera frase de apoyo (ES y EU)." (tasteskill: focal-point, off-centre, outlined-box, eyebrow.) Se hace así: el `h1`
 pasa a `font-titulo text-[clamp(48px,7vw,96px)] leading-[0.92] tracking-[0.03em]`, en caja normal; 96 px queda fuera
-de la escala de D-32 y va como valor arbitrario con su comentario de excepción, sin sexto token en el tema. Las dos
+de la escala de D-32 y va como valor arbitrario con su comentario de excepción, sin sexto token en el tema; lleva `hyphens-auto [overflow-wrap:anywhere]` para que "erreakzionatzeko" (EU) se parta con
+guion en vez de pisar el formulario. Las dos
 columnas son una rejilla `md:grid-cols-2` centrada (`max-w-[1040px] mx-auto`, `gap-12`), una sola columna en móvil,
 sin anchos distintos por columna. El `<form>` pierde `border border-borde-2` y se queda en `bg-superficie` (escalón de
 tono de D-35; los campos conservan su borde). La píldora y la clave `solo_centro` desaparecen y su contenido abre
