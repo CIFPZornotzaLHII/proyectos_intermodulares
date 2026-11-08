@@ -3,6 +3,13 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-38 · Tarjetas sin sombra en reposo · 2026-11-08 · vigente
+Petición: "Quitar la sombra de las tarjetas en reposo: `--spotlight-card-shadow` a `none` en `ESTILO_TARJETA`
+(`Tarjeta.jsx`), sin tocar el componente `SpotlightCard` (D-07); el brillo del foco al pasar el ratón se queda."
+(tasteskill: shadow.) Se hace así: la variable pasa a `none` en `ESTILO_TARJETA`, lo que alcanza también al destacado,
+que hereda ese objeto; el foco menta y el brillo del borde son capas aparte y quedan intactos, igual que el
+`hover:-translate-y-0.5`. `SpotlightCard.jsx` no se toca (D-07).
+
 ### D-37 · Texto corrido en texto pleno · 2026-11-07 · vigente
 Petición: "El texto corrido de las tres páginas en `texto` pleno (#F3F2FF) y `texto-2` solo para notas y pies: hoy el
 cuerpo va en gris suave (6,2:1 sobre ónice) y se lee apagado. Resúmenes de tarjeta, entradillas y párrafos del
