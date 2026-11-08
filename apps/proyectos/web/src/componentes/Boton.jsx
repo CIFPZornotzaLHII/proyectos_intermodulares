@@ -14,7 +14,7 @@ const TAMANOS = {
 };
 
 export default function Boton({ variante = 'borde', tamano = 'normal', to, href, externo, className = '', children, ...resto }) {
-  const clases = `inline-flex items-center justify-center gap-2 border font-bold no-underline transition-[transform,background-color,border-color] duration-150 active:translate-y-px ${VARIANTES[variante]} ${TAMANOS[tamano]} ${className}`;
+  const clases = `inline-flex items-center justify-center gap-2 border font-bold no-underline ${variante === 'pendiente' ? '' : 'pulsable'} ${VARIANTES[variante]} ${TAMANOS[tamano]} ${className}`;
   if (to) return <Link to={to} className={clases} {...resto}>{children}</Link>;
   if (href) return <a href={href} className={clases} {...(externo ? { target: '_blank', rel: 'noopener' } : {})} {...resto}>{children}</a>;
   if (variante === 'pendiente') return <span className={clases} {...resto}>{children}</span>;

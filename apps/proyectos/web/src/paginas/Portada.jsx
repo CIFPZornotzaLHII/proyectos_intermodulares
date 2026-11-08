@@ -111,12 +111,12 @@ export default function Portada() {
       {/* Proyecto destacado: uno al azar entre los diez más votados */}
       <section id="destacado" className="contenedor flex flex-col gap-7 pt-24 pb-6 scroll-mt-6">
         <div className="flex flex-wrap items-baseline justify-between gap-3">
-          <div className="flex flex-col gap-1.5">
+          <AnimatedContent className="flex flex-col gap-1.5" distance={16} duration={0.55} stagger={0.08} threshold={0.05}>
             <h2 className="text-titulo">{t('destacado_titulo')}</h2>
             <p className="text-cuerpo text-texto-2">{t('destacado_texto')}</p>
-          </div>
+          </AnimatedContent>
           {top.length > 1 && (
-            <button type="button" onClick={otro} className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-borde-claro bg-transparent px-3 py-1.5 text-pequeno font-semibold text-texto hover:border-menta hover:text-menta">
+            <button type="button" onClick={otro} className="pulsable inline-flex min-h-9 items-center gap-1.5 rounded-full border border-borde-claro bg-transparent px-3 py-1.5 text-pequeno font-semibold text-texto hover:border-menta hover:text-menta">
               <Icono nombre="barajar" tam={14} grosor={2} />{t('otro_destacado')}
             </button>
           )}
@@ -136,14 +136,14 @@ export default function Portada() {
       {/* Tendencias: los tres siguientes más votados */}
       {tendencias.length > 0 && (
         <section className="contenedor flex flex-col gap-7 pt-10 pb-16">
-          <div className="flex flex-wrap items-baseline justify-between gap-3">
+          <AnimatedContent className="flex flex-wrap items-baseline justify-between gap-3" distance={16} duration={0.55} stagger={0.08} threshold={0.05}>
             <div className="flex flex-col gap-1.5">
               <h2 className="text-titulo">{t('destacados_titulo')}</h2>
             </div>
             <Link to="/galeria" className="inline-flex min-h-[44px] items-center gap-2 text-cuerpo font-semibold no-underline">
               {t('ver_los_n', { n: lista.length })}<Icono nombre="flecha" grosor={2.2} />
             </Link>
-          </div>
+          </AnimatedContent>
           <AnimatedContent key={destacado && destacado.id} className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6" distance={16} duration={0.55} stagger={0.08} threshold={0.05}>
             {tendencias.map(p => <TarjetaProyecto key={p.id} p={p} modo="tendencia" />)}
           </AnimatedContent>
