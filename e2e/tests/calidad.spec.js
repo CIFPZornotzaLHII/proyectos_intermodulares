@@ -51,11 +51,12 @@ test('con teclado se llega al inicio de sesión y el foco se ve', async ({ page 
 test('los botones de reacción miden al menos 36 px y los del menú de tres puntos 44×44 px', async ({ page }) => {
   await page.goto('galeria');
   await expect(page.getByRole('article')).toHaveCount(3);
-  const reacciones = await page.getByRole('button', { name: /^(Me gusta|Buena idea|Ambicioso|Fuego|Me encanta)$/ }).evaluateAll(bs => bs.map(b => b.getBoundingClientRect().height));
+  // tamaño de layout (offset*), no getBoundingClientRect: la entrada escalonada (perspectiva 3D) da 35,9999 a mitad de animación
+  const reacciones = await page.getByRole('button', { name: /^(Me gusta|Buena idea|Ambicioso|Fuego|Me encanta)$/ }).evaluateAll(bs => bs.map(b => b.offsetHeight));
   expect(reacciones.length).toBe(15);
   for (const h of reacciones) expect(h).toBeGreaterThanOrEqual(36);
   const disparadores = page.getByRole('button', { name: 'Más opciones' });
-  const medidas = await disparadores.evaluateAll(bs => bs.map(b => { const r = b.getBoundingClientRect(); return [r.width, r.height]; }));
+  const medidas = await disparadores.evaluateAll(bs => bs.map(b => [b.offsetWidth, b.offsetHeight]));
   expect(medidas.length).toBe(3);
   await disparadores.first().click();
   const lista = page.locator(`[id="${await disparadores.first().getAttribute('aria-controls')}"]`);
