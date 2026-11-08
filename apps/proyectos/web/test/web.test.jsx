@@ -53,7 +53,7 @@ describe('portada', () => {
   it('muestra un destacado entre los más votados, tres tendencias y las cifras', async () => {
     ir('/');
     render(<App />);
-    expect(screen.getByRole('heading', { level: 1, name: 'Proyectos intermodulares 26-27' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { level: 1, name: 'Proyectos intermodulares 26-27' })).toBeInTheDocument();
     await waitFor(() => expect(screen.getByText('Proyecto destacado')).toBeInTheDocument());
     const destacado = await screen.findByText(/reacciones en total/);
     expect(destacado).toBeInTheDocument();
@@ -105,23 +105,23 @@ describe('portada', () => {
     expect(localStorage.getItem('pi_idioma')).toBe('eu');
   });
 
-  it('la cabecera transparente sobre el índigo no usa texto-3; la de la galería sí', () => {
+  it('la cabecera transparente sobre el índigo no usa texto-3; la de la galería sí', async () => {
     ir('/');
     const { unmount } = render(<App />);
-    const cabecera = within(screen.getByRole('banner'));
+    const cabecera = within(await screen.findByRole('banner'));
     [cabecera.getByText(/^CIFP Zornotza LHII · /), cabecera.getByRole('link', { name: 'Proyectos' }),
       cabecera.getByRole('link', { name: 'Cómo publicar' }), cabecera.getByRole('button', { name: 'EU' })]
       .forEach(el => expect(el).not.toHaveClass('text-texto-3'));
     unmount();
     ir('/galeria');
     render(<App />);
-    expect(within(screen.getByRole('banner')).getByRole('link', { name: 'Cómo publicar' })).toHaveClass('text-texto-3');
+    expect(within(await screen.findByRole('banner')).getByRole('link', { name: 'Cómo publicar' })).toHaveClass('text-texto-3');
   });
 
-  it('en móvil la cabecera oculta "Cómo publicar" y el texto de la marca (D-NEW)', () => {
+  it('en móvil la cabecera oculta "Cómo publicar" y el texto de la marca (D-NEW)', async () => {
     ir('/');
     render(<App />);
-    const cabecera = within(screen.getByRole('banner'));
+    const cabecera = within(await screen.findByRole('banner'));
     expect(cabecera.getByRole('link', { name: 'Cómo publicar' })).toHaveClass('max-md:hidden');
     expect(cabecera.getByText('Proyectos intermodulares').parentElement).toHaveClass('max-md:sr-only');
     expect(cabecera.getByRole('navigation', { name: 'Principal' })).toHaveClass('max-md:order-last');
