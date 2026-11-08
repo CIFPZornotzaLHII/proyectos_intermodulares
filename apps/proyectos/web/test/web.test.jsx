@@ -118,7 +118,7 @@ describe('portada', () => {
     expect(within(await screen.findByRole('banner')).getByRole('link', { name: 'Cómo publicar' })).toHaveClass('text-texto-3');
   });
 
-  it('en móvil la cabecera oculta "Cómo publicar" y el texto de la marca (D-NEW)', async () => {
+  it('en móvil la cabecera oculta "Cómo publicar" y el texto de la marca (D-42)', async () => {
     ir('/');
     render(<App />);
     const cabecera = within(await screen.findByRole('banner'));

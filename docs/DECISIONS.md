@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Cada página en su propio trozo de JS · 2026-11-08 · vigente
+### D-42 · Cada página en su propio trozo de JS · 2026-11-08 · vigente
 Petición: "En la portada, dividir el JS en trozos por página (`React.lazy` en las tres rutas) para que la portada no
 cargue DotGrid ni Orb: el bundle actual pasa de 600 kB." Motivo: la portada no usa DotGrid (galería) ni Orb (entrar),
 pero los descargaba porque todo iba en un solo fichero. Se hace así: `App.jsx` carga `Portada`, `Galeria` y `Entrar`

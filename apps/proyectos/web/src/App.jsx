@@ -8,7 +8,7 @@ import Pie from './componentes/Pie.jsx';
 import Boton from './componentes/Boton.jsx';
 import { GUIA } from './componentes/Llamada.jsx';
 
-// Cada página en su propio trozo de JS (D-NEW): la portada no descarga DotGrid (galería) ni Orb (entrar)
+// Cada página en su propio trozo de JS (D-42): la portada no descarga DotGrid (galería) ni Orb (entrar)
 const Portada = lazy(() => import('./paginas/Portada.jsx'));
 const Galeria = lazy(() => import('./paginas/Galeria.jsx'));
 const Entrar = lazy(() => import('./paginas/Entrar.jsx'));
@@ -23,7 +23,7 @@ function Desplazamiento() {
     const colocar = () => document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth' });
     colocar();
     // La lista de proyectos llega después y empuja el ancla hacia abajo (se notaba en móvil), y la página de destino
-    // puede no haberse descargado aún (D-NEW): mientras cambie la altura, durante dos segundos, se vuelve a buscar.
+    // puede no haberse descargado aún (D-42): mientras cambie la altura, durante dos segundos, se vuelve a buscar.
     const observador = new ResizeObserver(colocar);
     observador.observe(document.body);
     const fin = setTimeout(() => observador.disconnect(), 2000);
