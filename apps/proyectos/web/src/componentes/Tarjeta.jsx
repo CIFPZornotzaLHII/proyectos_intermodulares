@@ -12,7 +12,7 @@ import Icono from './Icono.jsx';
 export const ESTILO_TARJETA = {
   '--spotlight-card-surface': '#0A0A1F',
   '--spotlight-card-border': '#26224F',
-  '--spotlight-card-shadow': '0 24px 48px -24px rgba(0, 0, 0, 0.6)',
+  '--spotlight-card-shadow': 'none',
   padding: 0,
 };
 
