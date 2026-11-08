@@ -50,6 +50,7 @@ const REDONDO = 'inline-flex size-11 items-center justify-center rounded-full bo
 function copiar(texto) {
   // shortcut: execCommand está obsoleto; quitarlo cuando la web se sirva por HTTPS (servidor/LEEME.md)
   const reserva = () => {
+    const foco = document.activeElement; // select() le quita el foco; se devuelve al terminar
     const area = document.createElement('textarea');
     area.value = texto;
     area.setAttribute('readonly', '');
@@ -57,7 +58,7 @@ function copiar(texto) {
     area.style.left = '-9999px';
     document.body.appendChild(area);
     area.select();
-    try { return document.execCommand('copy'); } catch { return false; } finally { area.remove(); }
+    try { return document.execCommand('copy'); } catch { return false; } finally { area.remove(); foco && foco.focus(); }
   };
   return navigator.clipboard ? navigator.clipboard.writeText(texto).then(() => true, reserva) : Promise.resolve(reserva());
 }

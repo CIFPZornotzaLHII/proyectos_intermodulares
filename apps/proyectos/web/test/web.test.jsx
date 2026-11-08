@@ -248,6 +248,7 @@ describe('galería', () => {
     await waitFor(() => expect(t.getByRole('status')).toHaveTextContent('No se ha podido copiar el enlace'));
     expect(execCommand).toHaveBeenCalledWith('copy');
     expect(document.querySelector('textarea')).toBeNull();
+    expect(document.activeElement).toBe(disparador);   // el textarea de la reserva no se queda el foco
     delete document.execCommand;
   });
 
