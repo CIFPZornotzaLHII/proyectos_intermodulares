@@ -75,4 +75,12 @@ test.describe('con "reducir movimiento"', () => {
     await page.goto('galeria');
     await expect(page.getByRole('article')).toHaveCount(3);
   });
+  test('el login muestra título, los tres puntos y el formulario sin esperar', async ({ page }) => {
+    await page.goto('entrar');
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await expect(page.locator('main ul li')).toHaveCount(3);
+    for (const li of await page.locator('main ul li').all()) await expect(li).toBeVisible();
+    await expect(page.locator('#usuario')).toBeVisible();
+    await expect(page.locator('form button[type="submit"]')).toBeVisible();
+  });
 });
