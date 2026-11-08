@@ -3,6 +3,20 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-39 · Primera pantalla del login: título grande y dos columnas iguales · 2026-11-08 · vigente
+Petición: "Primera pantalla del login (`Entrar.jsx`): el título a tamaño de portada (clamp 48-96 px, Impact con
+tracking 0.03em), dos columnas iguales para que los márgenes izquierdo y derecho coincidan (hoy 104 y 121 px a 1440),
+el formulario como superficie rellena sin borde de 1 px, y la píldora "Solo alumnado y profesorado" convertida en la
+primera frase de apoyo (ES y EU)." (tasteskill: focal-point, off-centre, outlined-box, eyebrow.) Se hace así: el `h1`
+pasa a `font-titulo text-[clamp(48px,7vw,96px)] leading-[0.92] tracking-[0.03em]`, en caja normal; 96 px queda fuera
+de la escala de D-32 y va como valor arbitrario con su comentario de excepción, sin sexto token en el tema; lleva `hyphens-auto [overflow-wrap:anywhere]` para que "erreakzionatzeko" (EU) se parta con
+guion en vez de pisar el formulario. Las dos
+columnas son una rejilla `md:grid-cols-2` centrada (`max-w-[1040px] mx-auto`, `gap-12`), una sola columna en móvil,
+sin anchos distintos por columna. El `<form>` pierde `border border-borde-2` y se queda en `bg-superficie` (escalón de
+tono de D-35; los campos conservan su borde). La píldora y la clave `solo_centro` desaparecen y su contenido abre
+`sesion_texto`: ES "Solo para alumnado y profesorado. Ver los proyectos es libre. …", EU "Ikasle eta irakasleentzat
+bakarrik. Proiektuak ikustea librea da. …" (euskera pendiente de revisión).
+
 ### D-38 · Tarjetas sin sombra en reposo · 2026-11-08 · vigente
 Petición: "Quitar la sombra de las tarjetas en reposo: `--spotlight-card-shadow` a `none` en `ESTILO_TARJETA`
 (`Tarjeta.jsx`), sin tocar el componente `SpotlightCard` (D-07); el brillo del foco al pasar el ratón se queda."

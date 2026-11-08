@@ -265,7 +265,16 @@ describe('inicio de sesión', () => {
     unmount();
     ir('/entrar');
     render(<App />);
-    expect(await screen.findByText(/^Ver los proyectos es libre\./)).not.toHaveClass('text-texto-2');
+    expect(await screen.findByText(/^Solo para alumnado y profesorado\./)).not.toHaveClass('text-texto-2');
+  });
+
+  it('sin píldora, con el formulario sin borde y el título con tracking de portada (D-39)', async () => {
+    ir('/entrar');
+    const { container } = render(<App />);
+    const h1 = await screen.findByRole('heading', { level: 1 });
+    expect(h1).toHaveClass('tracking-[0.03em]');
+    expect(container.querySelector('.insignia')).toBeNull();
+    expect(container.querySelector('form')).not.toHaveClass('border');
   });
 
   it('enseña el ejemplo de usuario como ayuda bajo el campo, no como placeholder (D-31)', async () => {
