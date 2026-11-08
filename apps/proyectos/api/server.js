@@ -52,6 +52,20 @@ function guardar(nombre, datos) {
 }
 let usuarios = cargar('usuarios.json');
 let reacciones = cargar('reacciones.json');
+{
+  // Una reacción por alumno y proyecto (D-NEW): se queda la de fecha más reciente; a igual fecha o sin fecha, la última del fichero.
+  const ganadora = new Map();
+  reacciones.forEach((r, i) => {
+    const k = `${r.login} ${r.proyecto}`, j = ganadora.get(k);
+    if (j === undefined || !r.fecha || !reacciones[j].fecha || reacciones[j].fecha <= r.fecha) ganadora.set(k, i);
+  });
+  const quedan = reacciones.filter((r, i) => ganadora.get(`${r.login} ${r.proyecto}`) === i);
+  if (quedan.length < reacciones.length) {
+    console.log(`reacciones.json: quitadas ${reacciones.length - quedan.length} reacciones repetidas (una por alumno y proyecto, D-NEW)`);
+    reacciones = quedan;
+    guardar('reacciones.json', reacciones);
+  }
+}
 
 // ---------- utilidades ----------
 function json(res, codigo, cuerpo, cabeceras = {}) {
@@ -216,9 +230,12 @@ async function reaccionar(req, res) {
   const p = leerProyectos().lista.find(x => x.id === String(b.proyecto || ''));
   if (!p) return json(res, 404, { error: 'proyecto no encontrado' });
   if (p.autores.includes(u.login)) return json(res, 403, { error: 'no puedes reaccionar a tu propio proyecto' });
-  const i = reacciones.findIndex(r => r.login === u.login && r.proyecto === p.id && r.emoji === emoji);
-  if (i >= 0) reacciones.splice(i, 1);                                  // segunda vez: la quita
-  else reacciones.push({ login: u.login, proyecto: p.id, emoji, fecha: new Date().toISOString() });
+  // Una por alumno y proyecto (D-NEW): la misma la quita, otra la sustituye, si no hay se añade.
+  const fecha = new Date().toISOString();
+  const i = reacciones.findIndex(r => r.login === u.login && r.proyecto === p.id);
+  if (i < 0) reacciones.push({ login: u.login, proyecto: p.id, emoji, fecha });
+  else if (reacciones[i].emoji === emoji) reacciones.splice(i, 1);
+  else Object.assign(reacciones[i], { emoji, fecha });
   guardar('reacciones.json', reacciones);
   json(res, 200, conReacciones(p, u));
 }

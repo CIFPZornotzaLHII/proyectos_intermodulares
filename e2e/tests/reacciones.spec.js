@@ -1,4 +1,4 @@
-// Reacciones con la sesión guardada por preparar.setup.js: añadir, quitar, persistencia, el propio proyecto y las
+// Reacciones con la sesión guardada por preparar.setup.js: añadir, cambiar (una por proyecto, D-NEW), quitar, persistencia, el propio proyecto y las
 // reglas de la API (D-01). Las pruebas dejan las reacciones a cero al terminar.
 import { test, expect } from '@playwright/test';
 import { SESION } from '../playwright.config.js';
@@ -24,46 +24,51 @@ test.describe('reacciones con sesión', () => {
     for (const nombre of REACCIONES) await expect(ajena.getByRole('button', { name: nombre })).toBeEnabled();
   });
 
-  test('añade reacciones, se guardan en el servidor, la portada las suma y al repetir se quitan', async ({ page, request }) => {
+  test('una reacción por proyecto: otra la sustituye, se guarda en el servidor, la portada suma y al repetir se quita', async ({ page, request }) => {
     await page.goto('galeria');
     const megusta = () => tarjeta(page, PROYECTOS['2SM'].titulo).getByRole('button', { name: 'Me gusta' });
     const fuego = () => tarjeta(page, PROYECTOS['2SM'].titulo).getByRole('button', { name: 'Fuego' });
+    const otra = () => tarjeta(page, PROYECTOS.PG.titulo).getByRole('button', { name: 'Me gusta' });
     await expect(megusta()).toHaveText('');
     await expect(megusta()).toHaveAttribute('aria-pressed', 'false');
     await megusta().click();
     await expect(megusta()).toHaveAttribute('aria-pressed', 'true');
     await expect(megusta()).toHaveText('1');
-    // otra reacción distinta en el mismo proyecto se suma aparte
+    // otra reacción en el mismo proyecto sustituye a la anterior (D-NEW)
     await fuego().click();
     await expect(fuego()).toHaveAttribute('aria-pressed', 'true');
     await expect(fuego()).toHaveText('1');
-    await expect(megusta()).toHaveText('1');
+    await expect(megusta()).toHaveAttribute('aria-pressed', 'false');
+    await expect(megusta()).toHaveText('');
 
     // persiste al recargar y la API lo cuenta (con "mias" para esta sesión)
     await page.reload();
-    await expect(megusta()).toHaveAttribute('aria-pressed', 'true');
-    await expect(megusta()).toHaveText('1');
+    await expect(fuego()).toHaveAttribute('aria-pressed', 'true');
+    await expect(fuego()).toHaveText('1');
+    await expect(megusta()).toHaveAttribute('aria-pressed', 'false');
     const api = await (await request.get('api/proyectos')).json();
     const p = api.proyectos.find(x => x.id === PROYECTOS['2SM'].id);
-    expect(p.reacciones).toMatchObject({ '👏': 1, '🔥': 1 });
-    expect([...p.mias].sort()).toEqual(['👏', '🔥'].sort());
+    expect(p.reacciones).toMatchObject({ '👏': 0, '🔥': 1 });
+    expect(p.mias).toEqual(['🔥']);
 
-    // la portada suma las dos: en la cifra y en el proyecto (destacado o tendencia)
+    // una en otro proyecto: la portada suma las dos en la cifra
+    await otra().click();
+    await expect(otra()).toHaveAttribute('aria-pressed', 'true');
     await page.goto('.');
     await page.locator('dl').scrollIntoViewIfNeeded();
     await expect(page.locator('dl dd').nth(2)).toHaveText('2');
-    await expect(page.getByText(/^2 reacciones( en total)?$/)).toHaveCount(1);
 
-    // segunda vez: se quitan
+    // repetir la misma la quita
     await page.goto('galeria');
-    await megusta().click();
-    await expect(megusta()).toHaveAttribute('aria-pressed', 'false');
-    await expect(megusta()).toHaveText('');
     await fuego().click();
     await expect(fuego()).toHaveAttribute('aria-pressed', 'false');
     await expect(fuego()).toHaveText('');
+    await otra().click();
+    await expect(otra()).toHaveAttribute('aria-pressed', 'false');
+    await expect(otra()).toHaveText('');
     const despues = await (await request.get('api/proyectos')).json();
-    expect(Object.values(despues.proyectos.find(x => x.id === PROYECTOS['2SM'].id).reacciones)).toEqual([0, 0, 0, 0, 0]);
+    for (const id of [PROYECTOS['2SM'].id, PROYECTOS.PG.id])
+      expect(Object.values(despues.proyectos.find(x => x.id === id).reacciones)).toEqual([0, 0, 0, 0, 0]);
   });
 
   test('la API aplica las reglas: nunca el propio proyecto, solo emojis permitidos y proyectos existentes', async ({ request }) => {
