@@ -46,7 +46,7 @@ export function PortadaProyecto({ p, className = '' }) {
 // Botón redondo de solo icono, 44 px, legible sobre cualquier portada
 const REDONDO = 'inline-flex size-11 items-center justify-center rounded-full border border-borde-claro bg-onice/80 text-texto no-underline hover:text-menta';
 
-// Copia texto al portapapeles; resuelve true o false. Sin navigator.clipboard (HTTP fuera de localhost) va la reserva (D-NEW)
+// Copia texto al portapapeles; resuelve true o false. Sin navigator.clipboard (HTTP fuera de localhost) va la reserva (D-44)
 function copiar(texto) {
   // shortcut: execCommand está obsoleto; quitarlo cuando la web se sirva por HTTPS (servidor/LEEME.md)
   const reserva = () => {
@@ -64,7 +64,7 @@ function copiar(texto) {
 }
 
 // Menú de tres puntos sobre la portada (D-28): disclosure con aria-expanded; se cierra con Escape, al pulsar fuera o al elegir.
-// Con `compartir` (solo en la galería, D-NEW) lleva un cuarto botón que copia la URL absoluta de la landing
+// Con `compartir` (solo en la galería, D-44) lleva un cuarto botón que copia la URL absoluta de la landing
 function MenuProyecto({ p, compartir = false }) {
   const { t } = useIdioma();
   const [abierto, setAbierto] = useState(false);

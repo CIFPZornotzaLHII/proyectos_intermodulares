@@ -61,7 +61,7 @@ test('los botones de reacción miden al menos 36 px y los del menú de tres punt
   await disparadores.first().click();
   const lista = page.locator(`[id="${await disparadores.first().getAttribute('aria-controls')}"]`);
   await expect(lista.locator('a, button')).not.toHaveCount(0);
-  // también offset*: el cuarto botón (Compartir, D-NEW) sigue escalándose en su entrada cuando se mide
+  // también offset*: el cuarto botón (Compartir, D-44) sigue escalándose en su entrada cuando se mide
   medidas.push(...await lista.locator('a, button').evaluateAll(es => es.map(e => [e.offsetWidth, e.offsetHeight])));
   for (const [w, h] of medidas) { expect(w).toBeGreaterThanOrEqual(44); expect(h).toBeGreaterThanOrEqual(44); }
 });

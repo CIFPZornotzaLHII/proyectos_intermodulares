@@ -224,7 +224,7 @@ describe('galería', () => {
     expect(r.queryByRole('link', { name: 'Código' })).toBeNull();
   });
 
-  it('"Compartir" copia la URL absoluta de la landing, cierra el menú y lo confirma en la tarjeta (D-NEW)', async () => {
+  it('"Compartir" copia la URL absoluta de la landing, cierra el menú y lo confirma en la tarjeta (D-44)', async () => {
     const writeText = vi.fn().mockResolvedValue();
     vi.stubGlobal('navigator', { ...navigator, clipboard: { writeText } });
     ir('/galeria');
@@ -252,7 +252,7 @@ describe('galería', () => {
     delete document.execCommand;
   });
 
-  it('las tarjetas de tendencias de la portada no llevan "Compartir" (D-NEW)', async () => {
+  it('las tarjetas de tendencias de la portada no llevan "Compartir" (D-44)', async () => {
     ir('/');
     render(<App />);
     await screen.findByText(/reacciones en total/);

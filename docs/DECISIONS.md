@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Compartir la landing desde la tarjeta de la galería · 2026-11-08 · vigente
+### D-44 · Compartir la landing desde la tarjeta de la galería · 2026-11-08 · vigente
 Petición: "En la tarjeta de la galería, enlace "Compartir" que copie la URL de la landing al portapapeles y lo confirme
 en pantalla (sin librerías)." Se hace así: el menú de tres puntos (D-28) de las tarjetas de la galería lleva un cuarto
 botón redondo, el último, con el icono nuevo `enlace` y `aria-label`/`title` "Compartir" (EU "Partekatu");
