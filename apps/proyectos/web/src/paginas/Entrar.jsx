@@ -42,7 +42,7 @@ export default function Entrar() {
 
         <div className="relative mx-auto grid w-full max-w-[1040px] items-center gap-12 md:grid-cols-2">
           <div className="flex flex-col gap-4">
-            {/* fuera de la escala: título del login fijado por D-NEW; corta palabras largas ("erreakzionatzeko") para no pisar el formulario */}
+            {/* fuera de la escala: título del login fijado por D-39; corta palabras largas ("erreakzionatzeko") para no pisar el formulario */}
             <h1 className="font-titulo text-[clamp(48px,7vw,96px)] leading-[0.92] tracking-[0.03em] hyphens-auto [overflow-wrap:anywhere]">{t('sesion_titulo')}</h1>
             <p className="text-entradilla text-texto">{t('sesion_texto')}</p>
             <ul className="flex flex-col gap-2.5 text-texto">

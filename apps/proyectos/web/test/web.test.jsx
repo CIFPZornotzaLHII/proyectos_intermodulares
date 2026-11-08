@@ -268,7 +268,7 @@ describe('inicio de sesión', () => {
     expect(await screen.findByText(/^Solo para alumnado y profesorado\./)).not.toHaveClass('text-texto-2');
   });
 
-  it('sin píldora, con el formulario sin borde y el título con tracking de portada (D-NEW)', async () => {
+  it('sin píldora, con el formulario sin borde y el título con tracking de portada (D-39)', async () => {
     ir('/entrar');
     const { container } = render(<App />);
     const h1 = await screen.findByRole('heading', { level: 1 });

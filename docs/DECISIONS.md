@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Primera pantalla del login: título grande y dos columnas iguales · 2026-11-08 · vigente
+### D-39 · Primera pantalla del login: título grande y dos columnas iguales · 2026-11-08 · vigente
 Petición: "Primera pantalla del login (`Entrar.jsx`): el título a tamaño de portada (clamp 48-96 px, Impact con
 tracking 0.03em), dos columnas iguales para que los márgenes izquierdo y derecho coincidan (hoy 104 y 121 px a 1440),
 el formulario como superficie rellena sin borde de 1 px, y la píldora "Solo alumnado y profesorado" convertida en la
