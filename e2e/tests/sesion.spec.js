@@ -10,7 +10,7 @@ test('con credenciales malas avisa; con buenas entra, vuelve a donde estaba y pu
   await entrar.click();
   await expect(page).toHaveURL(/\/proyectos\/entrar\?volver=%2F$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Entra para reaccionar a los proyectos');
-  await expect(page.getByText('Solo alumnado y profesorado')).toBeVisible();
+  await expect(page.getByText('Solo para alumnado y profesorado')).toBeVisible();
   await expect(page.getByText('No puedes reaccionar a tu propio proyecto.')).toBeVisible();
 
   const usuario = page.getByLabel('Usuario');

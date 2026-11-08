@@ -40,10 +40,9 @@ export default function Entrar() {
           <Orb colors={['#6331FB', '#70FBB7', '#150C4A']} backgroundColor="#01010D" glow={0.9} hoverIntensity={0.6} />
         </div>
 
-        <div className="relative flex w-full max-w-[1040px] flex-wrap items-center justify-center gap-12">
-          <div className="flex max-w-[460px] flex-[1_1_360px] flex-col gap-4">
-            <span className="insignia self-start border-menta bg-menta text-onice">{t('solo_centro')}</span>
-            <h1 className="text-titulo">{t('sesion_titulo')}</h1>
+        <div className="relative mx-auto grid w-full max-w-[1040px] items-center gap-12 md:grid-cols-2">
+          <div className="flex flex-col gap-4">
+            <h1 className="font-titulo text-[clamp(48px,7vw,96px)] leading-[0.92] tracking-[0.03em]">{t('sesion_titulo')}</h1>{/* fuera de la escala: título del login fijado por D-NEW */}
             <p className="text-entradilla text-texto">{t('sesion_texto')}</p>
             <ul className="flex flex-col gap-2.5 text-texto">
               {['sesion_p1', 'sesion_p2', 'sesion_p3'].map(k => (
@@ -52,7 +51,7 @@ export default function Entrar() {
             </ul>
           </div>
 
-          <form onSubmit={enviar} autoComplete="on" className="flex w-full flex-[0_1_420px] flex-col gap-[18px] rounded-2xl border border-borde-2 bg-superficie p-8">
+          <form onSubmit={enviar} autoComplete="on" className="flex w-full flex-col gap-[18px] rounded-2xl bg-superficie p-8">
             <h2 className="text-titulo">{t('entrar')}</h2>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="usuario" className="text-pequeno font-semibold text-texto-2">{t('usuario')}</label>
