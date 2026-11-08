@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import AnimatedContent from '../reactbits/AnimatedContent.jsx';
 import Orb from '../reactbits/Orb.jsx';
 import { useIdioma } from '../i18n.jsx';
 import { useSesion } from '../sesion.jsx';
@@ -41,7 +42,7 @@ export default function Entrar() {
         </div>
 
         <div className="relative mx-auto grid w-full max-w-[1040px] items-center gap-12 md:grid-cols-2">
-          <div className="flex flex-col gap-4">
+          <AnimatedContent trigger="mount" className="flex flex-col gap-4" distance={16} duration={0.55} stagger={0.08}>
             {/* fuera de la escala: título del login fijado por D-39; corta palabras largas ("erreakzionatzeko") para no pisar el formulario */}
             <h1 className="font-titulo text-[clamp(48px,7vw,96px)] leading-[0.92] tracking-[0.03em] hyphens-auto [overflow-wrap:anywhere]">{t('sesion_titulo')}</h1>
             <p className="text-entradilla text-texto">{t('sesion_texto')}</p>
@@ -50,29 +51,32 @@ export default function Entrar() {
                 <li key={k} className="flex items-start gap-2.5"><Icono nombre="check" tam={20} grosor={2.2} className="mt-[3px] text-menta" /><span>{t(k)}</span></li>
               ))}
             </ul>
-          </div>
+          </AnimatedContent>
 
-          <form onSubmit={enviar} autoComplete="on" className="flex w-full flex-col gap-[18px] rounded-2xl bg-superficie p-8">
-            <h2 className="text-titulo">{t('entrar')}</h2>
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="usuario" className="text-pequeno font-semibold text-texto-2">{t('usuario')}</label>
-              <input id="usuario" name="usuario" type="text" autoComplete="username" required autoCapitalize="none" spellCheck="false" aria-describedby="usuario-ayuda"
-                className="min-h-[46px] rounded-[10px] border border-borde-claro bg-onice px-3.5 py-2.5 text-texto focus:border-menta" />
-              <p id="usuario-ayuda" className="text-pequeno text-texto-3">{t('usuario_ayuda')}</p>
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="contrasena" className="text-pequeno font-semibold text-texto-2">{t('contrasena')}</label>
-              <input id="contrasena" name="contrasena" type="password" autoComplete="current-password" required
-                className="min-h-[46px] rounded-[10px] border border-borde-claro bg-onice px-3.5 py-2.5 text-texto focus:border-menta" />
-            </div>
-            {error && (
-              <div role="alert" className="flex items-start gap-2.5 rounded-[10px] border border-error/35 bg-error/12 px-3.5 py-3 text-pequeno text-error">
-                <Icono nombre="alerta" tam={18} grosor={2} /><span>{error}</span>
+          {/* el formulario entra al ritmo del escalonado, detrás del tercer elemento de la columna (2 × 0.08 s + 0.08 s) */}
+          <AnimatedContent trigger="mount" distance={16} duration={0.55} delay={0.24}>
+            <form onSubmit={enviar} autoComplete="on" className="flex w-full flex-col gap-[18px] rounded-2xl bg-superficie p-8">
+              <h2 className="text-titulo">{t('entrar')}</h2>
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="usuario" className="text-pequeno font-semibold text-texto-2">{t('usuario')}</label>
+                <input id="usuario" name="usuario" type="text" autoComplete="username" required autoCapitalize="none" spellCheck="false" aria-describedby="usuario-ayuda"
+                  className="min-h-[46px] rounded-[10px] border border-borde-claro bg-onice px-3.5 py-2.5 text-texto focus:border-menta" />
+                <p id="usuario-ayuda" className="text-pequeno text-texto-3">{t('usuario_ayuda')}</p>
               </div>
-            )}
-            <Boton variante="menta" type="submit" disabled={enviando} className="min-h-12 disabled:opacity-60">{enviando ? t('entrando') : t('entrar_boton')}</Boton>
-            <p className="text-center text-pequeno text-texto-3">{t('olvido')}</p>
-          </form>
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="contrasena" className="text-pequeno font-semibold text-texto-2">{t('contrasena')}</label>
+                <input id="contrasena" name="contrasena" type="password" autoComplete="current-password" required
+                  className="min-h-[46px] rounded-[10px] border border-borde-claro bg-onice px-3.5 py-2.5 text-texto focus:border-menta" />
+              </div>
+              {error && (
+                <div role="alert" className="flex items-start gap-2.5 rounded-[10px] border border-error/35 bg-error/12 px-3.5 py-3 text-pequeno text-error">
+                  <Icono nombre="alerta" tam={18} grosor={2} /><span>{error}</span>
+                </div>
+              )}
+              <Boton variante="menta" type="submit" disabled={enviando} className="min-h-12 disabled:opacity-60">{enviando ? t('entrando') : t('entrar_boton')}</Boton>
+              <p className="text-center text-pequeno text-texto-3">{t('olvido')}</p>
+            </form>
+          </AnimatedContent>
         </div>
       </main>
       <Pie />

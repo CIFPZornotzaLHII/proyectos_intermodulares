@@ -92,7 +92,7 @@ export function Reacciones({ p, usuario, onReaccion, ocupado = false }) {
         return (
           <button key={r.emoji} type="button" aria-pressed={mia} aria-label={t(r.nombre)} title={t(r.nombre)} disabled={autor || ocupado}
             onClick={() => onReaccion && onReaccion(r.emoji)}
-            className={`inline-flex min-h-9 items-center gap-[5px] rounded-full border px-2.5 py-1.5 text-pequeno font-semibold transition-colors duration-150 disabled:cursor-default disabled:opacity-55
+            className={`inline-flex min-h-9 items-center gap-[5px] rounded-full border px-2.5 py-1.5 text-pequeno font-semibold pulsable disabled:cursor-default disabled:opacity-55
               ${mia ? 'border-menta bg-menta/12 text-menta' : 'border-borde-claro bg-superficie-2 text-texto-2 hover:text-texto'}`}>
             <Icono nombre={r.icono} tam={18} />{n > 0 && <span>{n}</span>}
           </button>
@@ -111,7 +111,7 @@ export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, modo = 'galer
   return (
     <SpotlightCard role="article" spotlightColor="#70FBB7" intensity={0.12} spotlightSize={260} borderGlow={0.7}
       style={{ ...ESTILO_TARJETA, borderRadius: 'var(--radius-tarjeta)' }}
-      className="flex h-full flex-col transition-transform duration-150 hover:-translate-y-0.5" data-ciclo={p.ciclo}>
+      className="flex h-full flex-col transition-transform duration-150 motion-safe:hover:-translate-y-1 motion-safe:active:translate-y-0" data-ciclo={p.ciclo}>
       <div className="relative"><PortadaProyecto p={p} /><MenuProyecto p={p} /></div>
       <div className="flex flex-1 flex-col gap-2.5 px-5 pt-[18px] pb-4">
         <h3 className="text-titulo"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
@@ -143,7 +143,7 @@ export function Destacado({ p }) {
   return (
     <SpotlightCard role="article" spotlightColor="#70FBB7" intensity={0.1} spotlightSize={420} borderGlow={0.7}
       style={{ ...ESTILO_TARJETA, '--spotlight-card-surface': 'var(--color-superficie-2)', borderRadius: 'var(--radius-destacado)' }}
-      className="flex min-h-[min(80vh,720px)] flex-col justify-end max-md:min-h-[560px]">
+      className="flex min-h-[min(80vh,720px)] flex-col justify-end transition-transform duration-150 motion-safe:hover:-translate-y-1 motion-safe:active:translate-y-0 max-md:min-h-[560px]">
       {imagen
         ? <img src={ruta(p.portada)} alt="" onError={alFallar} className="absolute inset-0 block size-full object-cover" />
         : <span aria-hidden="true" className="absolute inset-x-0 top-0 flex h-3/5 items-center justify-center font-titulo text-[clamp(160px,28vw,380px)] leading-none text-indigo-claro opacity-80">{iniciales(p.titulo)}</span>}{/* fuera de la escala (D-32): iniciales decorativas, aria-hidden */}

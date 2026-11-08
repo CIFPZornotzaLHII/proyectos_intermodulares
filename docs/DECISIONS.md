@@ -3,6 +3,21 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-40 · Entrada escalonada por sección y respuesta al pulsar · 2026-11-08 · vigente
+Petición: "Movimiento: entrada escalonada de título, texto y tarjetas al entrar cada sección (`AnimatedContent` con
+`stagger`, 60-90 ms) en portada, galería y login, y respuesta al pasar el ratón o pulsar en botones, chips y tarjetas;
+todo con `prefers-reduced-motion` respetado. Hoy la galería mueve 13 elementos y el login 1." (tasteskill:
+still-page.) Se hace así, con el `AnimatedContent` de React Bits sin tocar (D-07) en lugar del `div` que agrupaba los
+hijos y con sus mismas clases: en la portada, la cabecera de "Proyecto destacado" (`h2` y nota) y la de "Tendencias"
+(`h2` y enlace), por scroll; en la galería, la franja (`h1` y entradilla) con `trigger="mount"`; en el login, la
+columna de texto (`h1`, `p`, `ul`) con `trigger="mount"` y el formulario detrás con `delay={0.24}`; y en `Llamada`, el
+texto y el botón. Todos con `stagger={0.08}`, `distance={16}`, `duration={0.55}`; el destacado, la rejilla de
+tendencias (`0.08`) y la de la galería (`0.06`) siguen igual, y el héroe también (D-33). Nueva utilidad `pulsable` en
+`index.css` (transición de escala y colores en 150 ms, `motion-safe:active:not-disabled:scale-[0.97]`) en `Boton`
+(salvo `pendiente`, sustituye a `active:translate-y-px`), los chips de ciclo (que ganan `hover:text-texto`), "Enséñame
+otro" y las reacciones. Las tarjetas (`TarjetaProyecto` y `Destacado`) suben 4 px al pasar y vuelven al pulsar, con
+`motion-safe:`. Con "reducir movimiento" `AnimatedContent` lo enseña todo al momento y solo quedan los cambios de color.
+
 ### D-39 · Primera pantalla del login: título grande y dos columnas iguales · 2026-11-08 · vigente
 Petición: "Primera pantalla del login (`Entrar.jsx`): el título a tamaño de portada (clamp 48-96 px, Impact con
 tracking 0.03em), dos columnas iguales para que los márgenes izquierdo y derecho coincidan (hoy 104 y 121 px a 1440),

@@ -47,10 +47,10 @@ export default function Galeria() {
           <DotGrid dotSize={3} gap={22} baseColor="#26224F" activeColor="#70FBB7" proximity={150} shockRadius={260} shockStrength={4} glow={0.6} />
         </div>
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(10,10,31,0.96)_0%,rgba(10,10,31,0.8)_45%,rgba(10,10,31,0.2)_100%)]" aria-hidden="true" />
-        <div className="contenedor relative flex min-h-[46vh] flex-col justify-end gap-3 pt-14 pb-12 max-md:min-h-0">
+        <AnimatedContent trigger="mount" className="contenedor relative flex min-h-[46vh] flex-col justify-end gap-3 pt-14 pb-12 max-md:min-h-0" distance={16} duration={0.55} stagger={0.08}>
           <h1 className="text-display leading-[0.92] tracking-[0.03em] uppercase text-texto/90">{t('galeria_titulo')}</h1>
           <p className="max-w-[640px] text-entradilla text-texto">{t('galeria_texto')}</p>
-        </div>
+        </AnimatedContent>
       </section>
 
       <main className="contenedor">
@@ -59,7 +59,7 @@ export default function Galeria() {
             {[{ codigo: '', nombre: t('todos') }, ...ciclos].map(c => (
               <button key={c.codigo} type="button" aria-pressed={filtro === c.codigo}
                 onClick={() => setParametros(c.codigo ? { ciclo: c.codigo } : {}, { replace: true })}
-                className={`min-h-10 rounded-full border px-4 py-2 text-cuerpo font-semibold ${filtro === c.codigo ? 'border-indigo bg-indigo text-blanco' : 'border-borde-claro bg-transparent text-texto hover:border-texto-3'}`}>
+                className={`pulsable min-h-10 rounded-full border px-4 py-2 text-cuerpo font-semibold ${filtro === c.codigo ? 'border-indigo bg-indigo text-blanco' : 'border-borde-claro bg-transparent text-texto hover:border-texto-3 hover:text-texto'}`}>
                 {c.nombre} · {cuenta(c.codigo)}
               </button>
             ))}
