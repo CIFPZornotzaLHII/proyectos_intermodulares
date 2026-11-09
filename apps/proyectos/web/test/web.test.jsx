@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import App from '../src/App.jsx';
-import { iniciales } from '../src/datos.js';
+import { conReaccion, iniciales, totalReacciones } from '../src/datos.js';
 
 // --- API falsa: tres proyectos, dos usuarios, reacciones con estado ---
 const proyecto = (id, titulo, ciclo, reacciones, autores = []) => ({
@@ -314,6 +314,162 @@ describe('galería', () => {
     fireEvent.error(tarjeta.querySelector('img'));
     expect(tarjeta.querySelector('img')).toBeNull();
     expect(within(tarjeta).getByText('RD')).toHaveClass('text-indigo-claro');
+  });
+});
+
+describe('corazón de la portada (D-NEW)', () => {
+  const ANE = { login: 'ane.garcia', nombre: 'Ane García', ciclo: 'DAW' };
+  const NOMBRES = ['Me gusta', 'Buena idea', 'Ambicioso', 'Fuego', 'Me encanta'];
+  const articulo = titulo => screen.getAllByRole('article').find(a => within(a).queryByText(titulo));
+  // el total del proyecto, en una tendencia ("N reacciones", sr-only) o en el destacado ("N reacciones en total")
+  const total = a => (within(a).queryByText(/^\d+ reacciones$/) || within(a).getByText(/reacciones en total/)).textContent.match(/\d+/)[0];
+  const portada = async () => {
+    ir('/');
+    render(<App />);
+    await screen.findByText(/reacciones en total/);
+    await (sesion ? screen.findByText(sesion.nombre) : screen.findByRole('link', { name: 'Iniciar sesión' }));
+  };
+  const retener = () => vi.stubGlobal('fetch', vi.fn((url, o) => (url.endsWith('api/reacciones') ? new Promise(() => {}) : apiFalsa(url, o))));
+
+  it('sin sesión, el corazón de cada tarjeta lleva a entrar y de vuelta a la portada', async () => {
+    await portada();
+    const tarjetas = screen.getAllByRole('article');
+    expect(tarjetas.length).toBe(3);
+    for (const a of tarjetas) expect(within(a).getByRole('link', { name: 'Inicia sesión para reaccionar' }).getAttribute('href')).toMatch(/\/entrar\?volver=\/$/);
+    expect(screen.queryByRole('button', { name: 'Reaccionar' })).toBeNull();
+  });
+
+  it('con sesión, el propio proyecto no reacciona; en otro el abanico añade y quita sin mover la portada', async () => {
+    sesion = ANE;
+    await portada();
+    const titulo = () => screen.getAllByRole('heading', { level: 3 })[0].textContent;
+    const antes = titulo();
+    const propia = articulo('Reservas de talleres');
+    expect(within(propia).getByText('Es tu proyecto')).toBeInTheDocument();
+    expect(within(propia).queryByRole('button', { name: /^(Reaccionar|Tu reacción)/ })).toBeNull();
+
+    const ajena = articulo('Red segura para una asesoría');
+    const corazon = within(ajena).getByRole('button', { name: 'Reaccionar' });
+    expect(corazon).toHaveAttribute('aria-expanded', 'false');
+    fireEvent.click(corazon);
+    expect(corazon).toHaveAttribute('aria-expanded', 'true');
+    const abanico = document.getElementById(corazon.getAttribute('aria-controls'));
+    expect(abanico).toHaveAttribute('role', 'group');
+    expect(abanico).toHaveAccessibleName('Elige una reacción');
+    expect(within(abanico).getAllByRole('button').map(b => b.getAttribute('aria-label'))).toEqual(NOMBRES);
+    for (const b of within(abanico).getAllByRole('button')) expect(b).toHaveAttribute('aria-pressed', 'false');
+
+    fireEvent.click(within(abanico).getByRole('button', { name: 'Me gusta' }));
+    expect(corazon).toHaveAttribute('aria-expanded', 'false');
+    expect(within(ajena).queryByRole('button', { name: 'Me gusta' })).toBeNull();
+    expect(document.activeElement).toBe(corazon);
+    expect(corazon).toHaveAccessibleName('Tu reacción: Me gusta');
+    expect(corazon.querySelector('svg')).toHaveClass('motion-safe:animate-menear');
+    expect(total(ajena)).toBe('4');
+    expect(within(ajena).getByTitle('Me gusta')).toHaveClass('text-menta');
+    expect(within(ajena).getByTitle('Buena idea')).not.toHaveClass('text-menta');
+    await waitFor(() => expect(corazon).toHaveAttribute('aria-busy', 'false'));
+
+    // otra vez la misma: se quita, sin meneo
+    fireEvent.click(corazon);
+    const megusta = within(ajena).getByRole('button', { name: 'Me gusta' });
+    expect(megusta).toHaveAttribute('aria-pressed', 'true');
+    fireEvent.click(megusta);
+    await waitFor(() => expect(corazon).toHaveAttribute('aria-busy', 'false'));
+    expect(corazon).toHaveAccessibleName('Reaccionar');
+    expect(corazon.querySelector('svg')).not.toHaveClass('motion-safe:animate-menear');
+    expect(total(ajena)).toBe('3');
+    expect(within(ajena).queryByTitle('Me gusta')).toBeNull();
+    expect(peticiones.filter(p => p === 'POST reacciones').length).toBe(2);
+    expect(peticiones.filter(p => p === 'GET proyectos').length).toBe(1);
+    expect(titulo()).toBe(antes);
+    expect(screen.getAllByRole('article').length).toBe(3);
+  });
+
+  it('la reacción se ve al momento, antes de que responda el servidor (añadir y cambiar)', async () => {
+    sesion = ANE;
+    Object.assign(proyectos[2], { reacciones: { '👏': 2 }, mias: ['👏'] });   // TPV: ya tiene "Me gusta" de Ane
+    retener();
+    await portada();
+    const red = articulo('Red segura para una asesoría');
+    fireEvent.click(within(red).getByRole('button', { name: 'Reaccionar' }));
+    fireEvent.click(within(red).getByRole('button', { name: 'Me gusta' }));
+    expect(within(red).getByRole('button', { name: 'Tu reacción: Me gusta' })).toHaveAttribute('aria-busy', 'true');
+    expect(total(red)).toBe('4');
+
+    const tpv = articulo('TPV para la cafetería');
+    const corazon = within(tpv).getByRole('button', { name: 'Tu reacción: Me gusta' });
+    fireEvent.click(corazon);
+    expect(within(tpv).getByRole('button', { name: 'Me gusta' })).toHaveAttribute('aria-pressed', 'true');
+    fireEvent.click(within(tpv).getByRole('button', { name: 'Fuego' }));
+    expect(corazon).toHaveAccessibleName('Tu reacción: Fuego');
+    expect(total(tpv)).toBe('2');
+    expect(within(tpv).getByTitle('Me gusta')).not.toHaveClass('text-menta');
+    expect(within(tpv).getByTitle('Fuego')).toHaveClass('text-menta');
+  });
+
+  it('si el servidor falla, el total vuelve a su valor y el corazón enseña el error', async () => {
+    sesion = ANE;
+    vi.stubGlobal('fetch', vi.fn((url, o) => (url.endsWith('api/reacciones')
+      ? Promise.resolve({ ok: false, status: 500, json: () => Promise.resolve({ error: 'fallo' }) }) : apiFalsa(url, o))));
+    await portada();
+    const red = articulo('Red segura para una asesoría');
+    expect(within(red).getByRole('alert')).toHaveTextContent('');
+    fireEvent.click(within(red).getByRole('button', { name: 'Reaccionar' }));
+    fireEvent.click(within(red).getByRole('button', { name: 'Me gusta' }));
+    await waitFor(() => expect(within(red).getByRole('alert')).toHaveTextContent('fallo'));
+    expect(total(red)).toBe('3');
+    expect(within(red).getByRole('button', { name: 'Reaccionar' })).toBeInTheDocument();
+  });
+
+  it('el abanico se cierra con Escape (el foco vuelve al corazón), al pulsar fuera y al pulsar otra vez', async () => {
+    sesion = ANE;
+    await portada();
+    const red = articulo('Red segura para una asesoría');
+    const corazon = within(red).getByRole('button', { name: 'Reaccionar' });
+    fireEvent.click(corazon);
+    within(red).getByRole('button', { name: 'Buena idea' }).focus();
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(corazon).toHaveAttribute('aria-expanded', 'false');
+    expect(within(red).queryByRole('button', { name: 'Buena idea' })).toBeNull();
+    expect(document.activeElement).toBe(corazon);
+    fireEvent.click(corazon);
+    fireEvent.pointerDown(document.body);
+    expect(corazon).toHaveAttribute('aria-expanded', 'false');
+    fireEvent.click(corazon);
+    fireEvent.click(corazon);
+    expect(corazon).toHaveAttribute('aria-expanded', 'false');
+    expect(peticiones.filter(p => p === 'POST reacciones').length).toBe(0);
+  });
+
+  it('en euskera, el corazón y las cinco reacciones llevan sus nombres', async () => {
+    sesion = ANE;
+    localStorage.setItem('pi_idioma', 'eu');
+    ir('/');
+    render(<App />);
+    await screen.findByText(/erreakzio guztira/);
+    const corazon = await within(articulo('Red segura para una asesoría')).findByRole('button', { name: 'Erreakzionatu' });
+    fireEvent.click(corazon);
+    const abanico = document.getElementById(corazon.getAttribute('aria-controls'));
+    expect(abanico).toHaveAccessibleName('Aukeratu erreakzio bat');
+    expect(within(abanico).getAllByRole('button').map(b => b.getAttribute('aria-label'))).toEqual(['Gustatzen zait', 'Ideia ona', 'Handinahia', 'Sua', 'Izugarri gustatzen zait']);
+  });
+
+  it('conReaccion: añade, cambia y quita con una reacción por alumno, sin mutar el proyecto', () => {
+    const p = { id: 'x', reacciones: { '💡': 3 }, mias: [] };
+    const una = conReaccion(p, '👏');
+    expect(totalReacciones(una)).toBe(4);
+    expect(una.mias).toEqual(['👏']);
+    const otra = conReaccion(una, '🔥');
+    expect(totalReacciones(otra)).toBe(4);
+    expect(otra.reacciones).toEqual({ '💡': 3, '👏': 0, '🔥': 1 });
+    expect(otra.mias).toEqual(['🔥']);
+    const quitada = conReaccion(otra, '🔥');
+    expect(totalReacciones(quitada)).toBe(3);
+    expect(quitada.mias).toEqual([]);
+    expect(conReaccion({ reacciones: {}, mias: ['👏'] }, '👏').reacciones['👏']).toBe(0);   // nunca por debajo de 0
+    expect(p).toEqual({ id: 'x', reacciones: { '💡': 3 }, mias: [] });
+    expect(una.mias).toEqual(['👏']);
   });
 });
 

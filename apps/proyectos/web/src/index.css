@@ -68,6 +68,21 @@
   @keyframes desplegar {   /* sin "to": acaba en la opacidad propia del botón (el desactivado se queda atenuado) */
     from { opacity: 0; transform: translateY(-6px); }
   }
+  /* Iconos sin fondo sobre la tarjeta (el corazón, su abanico y el resumen de reacciones, D-NEW): sombra ligera de ónice */
+  --drop-shadow-icono: 0 2px 3px rgb(1 1 13 / 0.6);
+  /* Abanico del corazón (D-NEW): cada reacción sale del corazón (--desde-x/--desde-y, el camino de vuelta) hasta su
+     sitio en el arco, escalonadas por animationDelay */
+  --animate-abanico: abanico 0.22s ease-out both;
+  @keyframes abanico {   /* sin "to": acaba en su sitio */
+    from { opacity: 0; translate: var(--desde-x) var(--desde-y); scale: 0.4; }
+  }
+  /* El corazón cerrado, ya con la reacción elegida, se menea con giros pequeños (D-NEW) */
+  --animate-menear: menear 0.4s ease-in-out;
+  @keyframes menear {
+    20% { rotate: -14deg; }
+    45% { rotate: 10deg; }
+    70% { rotate: -5deg; }
+  }
 }
 
 @layer base {
@@ -83,6 +98,7 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .animate-aparecer, .animate-desplegar { animation: none; }   /* la tarjeta además la pone con motion-safe: la utilidad gana a @layer base */
+    .animate-abanico, .animate-menear { animation: none; }   /* el corazón también va con motion-safe: sin abanico ni meneo */
     .animate-bajar, .animate-subir { animation-duration: 0.01ms; }   /* casi instantáneas, pero disparan animationend */
   }
 }

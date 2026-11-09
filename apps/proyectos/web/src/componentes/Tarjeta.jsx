@@ -7,6 +7,7 @@ import { ruta } from '../api.js';
 import { REACCIONES, esAutor, iniciales, totalReacciones } from '../datos.js';
 import Boton from './Boton.jsx';
 import Icono from './Icono.jsx';
+import Abanico, { ResumenReacciones } from './Abanico.jsx';
 
 // Tarjeta de React Bits (SpotlightCard) con la paleta del centro: superficie, borde y foco menta al pasar el ratón
 export const ESTILO_TARJETA = {
@@ -139,9 +140,10 @@ export function Reacciones({ p, usuario, onReaccion, ocupado = false }) {
   );
 }
 
-// Tarjeta de la galería (con reacciones) o de "Tendencias" (con el total); las acciones van en el menú de tres puntos
+// Tarjeta de la galería (con reacciones) o de "Tendencias" (corazón, total y resumen, D-NEW); las acciones van en el menú de tres puntos
 export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, etiqueta, onEtiqueta, modo = 'galeria' }) {
   const { t } = useIdioma();
+  const total = totalReacciones(p);
   return (
     <SpotlightCard role="article" spotlightColor="#70FBB7" intensity={0.12} spotlightSize={260} borderGlow={0.7}
       style={{ ...ESTILO_TARJETA, borderRadius: 'var(--radius-tarjeta)' }}
@@ -163,8 +165,10 @@ export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, etiqueta, onE
             ))}
           </div>
         )}
-        {modo !== 'galeria' && <div className="mt-auto flex flex-wrap items-center gap-2 pt-1.5">
-              <span className="pildora" title={t('reacciones_n', { n: totalReacciones(p) })}><Icono nombre="corazon" tam={15} className="text-menta" /><span aria-hidden="true">{totalReacciones(p)}</span><span className="sr-only">{t('reacciones_n', { n: totalReacciones(p) })}</span></span>
+        {modo !== 'galeria' && <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 pt-1.5">
+              <Abanico p={p} usuario={usuario} onReaccion={onReaccion} ocupado={ocupado} volver="/" />
+              <span className="text-pequeno font-semibold" title={t('reacciones_n', { n: total })}><span aria-hidden="true">{total}</span><span className="sr-only">{t('reacciones_n', { n: total })}</span></span>
+              <ResumenReacciones p={p} />
             </div>}
       </div>
       {modo === 'galeria' && <Reacciones p={p} usuario={usuario} onReaccion={onReaccion} ocupado={ocupado} />}
@@ -177,10 +181,10 @@ export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, etiqueta, onE
 // mucha escala (título de portada en Impact, cifra grande en menta) y una sola acción menta; vídeo y código, enlaces.
 const ENLACE_DISCRETO = 'inline-flex min-h-[44px] items-center gap-2 text-cuerpo font-semibold text-texto-2 no-underline hover:text-menta';
 
-export function Destacado({ p }) {
+// Con sesión se reacciona con el corazón (D-NEW): su abanico sale hacia arriba, sobre el título y el texto
+export function Destacado({ p, usuario, onReaccion, ocupado }) {
   const { t } = useIdioma();
   const [imagen, alFallar] = usePortada(p);
-  const resumen = REACCIONES.filter(x => (p.reacciones[x.emoji] || 0) > 0).sort((a, b) => p.reacciones[b.emoji] - p.reacciones[a.emoji]).slice(0, 3);
   return (
     <SpotlightCard role="article" spotlightColor="#70FBB7" intensity={0.1} spotlightSize={420} borderGlow={0.7}
       style={{ ...ESTILO_TARJETA, '--spotlight-card-surface': 'var(--color-superficie-2)', borderRadius: 'var(--radius-destacado)' }}
@@ -198,10 +202,9 @@ export function Destacado({ p }) {
         <h3 className="text-display leading-[0.92] tracking-[0.025em] [overflow-wrap:anywhere]"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
         <p className="max-w-[60ch] text-entradilla text-texto">{p.resumen}</p>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+          <Abanico p={p} usuario={usuario} onReaccion={onReaccion} ocupado={ocupado} volver="/" />
           <p className="flex items-baseline gap-2.5 text-pequeno text-texto-3"><span className="font-titulo text-titulo leading-none text-menta">{totalReacciones(p)}</span> {t('reacciones_total_texto')}</p>
-          {resumen.length > 0 && <div className="flex flex-wrap gap-2">
-            {resumen.map(x => <span key={x.emoji} className="pildora" title={t(x.nombre)}><Icono nombre={x.icono} tam={15} className="text-menta" />{p.reacciones[x.emoji]}</span>)}
-          </div>}
+          <ResumenReacciones p={p} />
         </div>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-1">
           <Boton variante="menta" href={ruta(p.url)}>{t('ver_proyecto')}<Icono nombre="flecha" grosor={2.2} /></Boton>
