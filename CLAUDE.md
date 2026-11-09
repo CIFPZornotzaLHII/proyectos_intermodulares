@@ -17,9 +17,10 @@ decisiones `D-n` en `docs/DECISIONS.md` (la más reciente arriba y **manda sobre
 
 - `apps/proyectos/web/`: la web. `src/paginas/` (`Portada`, `Galeria`, `Entrar`; `App.jsx` carga cada una con
   `React.lazy` en su propio trozo de JS, D-42: una página nueva sigue el mismo patrón), `src/componentes/` (cabecera, pie,
-  llamada, botón, iconos, `Tarjeta.jsx` con la tarjeta y su menú de tres puntos, el destacado y las reacciones), `src/i18n.jsx` (textos ES/EU,
+  llamada, botón, iconos, `Tarjeta.jsx` con la tarjeta y su menú de tres puntos, el destacado y las reacciones,
+  `Abanico.jsx` con el corazón con abanico de reacciones y el resumen), `src/i18n.jsx` (textos ES/EU,
   `TEXTOS`), `src/api.js` (llamadas a la API; `BASE` = `import.meta.env.BASE_URL`), `src/sesion.jsx` (sesión
-  compartida), `src/useProyectos.js`, `src/datos.js` (ordenar por votos, azar, filtros, `REACCIONES`), `src/index.css`
+  compartida), `src/useProyectos.js`, `src/datos.js` (ordenar por votos, azar, filtros, `REACCIONES`, `conReaccion`), `src/index.css`
   (tema Tailwind en `@theme`: paleta, tipografías y escala de tamaños). `vite.config.js` fija la base `/proyectos/` (D-06) y sirve las
   landings en desarrollo. Tests en `test/` (vitest + Testing Library, API falsa). `Dockerfile` compila y sirve con
   `nginx.conf` (SPA, `/p/` landings, `/api/`).
@@ -36,7 +37,7 @@ decisiones `D-n` en `docs/DECISIONS.md` (la más reciente arriba y **manda sobre
   comprueba `/proyectos/`, `/proyectos/galeria`, `/proyectos/entrar` y `/proyectos/api/salud`), Actions
   (`validar-pr.yml`, `desplegar.yml`).
 - `e2e/`: pruebas de extremo a extremo con Playwright (Chromium, escritorio y móvil) contra la pila de Docker
-  levantada: `tests/*.spec.js` (portada, galería, reacciones, sesión, rutas y API, idioma, calidad, capturas),
+  levantada: `tests/*.spec.js` (portada, galería, reacciones, corazón, sesión, rutas y API, idioma, calidad, capturas),
   `tests/datos.js` (cuentas y proyectos de ejemplo que usan), `preparar.setup.js` (importa `alumnos.ejemplo.csv`,
   vacía reacciones y guarda una sesión), `docker-compose.yml` + `Dockerfile` (imagen oficial de Playwright, se une a
   la red `pi_default` y habla con `http://proxy/proyectos/`). Salida en `e2e/salida/` (ignorada). Guía: `e2e/LEEME.md`.

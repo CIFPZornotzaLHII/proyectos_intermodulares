@@ -3,6 +3,40 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-NEW · Reaccionar desde la portada con el corazón y su abanico · 2026-11-09 · vigente
+Petición: "Reaccionar desde la portada con un botón corazón: en el bloque "Proyecto destacado" (`Destacado` en
+`Tarjeta.jsx`) y en las tres tarjetas "Destacados" de `Portada.jsx` (modo portada de `TarjetaProyecto`, hoy solo una
+píldora con el total), un botón con el icono corazón que al pulsarlo despliega en abanico, animadas una tras otra, las
+cinco reacciones (👏 💡 🚀 🔥 ❤️, con los iconos de la web), sin círculo, píldora ni fondo alrededor de cada una: solo
+el icono, con una sombra paralela ligera y sutil (`drop-shadow`) para que sobresalga de la tarjeta; lo mismo en el
+resumen de reacciones. Cada alumno tiene una sola reacción por proyecto (ítem anterior). Al elegir una: un ligero
+wiggle de esa reacción, el total sube en uno al momento (si ya tenía otra, el total no cambia y se cambia la reacción)
+y esa reacción se queda en color en el resumen de reacciones del proyecto (la del usuario en color, `mias`; el resto
+en gris), y el corazón cerrado muestra la reacción elegida; pulsar otra vez la ya elegida la quita (`POST
+/api/reacciones`). Hacerlo como un componente propio en `componentes/` (sin librerías, animación CSS) para
+reutilizarlo en la galería; se cierra al elegir, con Escape o al pulsar fuera; accesible con teclado y nombres en ES y
+EU; sin sesión, el corazón lleva a `/entrar`; en el proyecto propio no se despliega y dice "Es tu proyecto"; con
+`prefers-reduced-motion`, sin abanico ni wiggle (aparecen sin más). Comprobar a 390 y 1280 px." Se hace así:
+`componentes/Abanico.jsx` exporta `Abanico` (el corazón y su abanico) y `ResumenReacciones`, listos para la galería
+(job 034). El corazón es un disclosure como el menú de tres puntos: `<button>` de 44 px con `aria-expanded` y
+`aria-controls`, que se cierra con Escape (el foco vuelve al corazón), al pulsar fuera, al pulsar otra vez y al elegir;
+sin sesión es un `Link` a `/entrar?volver=/`; en el proyecto propio, un corazón atenuado y "Es tu proyecto", sin botón.
+Cerrado muestra la reacción elegida en menta (el último elemento de `mias`) y se llama "Tu reacción: …"; sin ella,
+"Reaccionar". El abanico es un `role="group"` con los cinco botones en un cuarto de círculo de 116 px de radio, de
+arriba a la derecha del corazón (unos 45 px entre centros), porque el corazón va a la izquierda de su fila y
+`SpotlightCard` recorta: así cabe en la tarjeta a 390 px. Cada reacción es solo el icono con `drop-shadow-icono`
+(token nuevo de `@theme`, sombra de ónice), y sale del corazón con el keyframe `abanico`, escalonada 50 ms. Al elegir
+(añadir o cambiar), el icono del corazón cerrado hace el wiggle (`menear`, 0,4 s de giros pequeños); al quitar, no.
+Con "reducir movimiento" los dos van con `motion-safe:` y además se anulan en el bloque `prefers-reduced-motion`: los
+iconos aparecen en su sitio y no hay meneo. La portada reacciona en optimista: `conReaccion` (`datos.js`) aplica al
+momento la regla de una reacción por alumno, y después manda la respuesta del servidor (con error vuelve el proyecto
+de antes y el corazón enseña el texto en un `role="alert"`). Esa regla la pone la API del job 025: sin ella, una
+segunda reacción se suma y la web acaba enseñando las dos. El orden de la portada se fija al llegar la lista: el
+destacado se guarda por id y reaccionar no cambia el destacado, ni las tendencias, ni su orden; solo los números y las
+cifras. Matiza D-20 (el resumen del destacado pierde las píldoras y enseña todas las reacciones con votos, no tres) y
+D-28 (en Tendencias, la píldora del total pasa a corazón + total + resumen). Es un control propio con keyframes CSS,
+como el menú de D-28, pedido así por Mikel, y no un componente de React Bits reimplementado (SPEC §6, D-07).
+
 ### D-44 · Compartir la landing desde la tarjeta de la galería · 2026-11-08 · vigente
 Petición: "En la tarjeta de la galería, enlace "Compartir" que copie la URL de la landing al portapapeles y lo confirme
 en pantalla (sin librerías)." Se hace así: el menú de tres puntos (D-28) de las tarjetas de la galería lleva un cuarto
