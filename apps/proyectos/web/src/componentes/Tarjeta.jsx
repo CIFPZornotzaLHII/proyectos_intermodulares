@@ -28,18 +28,24 @@ function usePortada(p) {
 // Solo el ciclo (SMR, DAW, DAM): el grado sobraba en la etiqueta
 export const Insignia = ({ p }) => <span className="insignia">{p.ciclo_nombre}</span>;
 
-// Imagen de portada (o iniciales si el grupo no puso imagen) con la etiqueta del ciclo; enlaza a la landing
+// Portada de fondo de toda la tarjeta (D-NEW), hija directa de SpotlightCard: la capa `absolute inset-0 -z-20` (la
+// foto, o superficie-2 si no hay o no carga) va contra su raíz y por debajo de su luz (-z-10). Encima, en flujo, el
+// enlace a la landing es la zona de arriba, transparente, de 16:9 como mínimo y que crece con la fila, con la etiqueta
+// del ciclo y, sin foto, las iniciales
 export function PortadaProyecto({ p, className = '' }) {
   const { t } = useIdioma();
   const [imagen, alFallar] = usePortada(p);
   return (
-    <a href={ruta(p.url)} aria-label={`${t('ver_proyecto')}: ${p.titulo}`}
-      className={`relative flex aspect-video items-center justify-center overflow-hidden bg-superficie-2 no-underline ${className}`}>
-      {imagen
-        ? <img src={ruta(p.portada)} alt="" loading="lazy" onError={alFallar} className="block size-full object-cover" />
-        : <span className="font-titulo text-[44px] text-indigo-claro opacity-80" aria-hidden="true">{iniciales(p.titulo)}</span>}{/* fuera de la escala (D-32): iniciales decorativas, aria-hidden */}
-      <span className="absolute top-[18px] left-[18px] z-[1] inline-flex gap-2"><Insignia p={p} /></span>
-    </a>
+    <>
+      <div className="absolute inset-0 -z-20 bg-superficie-2">
+        {imagen && <img src={ruta(p.portada)} alt="" loading="lazy" onError={alFallar} className="block size-full object-cover" />}
+      </div>
+      <a href={ruta(p.url)} aria-label={`${t('ver_proyecto')}: ${p.titulo}`}
+        className={`flex aspect-video grow items-center justify-center no-underline ${className}`}>
+        {!imagen && <span className="font-titulo text-[44px] text-indigo-claro opacity-80" aria-hidden="true">{iniciales(p.titulo)}</span>}{/* fuera de la escala (D-32): iniciales decorativas, aria-hidden */}
+        <span className="absolute top-[18px] left-[18px] z-[1] inline-flex gap-2"><Insignia p={p} /></span>
+      </a>
+    </>
   );
 }
 
@@ -139,35 +145,41 @@ export function Reacciones({ p, usuario, onReaccion, ocupado = false }) {
   );
 }
 
-// Tarjeta de la galería (con reacciones) o de "Tendencias" (con el total); las acciones van en el menú de tres puntos
+// Tarjeta de la galería (con reacciones) o de "Tendencias" (con el total); las acciones van en el menú de tres puntos.
+// La portada es su fondo (D-NEW) y el texto va abajo sobre un velo de ónice ligado a él: transparente arriba, fundido
+// en los 48 px de relleno superior y 0,9 desde ahí hasta el borde (4,5:1 sobre cualquier foto, también con la luz del
+// foco, que queda debajo). Capas: fondo -z-20, luz -z-10, velo y texto en flujo, borde z-[1], menú z-[2]
 export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, etiqueta, onEtiqueta, modo = 'galeria' }) {
   const { t } = useIdioma();
   return (
     <SpotlightCard role="article" spotlightColor="#70FBB7" intensity={0.12} spotlightSize={260} borderGlow={0.7}
       style={{ ...ESTILO_TARJETA, borderRadius: 'var(--radius-tarjeta)' }}
       className="flex h-full flex-col transition-transform duration-150 motion-safe:hover:-translate-y-1 motion-safe:active:translate-y-0" data-ciclo={p.ciclo}>
-      <div className="relative"><PortadaProyecto p={p} /><MenuProyecto p={p} compartir={modo === 'galeria'} /></div>
-      <div className="flex flex-1 flex-col gap-2.5 px-5 pt-[18px] pb-4">
-        <h3 className="text-titulo"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
-        <p className="text-pequeno font-medium text-texto-3">{(p.equipo || []).join(' · ')}</p>
-        <p className="text-cuerpo text-texto">{p.resumen}</p>
-        {modo === 'galeria' && (p.etiquetas || []).length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
-            {p.etiquetas.map(e => (
-              <button key={e} type="button" aria-pressed={etiqueta === e} aria-label={t('filtrar_etiqueta', { e })}
-                onClick={() => onEtiqueta && onEtiqueta(e)}
-                className={`pulsable inline-flex min-h-9 items-center rounded-full border px-[9px] py-[3px] text-pequeno
-                  ${etiqueta === e ? 'border-menta bg-menta/12 text-menta' : 'border-borde-claro bg-superficie-2 text-texto-3 hover:border-texto-3 hover:text-texto'}`}>
-                {e}
-              </button>
-            ))}
-          </div>
-        )}
-        {modo !== 'galeria' && <div className="mt-auto flex flex-wrap items-center gap-2 pt-1.5">
-              <span className="pildora" title={t('reacciones_n', { n: totalReacciones(p) })}><Icono nombre="corazon" tam={15} className="text-menta" /><span aria-hidden="true">{totalReacciones(p)}</span><span className="sr-only">{t('reacciones_n', { n: totalReacciones(p) })}</span></span>
-            </div>}
+      <PortadaProyecto p={p} />
+      <MenuProyecto p={p} compartir={modo === 'galeria'} />
+      <div className="bg-[linear-gradient(transparent,rgba(1,1,13,0.9)_3rem)] pt-12">
+        <div className="flex flex-col gap-2.5 px-5 pt-[18px] pb-4">
+          <h3 className="text-titulo"><a href={ruta(p.url)} className="text-texto no-underline hover:text-menta">{p.titulo}</a></h3>
+          <p className="text-pequeno font-medium text-texto-3">{(p.equipo || []).join(' · ')}</p>
+          <p className="text-cuerpo text-texto">{p.resumen}</p>
+          {modo === 'galeria' && (p.etiquetas || []).length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {p.etiquetas.map(e => (
+                <button key={e} type="button" aria-pressed={etiqueta === e} aria-label={t('filtrar_etiqueta', { e })}
+                  onClick={() => onEtiqueta && onEtiqueta(e)}
+                  className={`pulsable inline-flex min-h-9 items-center rounded-full border px-[9px] py-[3px] text-pequeno
+                    ${etiqueta === e ? 'border-menta bg-menta/12 text-menta' : 'border-borde-claro bg-superficie-2 text-texto-3 hover:border-texto-3 hover:text-texto'}`}>
+                  {e}
+                </button>
+              ))}
+            </div>
+          )}
+          {modo !== 'galeria' && <div className="flex flex-wrap items-center gap-2 pt-1.5">
+                <span className="pildora" title={t('reacciones_n', { n: totalReacciones(p) })}><Icono nombre="corazon" tam={15} className="text-menta" /><span aria-hidden="true">{totalReacciones(p)}</span><span className="sr-only">{t('reacciones_n', { n: totalReacciones(p) })}</span></span>
+              </div>}
+        </div>
+        {modo === 'galeria' && <Reacciones p={p} usuario={usuario} onReaccion={onReaccion} ocupado={ocupado} />}
       </div>
-      {modo === 'galeria' && <Reacciones p={p} usuario={usuario} onReaccion={onReaccion} ocupado={ocupado} />}
     </SpotlightCard>
   );
 }
