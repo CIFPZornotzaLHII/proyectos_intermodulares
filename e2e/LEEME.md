@@ -37,7 +37,7 @@ CLAVE_ADMIN=... npx playwright test`.
 |---|---|
 | `preparar.setup.js` | la pila responde y no hay proyectos inválidos; importa las cuentas de ejemplo; deja cero reacciones; guarda una sesión |
 | `portada.spec.js` | h1, cifras (3 proyectos, 7 alumnos, reacciones), destacado con su ciclo, tendencias, "Enséñame otro" sin recargar, enlaces y anclas |
-| `galeria.spec.js` | las tres tarjetas (ciclo, equipo, etiquetas, vídeo o "Vídeo pendiente", enlaces), filtros con `?ciclo=`, buscador, sin sesión → login, landing |
+| `galeria.spec.js` | las tres tarjetas (ciclo, equipo, etiquetas, vídeo o "Vídeo pendiente", enlaces), la portada de fondo de toda la tarjeta (o las iniciales si no carga) con la insignia y el menú sobre la foto y el mismo alto por fila (también a 390 px), filtros con `?ciclo=`, buscador, sin sesión → login, landing |
 | `reacciones.spec.js` | con sesión: cabecera, propio proyecto bloqueado, añadir y quitar, persistencia, la portada suma; reglas de la API (401, 403, 400, 404) |
 | `sesion.spec.js` | formulario: error, entrada, vuelta a la página de origen, salir; `volver` externo ignorado (solo escritorio) |
 | `rutas.spec.js` | redirecciones del proxy y de los nombres antiguos, SPA, landings y lo que no se sirve (`proyecto.json`, ocultos), estáticos, API |

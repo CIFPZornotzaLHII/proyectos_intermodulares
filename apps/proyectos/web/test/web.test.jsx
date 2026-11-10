@@ -315,6 +315,28 @@ describe('galería', () => {
     expect(tarjeta.querySelector('img')).toBeNull();
     expect(within(tarjeta).getByText('RD')).toHaveClass('text-indigo-claro');
   });
+
+  it('la portada es el fondo de toda la tarjeta y el texto queda fuera de su enlace (D-45)', async () => {
+    proyectos[0].portada = 'p/WG/reservas/portada.jpg';
+    ir('/galeria');
+    render(<App />);
+    await screen.findByText('Reservas de talleres');
+    const tarjeta = screen.getAllByRole('article').find(a => within(a).queryByText('Reservas de talleres'));
+    const imagenes = tarjeta.querySelectorAll('img');
+    expect(imagenes.length).toBe(1);
+    expect(imagenes[0]).toHaveClass('object-cover');
+    const capa = imagenes[0].parentElement;
+    expect(capa).toHaveClass('absolute', 'inset-0', '-z-20');
+    expect(capa.parentElement).toBe(tarjeta);   // posicionada contra la raíz de SpotlightCard
+    const enlace = within(tarjeta).getByRole('link', { name: 'Ver proyecto: Reservas de talleres' });
+    const texto = [
+      within(tarjeta).getByRole('heading', { level: 3 }),
+      within(tarjeta).getByText('Resumen de Reservas de talleres'),
+      ...within(tarjeta).getAllByRole('button', { name: /^(Me gusta|Buena idea|Ambicioso|Fuego|Me encanta)$/ }),
+    ];
+    expect(texto.length).toBe(7);
+    texto.forEach(el => expect(enlace.contains(el)).toBe(false));
+  });
 });
 
 describe('inicio de sesión', () => {

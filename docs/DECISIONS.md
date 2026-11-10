@@ -3,6 +3,31 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-45 · La portada como fondo de las tarjetas · 2026-11-09 · vigente
+Petición: "Integrar la imagen en las tarjetas (`TarjetaProyecto` en `Tarjeta.jsx`, galería y "Destacados" de la
+portada): en vez de una franja de portada arriba y el texto debajo sobre superficie, la portada ocupa toda la tarjeta
+como fondo (`object-cover`) con un degradado de ónice desde abajo (transparente arriba, `#01010D` casi opaco en la zona
+del texto) y el texto (título, equipo, resumen, etiquetas, reacciones) va abajo encima del degradado, legible a 4,5:1
+sobre cualquier foto. Sin portada o si no carga, el fondo de iniciales de siempre (`PortadaProyecto` con su `onError`,
+job 004). Que todas las tarjetas de una fila sigan teniendo el mismo alto, que la insignia del ciclo y el botón de tres
+puntos queden arriba sobre la imagen, y que el foco de `SpotlightCard` siga funcionando (no se edita, D-07). Comprobar
+con las tres portadas de ejemplo y una sin imagen, a 390 y 1280 px." Se hace así, en `Tarjeta.jsx`:
+`PortadaProyecto` pinta dos hijos directos de `SpotlightCard`. El primero es la capa de fondo, `absolute inset-0 -z-20
+bg-superficie-2`, posicionada contra la raíz de `SpotlightCard` (que la recorta a las esquinas), con el `<img
+object-cover>` si hay portada; sin portada o tras `onError` (`usePortada` sin cambios, D-22) se queda en
+`superficie-2`. El segundo es el enlace `Ver proyecto: <título>` (mismo `aria-label` y `href`), en flujo y transparente,
+`aspect-video grow`: la zona de arriba, de 16:9 como mínimo, que se queda con el alto que sobre si la fila estira la
+tarjeta; lleva la insignia (`top-[18px] left-[18px]`) y, sin foto, las iniciales centradas. `MenuProyecto` pasa a ser
+hermano directo de los dos, posicionado también contra la raíz (mismas coordenadas): desaparece el envoltorio
+`relative` que describía D-28. Debajo, un bloque en flujo con el texto y `Reacciones` lleva el velo como fondo,
+`linear-gradient(transparent, rgba(1,1,13,0.9) 3rem)` con `pt-12`: fundido de 48 px encima del título y α 0,9 desde ahí
+hasta el borde inferior, ligado al bloque y no al alto de la tarjeta, así que vale con cualquier largo de título y
+resumen. Con α 0,9 el texto más apagado (`texto-4`) da 5,0:1 sobre una foto blanca. Capas, de abajo arriba: fondo
+(-20), luz de `SpotlightCard` (-10), velo y texto (en flujo), borde y su brillo (`z-[1]`), menú (`z-[2]`). Al revés que
+antes, la luz del foco brilla sobre la foto y queda velada bajo el texto (encima del velo, `texto-4` bajaría a ~3,7:1).
+`SpotlightCard.jsx`, `ESTILO_TARJETA`, los props de la tarjeta y `Destacado` no cambian. La tarjeta crece 48 px (el
+fundido).
+
 ### D-44 · Compartir la landing desde la tarjeta de la galería · 2026-11-08 · vigente
 Petición: "En la tarjeta de la galería, enlace "Compartir" que copie la URL de la landing al portapapeles y lo confirme
 en pantalla (sin librerías)." Se hace así: el menú de tres puntos (D-28) de las tarjetas de la galería lleva un cuarto

@@ -1,6 +1,43 @@
 // Galería (/proyectos/galeria): tarjetas, filtro por ciclo en la URL, buscador y la invitación a entrar
 import { test, expect } from '@playwright/test';
-import { PROYECTOS, tarjeta } from './datos.js';
+import { PROYECTOS, recorrer, tarjeta } from './datos.js';
+
+// La portada es el fondo de toda la tarjeta (D-45); la de PG se aborta para probar la tarjeta sin imagen (onError)
+async function portadaDeFondo(page) {
+  await page.route(`**/p/${PROYECTOS.PG.id}/portada.jpg`, r => r.abort());
+  await page.goto('galeria');   // el beforeEach ya cargó la galería sin la ruta
+  await expect(page.getByRole('article')).toHaveCount(3);
+  await recorrer(page);         // las portadas son loading="lazy"
+  const sinImagen = tarjeta(page, PROYECTOS.PG.titulo);
+  await expect(sinImagen.locator('img')).toHaveCount(0);
+  await expect(sinImagen.getByText('TP', { exact: true })).toBeVisible();   // iniciales de "TPV para la cafetería"
+  for (const p of [PROYECTOS.WG, PROYECTOS['2SM']]) await expect(tarjeta(page, p.titulo).locator('img')).toHaveCount(1);
+  // tamaños de layout (offset*), relativos a la tarjeta: la entrada escalonada usa transformaciones
+  const medidas = await page.getByRole('article').evaluateAll(as => as.map(a => {
+    const arriba = el => { let y = 0; for (; el && el !== a; el = el.offsetParent) y += el.offsetTop; return y; };
+    const abajo = el => arriba(el) + el.offsetHeight;
+    const capa = a.querySelector('a[aria-label^="Ver proyecto:"]').previousElementSibling;
+    const img = a.querySelector('img');
+    return {
+      top: a.offsetTop, alto: a.offsetHeight, ancho: a.offsetWidth, h3: arriba(a.querySelector('h3')),
+      insignia: abajo(a.querySelector('.insignia')), menu: abajo(a.querySelector('button[aria-label="Más opciones"]')),
+      z: Number(getComputedStyle(capa).zIndex), img: img && { ancho: img.offsetWidth, alto: img.offsetHeight, enCapa: img.parentElement === capa },
+    };
+  }));
+  for (const m of medidas) {
+    for (const o of medidas) if (o.top === m.top) expect(o.alto, 'mismo alto en la fila').toBe(m.alto);
+    expect(m.insignia).toBeLessThanOrEqual(m.h3);
+    expect(m.menu).toBeLessThanOrEqual(m.h3);
+    expect(m.h3, 'zona de foto de 16:9 sobre el título').toBeGreaterThanOrEqual(0.5625 * m.ancho - 1);
+    expect(m.z, 'la capa de fondo, debajo de la luz de SpotlightCard (-10)').toBeLessThan(-10);
+    if (m.img) {
+      expect(m.img.enCapa).toBe(true);
+      expect(Math.abs(m.img.ancho - m.ancho)).toBeLessThanOrEqual(1);
+      expect(Math.abs(m.img.alto - m.alto)).toBeLessThanOrEqual(1);
+    }
+  }
+  expect(medidas.filter(m => m.img).length).toBe(2);
+}
 
 test.describe('galería', () => {
   test.beforeEach(async ({ page }) => {
@@ -106,5 +143,16 @@ test.describe('galería', () => {
     await expect(page).toHaveURL(/\/proyectos\/p\/WG\/reservas-talleres\/$/);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(PROYECTOS.WG.landing);
     await expect(page).toHaveTitle(/Reserva tu taller en 20 segundos/);
+  });
+
+  test('la portada es el fondo de la tarjeta, con o sin imagen, y las de una fila miden lo mismo (D-45)', async ({ page }) => {
+    await portadaDeFondo(page);
+  });
+
+  test.describe('a 390 px', () => {
+    test.use({ viewport: { width: 390, height: 844 } });
+    test('la portada es el fondo de la tarjeta, con o sin imagen (D-45)', async ({ page }) => {
+      await portadaDeFondo(page);
+    });
   });
 });
