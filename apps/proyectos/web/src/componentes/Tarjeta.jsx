@@ -28,7 +28,7 @@ function usePortada(p) {
 // Solo el ciclo (SMR, DAW, DAM): el grado sobraba en la etiqueta
 export const Insignia = ({ p }) => <span className="insignia">{p.ciclo_nombre}</span>;
 
-// Portada de fondo de toda la tarjeta (D-NEW), hija directa de SpotlightCard: la capa `absolute inset-0 -z-20` (la
+// Portada de fondo de toda la tarjeta (D-45), hija directa de SpotlightCard: la capa `absolute inset-0 -z-20` (la
 // foto, o superficie-2 si no hay o no carga) va contra su raíz y por debajo de su luz (-z-10). Encima, en flujo, el
 // enlace a la landing es la zona de arriba, transparente, de 16:9 como mínimo y que crece con la fila, con la etiqueta
 // del ciclo y, sin foto, las iniciales
@@ -146,7 +146,7 @@ export function Reacciones({ p, usuario, onReaccion, ocupado = false }) {
 }
 
 // Tarjeta de la galería (con reacciones) o de "Tendencias" (con el total); las acciones van en el menú de tres puntos.
-// La portada es su fondo (D-NEW) y el texto va abajo sobre un velo de ónice ligado a él: transparente arriba, fundido
+// La portada es su fondo (D-45) y el texto va abajo sobre un velo de ónice ligado a él: transparente arriba, fundido
 // en los 48 px de relleno superior y 0,9 desde ahí hasta el borde (4,5:1 sobre cualquier foto, también con la luz del
 // foco, que queda debajo). Capas: fondo -z-20, luz -z-10, velo y texto en flujo, borde z-[1], menú z-[2]
 export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, etiqueta, onEtiqueta, modo = 'galeria' }) {

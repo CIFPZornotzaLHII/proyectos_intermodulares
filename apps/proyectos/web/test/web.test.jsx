@@ -316,7 +316,7 @@ describe('galería', () => {
     expect(within(tarjeta).getByText('RD')).toHaveClass('text-indigo-claro');
   });
 
-  it('la portada es el fondo de toda la tarjeta y el texto queda fuera de su enlace (D-NEW)', async () => {
+  it('la portada es el fondo de toda la tarjeta y el texto queda fuera de su enlace (D-45)', async () => {
     proyectos[0].portada = 'p/WG/reservas/portada.jpg';
     ir('/galeria');
     render(<App />);

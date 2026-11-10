@@ -2,7 +2,7 @@
 import { test, expect } from '@playwright/test';
 import { PROYECTOS, recorrer, tarjeta } from './datos.js';
 
-// La portada es el fondo de toda la tarjeta (D-NEW); la de PG se aborta para probar la tarjeta sin imagen (onError)
+// La portada es el fondo de toda la tarjeta (D-45); la de PG se aborta para probar la tarjeta sin imagen (onError)
 async function portadaDeFondo(page) {
   await page.route(`**/p/${PROYECTOS.PG.id}/portada.jpg`, r => r.abort());
   await page.goto('galeria');   // el beforeEach ya cargó la galería sin la ruta
@@ -145,13 +145,13 @@ test.describe('galería', () => {
     await expect(page).toHaveTitle(/Reserva tu taller en 20 segundos/);
   });
 
-  test('la portada es el fondo de la tarjeta, con o sin imagen, y las de una fila miden lo mismo (D-NEW)', async ({ page }) => {
+  test('la portada es el fondo de la tarjeta, con o sin imagen, y las de una fila miden lo mismo (D-45)', async ({ page }) => {
     await portadaDeFondo(page);
   });
 
   test.describe('a 390 px', () => {
     test.use({ viewport: { width: 390, height: 844 } });
-    test('la portada es el fondo de la tarjeta, con o sin imagen (D-NEW)', async ({ page }) => {
+    test('la portada es el fondo de la tarjeta, con o sin imagen (D-45)', async ({ page }) => {
       await portadaDeFondo(page);
     });
   });

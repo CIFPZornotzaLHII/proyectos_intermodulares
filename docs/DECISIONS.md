@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · La portada como fondo de las tarjetas · 2026-11-09 · vigente
+### D-45 · La portada como fondo de las tarjetas · 2026-11-09 · vigente
 Petición: "Integrar la imagen en las tarjetas (`TarjetaProyecto` en `Tarjeta.jsx`, galería y "Destacados" de la
 portada): en vez de una franja de portada arriba y el texto debajo sobre superficie, la portada ocupa toda la tarjeta
 como fondo (`object-cover`) con un degradado de ónice desde abajo (transparente arriba, `#01010D` casi opaco en la zona
