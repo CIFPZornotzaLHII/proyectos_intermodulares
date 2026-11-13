@@ -18,7 +18,9 @@ sale de la carpeta del ciclo (`2SM`, `WG`, `PG`), no de lo que escriba el alumno
 `proyecto.json` inválido se ignora y aparece en `GET /api/salud` como `invalidos`.
 
 La portada elige el **proyecto destacado** al azar entre los 10 con más reacciones (cambia en cada visita) y debajo
-muestra los 3 siguientes. "Ver todos los proyectos" lleva a la galería con filtros por ciclo y buscador.
+muestra los 3 siguientes. Con sesión se reacciona a ellos desde la portada con el corazón, que despliega las cinco
+reacciones en abanico; reaccionar no cambia el orden de la portada (D-47). "Ver todos los proyectos" lleva a la
+galería con filtros por ciclo y buscador.
 
 ## API
 
@@ -71,8 +73,8 @@ React 19 + Vite + Tailwind 4 + react-router. Compilada con base `/proyectos/` (`
 
 | Carpeta | Qué hay |
 |---|---|
-| `src/paginas/` | `Portada` (destacado al azar entre los 10 más votados, tendencias, cifras), `Galeria` (filtros por ciclo, buscador, reacciones), `Entrar` (login) |
-| `src/componentes/` | cabecera, pie, llamada a publicar, botón, iconos y las tarjetas (`Tarjeta.jsx`) |
+| `src/paginas/` | `Portada` (destacado al azar entre los 10 más votados, tendencias, cifras; se reacciona con el corazón), `Galeria` (filtros por ciclo, buscador, reacciones), `Entrar` (login) |
+| `src/componentes/` | cabecera, pie, llamada a publicar, botón, iconos, las tarjetas (`Tarjeta.jsx`) y el corazón con su abanico de reacciones y el resumen (`Abanico.jsx`) |
 | `src/reactbits/` | componentes de [React Bits](https://reactbits.dev) copiados tal cual (licencia MIT + Commons Clause, `LICENSE.md`): `CountUp` (cifras de la portada), `SpotlightCard` (tarjetas), `DotGrid` (franja de la galería), `Orb` (login) y `AnimatedContent` (aparición al hacer scroll); `LiquidEther` y `BlurText` siguen en la carpeta pero la portada ya no los usa (D-17). No se editan: si hace falta otro, se copia de `src/tailwind/` del repo de React Bits |
 | `src/i18n.jsx` | textos ES/EU · `src/api.js` llamadas a la API · `src/sesion.jsx` sesión compartida · `src/index.css` tema (paleta y tipografías en `@theme`) |
 | `test/` | pruebas de las tres páginas contra una API falsa |

@@ -26,5 +26,16 @@ export const REACCIONES = [
   { emoji: '❤️', icono: 'corazon', nombre: 'r_corazon' },
 ];
 
+// Copia del proyecto tras pulsar `emoji`, con la regla de una reacción por alumno (job 025): la misma se quita y otra
+// sustituye a las que hubiera. Es la vista optimista de la portada; después manda la respuesta del servidor (D-47)
+export const conReaccion = (p, emoji) => {
+  const mias = p.mias || [];
+  const quita = mias.includes(emoji);
+  const reacciones = { ...p.reacciones };
+  for (const e of quita ? [emoji] : mias) reacciones[e] = Math.max(0, (reacciones[e] || 0) - 1);
+  if (!quita) reacciones[emoji] = (reacciones[emoji] || 0) + 1;
+  return { ...p, reacciones, mias: quita ? mias.filter(e => e !== emoji) : [emoji] };
+};
+
 // Ruta de vuelta tras el login: solo rutas de esta web (nada de //otro-sitio ni http://)
 export const volverSegura = valor => (typeof valor === 'string' && /^\/(?!\/)[\w\-./?=&#%]*$/.test(valor) ? valor : '/galeria');

@@ -1,13 +1,14 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import CountUp from '../reactbits/CountUp.jsx';
 import AnimatedContent from '../reactbits/AnimatedContent.jsx';
 import Noise from '../reactbits/Noise.jsx';
 import Magnet from '../reactbits/Magnet.jsx';
 import { useIdioma } from '../i18n.jsx';
-import { ruta } from '../api.js';
+import { useSesion } from '../sesion.jsx';
+import { reaccionar, ruta } from '../api.js';
 import useProyectos from '../useProyectos.js';
-import { alAzar, ordenarPorVotos, totalReacciones } from '../datos.js';
+import { alAzar, conReaccion, ordenarPorVotos, totalReacciones } from '../datos.js';
 import Cabecera from '../componentes/Cabecera.jsx';
 import Pie from '../componentes/Pie.jsx';
 import Llamada from '../componentes/Llamada.jsx';
@@ -20,15 +21,39 @@ const LISTA_HERO = ['hero_1', 'hero_2', 'hero_3', 'hero_4'];
 
 export default function Portada() {
   const { t } = useIdioma();
-  const { lista, estado } = useProyectos();
+  const { usuario } = useSesion();
+  const { lista, estado, actualizar } = useProyectos();
+  const navegar = useNavigate();
+  const [ocupado, setOcupado] = useState(null); // id del proyecto cuya reacción está en vuelo
 
-  const porVotos = useMemo(() => ordenarPorVotos(lista), [lista]);
-  const top = useMemo(() => porVotos.slice(0, 10), [porVotos]);
-  const [destacado, setDestacado] = useState(null);
-  // al llegar la lista, uno al azar entre los diez más votados; "Enséñame otro" cambia sin recargar
-  useEffect(() => { setDestacado(alAzar(top)); }, [top]);
-  const otro = () => setDestacado(alAzar(top.filter(p => p !== destacado)));
-  const tendencias = porVotos.filter(p => p !== destacado).slice(0, 3);
+  // El orden por votos se fija al llegar la lista (D-47): reaccionar cambia los números en su sitio, no qué proyecto es
+  // el destacado ni qué tarjetas hay en Tendencias. Se guardan ids; los objetos se leen siempre de la lista actual
+  const [orden, setOrden] = useState([]);
+  const [destacadoId, setDestacadoId] = useState(null);
+  useEffect(() => {
+    if (estado !== 'ok') return;
+    const ids = ordenarPorVotos(lista).map(p => p.id);
+    setOrden(ids);
+    setDestacadoId(alAzar(ids.slice(0, 10))); // uno al azar entre los diez más votados; "Enséñame otro" cambia sin recargar
+  }, [estado]); // sin `lista` a propósito: también cambia al reaccionar
+  const top = orden.slice(0, 10);
+  const proyecto = id => lista.find(p => p.id === id);
+  const destacado = destacadoId && proyecto(destacadoId);
+  const otro = () => setDestacadoId(alAzar(top.filter(id => id !== destacadoId)));
+  const tendencias = orden.filter(id => id !== destacadoId).slice(0, 3).map(proyecto);
+
+  // Optimista (D-47): la reacción se ve al momento con conReaccion y después manda la respuesta del servidor; si falla
+  // vuelve el proyecto de antes (p) y el corazón enseña el error que se le devuelve
+  const onReaccion = async (p, emoji) => {
+    actualizar(conReaccion(p, emoji));
+    setOcupado(p.id);
+    const r = await reaccionar(p.id, emoji);
+    setOcupado(null);
+    if (r.estado === 401) { navegar('/entrar?volver=/'); return null; }
+    if (!r.ok) { actualizar(p); return (r.datos && r.datos.error) || t('error_red'); }
+    actualizar(r.datos);
+    return null;
+  };
 
   const cifras = [
     { clave: 'cifra_proyectos', valor: lista.length },
@@ -127,7 +152,7 @@ export default function Portada() {
           {estado === 'ok' && !destacado && <div className="vacio">{t('sin_proyectos_portada')}</div>}
           {estado === 'ok' && destacado && (
             <AnimatedContent key={destacado.id} distance={18} duration={0.6} threshold={0.05}>
-              <Destacado p={destacado} />
+              <Destacado p={destacado} usuario={usuario} ocupado={ocupado === destacado.id} onReaccion={emoji => onReaccion(destacado, emoji)} />
             </AnimatedContent>
           )}
         </div>
@@ -144,8 +169,8 @@ export default function Portada() {
               {t('ver_los_n', { n: lista.length })}<Icono nombre="flecha" grosor={2.2} />
             </Link>
           </AnimatedContent>
-          <AnimatedContent key={destacado && destacado.id} className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6" distance={16} duration={0.55} stagger={0.08} threshold={0.05}>
-            {tendencias.map(p => <TarjetaProyecto key={p.id} p={p} modo="tendencia" />)}
+          <AnimatedContent key={destacadoId} className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6" distance={16} duration={0.55} stagger={0.08} threshold={0.05}>
+            {tendencias.map(p => <TarjetaProyecto key={p.id} p={p} modo="tendencia" usuario={usuario} ocupado={ocupado === p.id} onReaccion={emoji => onReaccion(p, emoji)} />)}
           </AnimatedContent>
         </section>
       )}
