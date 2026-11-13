@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Una sola reacción por alumno y proyecto · 2026-11-08 · vigente
+### D-46 · Una sola reacción por alumno y proyecto · 2026-11-08 · vigente
 Petición: "Una sola reacción por alumno y proyecto (hoy se pueden poner las cinco): en `reaccionar` de
 `apps/proyectos/api/server.js`, elegir una reacción distinta sustituye a la anterior (el total no cambia), repetir la
 misma la quita y elegir la primera la añade; `mias` pasa a tener como mucho un elemento. Al cargar `reacciones.json`,

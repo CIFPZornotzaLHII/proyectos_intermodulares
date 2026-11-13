@@ -28,7 +28,7 @@ function apiFalsa(url, opciones = {}) {
     const { proyecto: id, emoji } = JSON.parse(opciones.body);
     const p = proyectos.find(x => x.id === id);
     if (p.autores.includes(sesion.login)) return json(403, { error: 'No puedes reaccionar a tu propio proyecto' });
-    // Una por alumno y proyecto (D-NEW): se quita la que hubiera; si era otra, se pone la nueva.
+    // Una por alumno y proyecto (D-46): se quita la que hubiera; si era otra, se pone la nueva.
     const antes = p.mias[0];
     if (antes) p.reacciones[antes]--;
     if (antes !== emoji) p.reacciones[emoji] = (p.reacciones[emoji] || 0) + 1;
@@ -304,7 +304,7 @@ describe('galería', () => {
     await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveAttribute('aria-pressed', 'false'));
     expect(within(ajena).getByRole('button', { name: 'Me gusta' }).textContent).toBe('');
 
-    // Una por alumno y proyecto (D-NEW): otra la sustituye y repetirla la quita.
+    // Una por alumno y proyecto (D-46): otra la sustituye y repetirla la quita.
     fireEvent.click(within(ajena).getByRole('button', { name: 'Me gusta' }));
     await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveAttribute('aria-pressed', 'true'));
     fireEvent.click(within(ajena).getByRole('button', { name: 'Fuego' }));

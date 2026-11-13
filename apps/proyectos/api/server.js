@@ -53,7 +53,7 @@ function guardar(nombre, datos) {
 let usuarios = cargar('usuarios.json');
 let reacciones = cargar('reacciones.json');
 {
-  // Una reacción por alumno y proyecto (D-NEW): se queda la de fecha más reciente; a igual fecha o sin fecha, la última del fichero.
+  // Una reacción por alumno y proyecto (D-46): se queda la de fecha más reciente; a igual fecha o sin fecha, la última del fichero.
   const ganadora = new Map();
   reacciones.forEach((r, i) => {
     const k = `${r.login} ${r.proyecto}`, j = ganadora.get(k);
@@ -61,7 +61,7 @@ let reacciones = cargar('reacciones.json');
   });
   const quedan = reacciones.filter((r, i) => ganadora.get(`${r.login} ${r.proyecto}`) === i);
   if (quedan.length < reacciones.length) {
-    console.log(`reacciones.json: quitadas ${reacciones.length - quedan.length} reacciones repetidas (una por alumno y proyecto, D-NEW)`);
+    console.log(`reacciones.json: quitadas ${reacciones.length - quedan.length} reacciones repetidas (una por alumno y proyecto, D-46)`);
     reacciones = quedan;
     guardar('reacciones.json', reacciones);
   }
@@ -230,7 +230,7 @@ async function reaccionar(req, res) {
   const p = leerProyectos().lista.find(x => x.id === String(b.proyecto || ''));
   if (!p) return json(res, 404, { error: 'proyecto no encontrado' });
   if (p.autores.includes(u.login)) return json(res, 403, { error: 'no puedes reaccionar a tu propio proyecto' });
-  // Una por alumno y proyecto (D-NEW): la misma la quita, otra la sustituye, si no hay se añade.
+  // Una por alumno y proyecto (D-46): la misma la quita, otra la sustituye, si no hay se añade.
   const fecha = new Date().toISOString();
   const i = reacciones.findIndex(r => r.login === u.login && r.proyecto === p.id);
   if (i < 0) reacciones.push({ login: u.login, proyecto: p.id, emoji, fecha });

@@ -1,4 +1,4 @@
-// Reacciones con la sesión guardada por preparar.setup.js: añadir, cambiar (una por proyecto, D-NEW), quitar, persistencia, el propio proyecto y las
+// Reacciones con la sesión guardada por preparar.setup.js: añadir, cambiar (una por proyecto, D-46), quitar, persistencia, el propio proyecto y las
 // reglas de la API (D-01). Las pruebas dejan las reacciones a cero al terminar.
 import { test, expect } from '@playwright/test';
 import { SESION } from '../playwright.config.js';
@@ -34,7 +34,7 @@ test.describe('reacciones con sesión', () => {
     await megusta().click();
     await expect(megusta()).toHaveAttribute('aria-pressed', 'true');
     await expect(megusta()).toHaveText('1');
-    // otra reacción en el mismo proyecto sustituye a la anterior (D-NEW)
+    // otra reacción en el mismo proyecto sustituye a la anterior (D-46)
     await fuego().click();
     await expect(fuego()).toHaveAttribute('aria-pressed', 'true');
     await expect(fuego()).toHaveText('1');
