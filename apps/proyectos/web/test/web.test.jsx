@@ -28,9 +28,11 @@ function apiFalsa(url, opciones = {}) {
     const { proyecto: id, emoji } = JSON.parse(opciones.body);
     const p = proyectos.find(x => x.id === id);
     if (p.autores.includes(sesion.login)) return json(403, { error: 'No puedes reaccionar a tu propio proyecto' });
-    const mia = p.mias.includes(emoji);
-    p.reacciones[emoji] = (p.reacciones[emoji] || 0) + (mia ? -1 : 1);
-    p.mias = mia ? p.mias.filter(e => e !== emoji) : [...p.mias, emoji];
+    // Una por alumno y proyecto (D-46): se quita la que hubiera; si era otra, se pone la nueva.
+    const antes = p.mias[0];
+    if (antes) p.reacciones[antes]--;
+    if (antes !== emoji) p.reacciones[emoji] = (p.reacciones[emoji] || 0) + 1;
+    p.mias = antes === emoji ? [] : [emoji];
     return json(200, { ...p });
   }
   return json(404, { error: 'ruta' });
@@ -301,7 +303,19 @@ describe('galería', () => {
     fireEvent.click(within(ajena).getByRole('button', { name: 'Me gusta' }));
     await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveAttribute('aria-pressed', 'false'));
     expect(within(ajena).getByRole('button', { name: 'Me gusta' }).textContent).toBe('');
-    expect(peticiones.filter(p => p === 'POST reacciones').length).toBe(2);
+
+    // Una por alumno y proyecto (D-46): otra la sustituye y repetirla la quita.
+    fireEvent.click(within(ajena).getByRole('button', { name: 'Me gusta' }));
+    await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveAttribute('aria-pressed', 'true'));
+    fireEvent.click(within(ajena).getByRole('button', { name: 'Fuego' }));
+    await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Fuego' })).toHaveAttribute('aria-pressed', 'true'));
+    expect(within(ajena).getByRole('button', { name: 'Fuego' })).toHaveTextContent('1');
+    expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveAttribute('aria-pressed', 'false');
+    expect(within(ajena).getByRole('button', { name: 'Me gusta' }).textContent).toBe('');
+    fireEvent.click(within(ajena).getByRole('button', { name: 'Fuego' }));
+    await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Fuego' })).toHaveAttribute('aria-pressed', 'false'));
+    expect(within(ajena).getByRole('button', { name: 'Fuego' }).textContent).toBe('');
+    expect(peticiones.filter(p => p === 'POST reacciones').length).toBe(5);
   });
 
   it('si la portada no carga, la tarjeta enseña las iniciales en vez de la imagen rota (D-22)', async () => {

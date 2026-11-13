@@ -25,12 +25,12 @@ muestra los 3 siguientes. "Ver todos los proyectos" lleva a la galería con filt
 | Método y ruta | Qué hace |
 |---|---|
 | `GET /api/salud` | estado, número de proyectos, inválidos, usuarios y reacciones |
-| `GET /api/proyectos[?ciclo=2SM]` | proyectos con sus reacciones (y `mias` si hay sesión) |
+| `GET /api/proyectos[?ciclo=2SM]` | proyectos con sus reacciones (y `mias`, con como mucho un emoji, si hay sesión) |
 | `GET /api/sesion` · `POST /api/sesion {usuario, contrasena}` · `DELETE /api/sesion` | sesión (cookie `pi_sesion`, firmada con `CLAVE_SESION`, 30 días) |
-| `POST /api/reacciones {proyecto: "WG/mi-proyecto", emoji}` | añade o quita (si ya estaba) la reacción del usuario; no se puede reaccionar al propio proyecto (`autores` en `proyecto.json`) |
+| `POST /api/reacciones {proyecto: "WG/mi-proyecto", emoji}` | una reacción por usuario y proyecto: la añade si no había, la cambia si había otra y la quita si era la misma; no se puede reaccionar al propio proyecto (`autores` en `proyecto.json`) |
 | `… /api/admin/…` con cabecera `X-Clave-Admin` | importar usuarios (CSV o JSON), listar, cambiar contraseña, borrar, ver y borrar reacciones. Lo usa `admin.sh` |
 
-Reacciones posibles: 👏 💡 🚀 🔥 ❤️ (la web las pinta con iconos). Límite de 10 intentos de inicio de sesión por IP cada 10 minutos.
+Reacciones posibles: 👏 💡 🚀 🔥 ❤️ (la web las pinta con iconos). Al arrancar, si `reacciones.json` tiene varias del mismo usuario en un proyecto, la API se queda con la más reciente (`fecha`), reescribe el fichero y lo avisa por consola. Límite de 10 intentos de inicio de sesión por IP cada 10 minutos.
 
 ## Alumnado (cuentas)
 
