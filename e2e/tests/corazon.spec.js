@@ -86,10 +86,11 @@ test.describe('corazón con sesión', () => {
         await expect(botones).toHaveCount(5);
         await botones.evaluateAll(bs => Promise.all(bs.flatMap(b => b.getAnimations().map(a => a.finished))).then(() => null));
         const fuera = await botones.evaluateAll(bs => {
-          const caja = bs[0].closest('[role="article"]').getBoundingClientRect();
+          const caja = bs[0].closest('article, [role="article"]').getBoundingClientRect();   // tarjeta (article, D-48) o destacado
           return bs.filter(b => {
             const r = b.getBoundingClientRect();
-            return r.left < caja.left || r.right > caja.right || r.top < caja.top || r.bottom > caja.bottom || r.left < 0 || r.right > innerWidth;
+            // 1 px de margen: "Me encanta" va en la fila del corazón, que es la última de la tarjeta (D-48), y queda al ras
+            return r.left < caja.left - 1 || r.right > caja.right + 1 || r.top < caja.top - 1 || r.bottom > caja.bottom + 1 || r.left < 0 || r.right > innerWidth;
           }).map(b => b.getAttribute('aria-label'));
         });
         expect(fuera, `${titulo}: botones fuera de la tarjeta o de la pantalla`).toEqual([]);

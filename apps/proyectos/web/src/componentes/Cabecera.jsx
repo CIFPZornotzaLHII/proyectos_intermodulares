@@ -34,7 +34,8 @@ export default function Cabecera({ sencilla = false, sobreIndigo = false }) {
 
   const fija = fijada !== 'libre';
   const tenue = sobreIndigo && !fija ? 'text-texto/90' : 'text-texto-3';
-  // En móvil (D-30) la navegación baja a una segunda fila; en Entrar, "Volver" hace de navegación y va al final
+  // En móvil (D-30) la navegación baja a una segunda fila; en Entrar, "Volver" hace de navegación y va al final. Para que
+  // marca, idioma y sesión quepan en la primera fila a 390 px, "Iniciar sesión" se queda en su icono (44 px, D-48)
   const nav = (
     <nav className="flex flex-wrap items-center gap-[18px] text-cuerpo font-semibold max-md:order-last max-md:basis-full" aria-label="Principal">
       {sencilla ? (
@@ -82,7 +83,7 @@ export default function Cabecera({ sencilla = false, sobreIndigo = false }) {
             <Boton tamano="pequeno" onClick={salir}>{t('salir')}</Boton>
           </span>
         ) : (
-          <Boton to={`/entrar?volver=${encodeURIComponent(pathname)}`} tamano="pequeno"><Icono nombre="usuario" />{t('entrar')}</Boton>
+          <Boton to={`/entrar?volver=${encodeURIComponent(pathname)}`} tamano="pequeno" className="max-md:size-11 max-md:px-0"><Icono nombre="usuario" /><span className="max-md:sr-only">{t('entrar')}</span></Boton>
         ))}
         {sencilla && nav}
       </div>

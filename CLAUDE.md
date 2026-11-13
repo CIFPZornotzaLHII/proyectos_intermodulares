@@ -17,7 +17,7 @@ decisiones `D-n` en `docs/DECISIONS.md` (la más reciente arriba y **manda sobre
 
 - `apps/proyectos/web/`: la web. `src/paginas/` (`Portada`, `Galeria`, `Entrar`; `App.jsx` carga cada una con
   `React.lazy` en su propio trozo de JS, D-42: una página nueva sigue el mismo patrón), `src/componentes/` (cabecera, pie,
-  llamada, botón, iconos, `Tarjeta.jsx` con la tarjeta y su menú de tres puntos, el destacado y las reacciones,
+  llamada, botón, iconos, `Tarjeta.jsx` con la tarjeta (sin caja, D-48), su menú de tres puntos, la etiqueta de ejemplo y el destacado,
   `Abanico.jsx` con el corazón con abanico de reacciones y el resumen), `src/i18n.jsx` (textos ES/EU,
   `TEXTOS`), `src/api.js` (llamadas a la API; `BASE` = `import.meta.env.BASE_URL`), `src/sesion.jsx` (sesión
   compartida), `src/useProyectos.js`, `src/datos.js` (ordenar por votos, azar, filtros, `REACCIONES`, `conReaccion`), `src/index.css`

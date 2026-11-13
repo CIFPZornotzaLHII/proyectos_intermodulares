@@ -7,9 +7,10 @@ haces una **pull request**; el profesor la revisa y la acepta, y el servidor se 
 > formularios, enlaces que abren pestaña nueva), pero la página no comparte la sesión de la web ni puede llamar a su
 > API, y `localStorage` no está disponible. Si necesitas guardar algo, hazlo en memoria o en la URL.
 
-## 1. Prepara el repositorio (una vez por grupo)
+## 1. Prepara el repositorio (una vez)
 
-1. En GitHub, haz **Fork** de `CIFPZornotzaLHII/proyectos_intermodulares` (botón arriba a la derecha).
+1. En GitHub, [haz **Fork** de `CIFPZornotzaLHII/proyectos_intermodulares`](https://github.com/CIFPZornotzaLHII/proyectos_intermodulares/fork)
+   (el enlace abre directamente la página del fork; también está en el botón **Fork**, arriba a la derecha del repositorio).
 2. Clona tu fork: `git clone https://github.com/TU-USUARIO/proyectos_intermodulares.git`
 3. Crea una rama para tu proyecto: `git checkout -b mi-proyecto`
 
@@ -25,7 +26,7 @@ proyectos/
 ```
 
 ```bash
-cp -r proyectos/_plantilla proyectos/WG/reservas-talleres     # ejemplo: un grupo de DAW
+cp -r proyectos/_plantilla proyectos/WG/reservas-talleres     # ejemplo: un proyecto de DAW
 ```
 
 Dentro tendrás:
@@ -81,7 +82,13 @@ tu tarjeta aparece en la web en unos minutos.
 Para actualizar el proyecto más adelante (añadir el vídeo, mejorar la landing): misma rama, nuevos commits, nueva
 pull request.
 
-## Enlaces útiles en tu landing
+## Imágenes de tu landing
 
-Desde `index.html`, la galería está en `../../../galeria` y las imágenes de tu carpeta se enlazan en
-relativo (`src="captura.png"`). Tu landing se publica en `http://SERVIDOR/proyectos/p/<ciclo>/<carpeta>/`.
+Las imágenes de tu carpeta se enlazan en relativo (`src="captura.png"`). Tu landing se publica en
+`http://SERVIDOR/proyectos/p/<ciclo>/<carpeta>/`.
+
+## Los proyectos de ejemplo
+
+Los tres proyectos que ya hay (`2SM/red-segura-asesoria`, `WG/reservas-talleres` y `PG/tpv-cafeteria`) son ejemplos: la
+web los marca como "Ejemplo" y deja de enseñarlos cuando cada ciclo tiene al menos un proyecto de verdad. Llevan
+`"ejemplo": true` en su `proyecto.json`; el tuyo no lo lleva. Copia siempre `_plantilla`, no un ejemplo.

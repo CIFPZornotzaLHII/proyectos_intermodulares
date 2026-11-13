@@ -163,6 +163,7 @@ function leerProyectos() {
           portada,
           url: `p/${id}/${landing === 'index.html' ? '' : landing}`,
           video: typeof p.video === 'string' && /^https?:\/\//.test(p.video) ? p.video : '',
+          ejemplo: p.ejemplo === true,
           repo: typeof p.repo === 'string' && /^https?:\/\//.test(p.repo) ? p.repo : '',
         });
       } catch (e) {
@@ -189,10 +190,16 @@ function salud(req, res) {
   const { lista, invalidos } = leerProyectos();
   json(res, 200, { ok: true, proyectos: lista.length, invalidos, usuarios: usuarios.length, reacciones: reacciones.length, emojis: EMOJIS });
 }
+// Los proyectos de ejemplo ("ejemplo": true en su proyecto.json) se enseñan hasta que cada ciclo tiene al menos uno de
+// verdad; desde entonces la lista sale sin ellos (D-48). Sus landings se siguen sirviendo
+function visibles(lista) {
+  const conReales = new Set(lista.filter(p => !p.ejemplo).map(p => p.ciclo));
+  return Object.keys(CICLOS).every(c => conReales.has(c)) ? lista.filter(p => !p.ejemplo) : lista;
+}
 function listarProyectos(req, res, url) {
   const usuario = usuarioDeSesion(req);
   const ciclo = url.searchParams.get('ciclo');
-  let { lista } = leerProyectos();
+  let lista = visibles(leerProyectos().lista);
   if (ciclo) lista = lista.filter(p => p.ciclo === ciclo);
   json(res, 200, {
     ciclos: Object.entries(CICLOS).map(([codigo, c]) => ({ codigo, ...c })),

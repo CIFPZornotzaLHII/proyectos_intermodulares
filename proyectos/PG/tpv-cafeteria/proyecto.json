@@ -17,5 +17,6 @@
     "mysql",
     "javafx",
     "api-rest"
-  ]
+  ],
+  "ejemplo": true
 }

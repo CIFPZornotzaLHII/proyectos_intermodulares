@@ -42,10 +42,13 @@ export default function Entrar() {
           <Orb colors={['#6331FB', '#70FBB7', '#150C4A']} backgroundColor="#01010D" glow={0.9} hoverIntensity={0.6} />
         </div>
 
-        <div className="relative mx-auto grid w-full max-w-[1040px] items-center gap-12 md:grid-cols-2">
-          <AnimatedContent trigger="mount" className="flex flex-col gap-4" distance={16} duration={0.55} stagger={0.08}>
-            {/* fuera de la escala: título del login fijado por D-39; corta palabras largas ("erreakzionatzeko") para no pisar el formulario */}
-            <h1 className="font-titulo text-[clamp(48px,7vw,96px)] leading-[0.92] tracking-[0.03em] hyphens-auto [overflow-wrap:anywhere]">{t('sesion_titulo')}</h1>
+        <div className="relative mx-auto grid w-full max-w-[1040px] items-start gap-x-12 gap-y-8 md:grid-cols-2">
+          {/* fuera de la escala: título del login fijado por D-39. Va a lo ancho de las dos columnas (D-48) para quedarse en
+              dos líneas como mucho, también en euskera; corta una palabra solo si no cabe sola en la línea */}
+          <AnimatedContent trigger="mount" className="md:col-span-2" distance={16} duration={0.55}>
+            <h1 className="font-titulo text-[clamp(40px,7vw,96px)] leading-[0.92] tracking-[0.03em] [overflow-wrap:anywhere]">{t('sesion_titulo')}</h1>
+          </AnimatedContent>
+          <AnimatedContent trigger="mount" className="flex flex-col gap-4" distance={16} duration={0.55} delay={0.08} stagger={0.08}>
             <p className="text-entradilla text-texto">{t('sesion_texto')}</p>
             <ul className="flex flex-col gap-2.5 text-texto">
               {['sesion_p1', 'sesion_p2', 'sesion_p3'].map(k => (

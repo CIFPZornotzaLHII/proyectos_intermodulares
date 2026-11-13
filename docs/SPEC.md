@@ -14,20 +14,20 @@ manda sobre este documento).
 
 1. **Portada** (`/proyectos/`): cabecera con logo del centro; héroe de índigo eléctrico plano (D-17) con el título
    partido a los dos lados de la portada del proyecto destacado teñida de índigo, una palabra en serif itálica por
-   línea, entradilla, dos botones, la lista de lo que se pide a cada grupo y las cifras como fila de cierre;
+   línea, entradilla, dos botones, la lista de lo que se pide a cada estudiante y las cifras como fila de cierre;
    **proyecto destacado** elegido al azar entre los 10 con más reacciones (botón "Enséñame otro"); **Tendencias**:
    los 3 siguientes; enlace "Ver los N proyectos"; llamada a publicar; pie. Desde el destacado y las tendencias, con
    sesión, se reacciona con el corazón y su abanico de reacciones (no al propio proyecto; sin sesión lleva a entrar),
    sin que cambie el orden de la portada (D-47).
 2. **Galería** (`/proyectos/galeria`): todas las tarjetas con filtro por ciclo (chips con recuento, `?ciclo=`),
    filtro por etiqueta (las etiquetas de cada tarjeta son botones, `?etiqueta=`, se combina con `?ciclo=`; la activa se
-   ve como chip en la barra y se quita desde él), buscador (título, resumen, equipo, etiquetas), un botón "Compartir" en el menú de cada tarjeta que copia el
-   enlace de su landing (D-44) y las cinco reacciones (👏 💡 🚀 🔥 ❤️, pintadas con iconos). Sin sesión
-   se invita a entrar; con sesión cada alumno deja como mucho una reacción por proyecto: elegir otra la cambia y repetir
+   ve como chip en la barra y se quita desde él), buscador (título, resumen, nombres, etiquetas), un botón "Compartir" en el menú de cada tarjeta que copia el
+   enlace de su landing (D-44) y, como en la portada, el corazón con las cinco reacciones en abanico (👏 💡 🚀 🔥 ❤️,
+   pintadas con iconos, D-48). Sin sesión el corazón lleva a entrar; con sesión cada alumno deja como mucho una reacción por proyecto: elegir otra la cambia y repetir
    la misma la quita (D-46); nadie reacciona a su propio proyecto.
 3. **Entrar** (`/proyectos/entrar`): usuario y contraseña del centro (cuentas creadas por el profesorado), sesión de 30
    días en cookie firmada, vuelta a la página de origen.
-4. **Landings** (`/proyectos/p/<ciclo>/<carpeta>/`): el `index.html` de cada grupo, servido tal cual desde `proyectos/`.
+4. **Landings** (`/proyectos/p/<ciclo>/<carpeta>/`): el `index.html` de cada proyecto, servido tal cual desde `proyectos/`.
 5. **Publicación por pull request**: fork → copiar `proyectos/_plantilla/` → PR. `validar-pr.yml` comprueba la carpeta
    (`scripts/validar-proyectos.js`) y que la PR no toque nada más; al fusionar en `main`, `desplegar.yml` despliega en el
    servidor de Isard por el bastión SSH.
@@ -41,8 +41,9 @@ Paleta: ónice `#01010D` (fondo), índigo eléctrico `#6331FB` (el campo del hé
 menta tropical `#70FBB7` (única acción principal por bloque). Títulos en Impact (Anton de respaldo), una palabra en
 Instrument Serif itálica por línea en el título de la portada, texto IBM Plex Sans; monoespaciada del sistema solo para código, sin etiquetas sobre los títulos. Botones
 en píldora. Componentes animados **de React Bits, copiados tal cual** (`apps/proyectos/web/src/reactbits/`), nunca
-reimplementados. Tarjetas con `SpotlightCard`, con la portada de fondo a sangre y el texto abajo sobre un degradado de
-ónice (D-45); aparición al hacer scroll con `AnimatedContent`. Estados vacíos reales,
+reimplementados. Tarjetas sin caja: la portada entera en 16:9 arriba y el texto debajo, sobre el fondo de la página; solo el destacado
+va en `SpotlightCard` (D-48). Los tres proyectos del repo son ejemplos (`"ejemplo": true`): llevan la etiqueta
+"Ejemplo" y la API deja de enviarlos cuando cada ciclo tiene uno de verdad (D-48); aparición al hacer scroll con `AnimatedContent`. Estados vacíos reales,
 focus visible, toques de 44 px, `prefers-reduced-motion` respetado. En móvil la cabecera va en dos filas (marca, idioma y
 sesión; debajo, la navegación) y sin "Cómo publicar" (D-30). Cinco tamaños de letra (display, título, entradilla 18 px,
 cuerpo 16 px, pequeño 13 px) y nada legible por debajo de 13 px (D-32). El diseño de referencia es el artefacto "Diseño web

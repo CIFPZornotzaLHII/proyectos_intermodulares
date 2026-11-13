@@ -67,8 +67,10 @@ function validar(ciclo, slug) {
     else if (!fs.existsSync(path.join(carpeta, p.portada))) fallo(id, `la portada ${p.portada} no existe`);
     else if (fs.statSync(path.join(carpeta, p.portada)).size > MAX_PORTADA) fallo(id, `la portada ${p.portada} pesa más de 1 MB`);
   }
+  // "ejemplo": solo los tres proyectos de ejemplo del repo; la web los marca y los deja de enseñar cuando cada ciclo tiene uno de verdad (D-48)
+  if (p.ejemplo !== undefined && typeof p.ejemplo !== 'boolean') fallo(id, '"ejemplo" debe ser true o false');
   for (const k of Object.keys(p)) {
-    if (!['titulo', 'resumen', 'equipo', 'autores', 'portada', 'video', 'repo', 'etiquetas', 'landing'].includes(k)) aviso(id, `campo desconocido en proyecto.json: "${k}" (se ignora)`);
+    if (!['titulo', 'resumen', 'equipo', 'autores', 'portada', 'video', 'repo', 'etiquetas', 'landing', 'ejemplo'].includes(k)) aviso(id, `campo desconocido en proyecto.json: "${k}" (se ignora)`);
   }
 
   const { total, lista } = recorrer(carpeta);

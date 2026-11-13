@@ -17,5 +17,6 @@
     "firewall",
     "samba",
     "backups"
-  ]
+  ],
+  "ejemplo": true
 }

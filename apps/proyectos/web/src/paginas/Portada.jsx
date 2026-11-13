@@ -16,7 +16,7 @@ import Boton from '../componentes/Boton.jsx';
 import Icono from '../componentes/Icono.jsx';
 import { Destacado, TarjetaProyecto } from '../componentes/Tarjeta.jsx';
 
-// Lo que se pide a cada grupo, en la columna derecha de la portada (textos en i18n.jsx)
+// Lo que se pide a cada estudiante, en la columna derecha de la portada (textos en i18n.jsx)
 const LISTA_HERO = ['hero_1', 'hero_2', 'hero_3', 'hero_4'];
 
 export default function Portada() {
@@ -169,7 +169,7 @@ export default function Portada() {
               {t('ver_los_n', { n: lista.length })}<Icono nombre="flecha" grosor={2.2} />
             </Link>
           </AnimatedContent>
-          <AnimatedContent key={destacadoId} className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6" distance={16} duration={0.55} stagger={0.08} threshold={0.05}>
+          <AnimatedContent key={destacadoId} className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-x-8 gap-y-14" distance={16} duration={0.55} stagger={0.08} threshold={0.05}>
             {tendencias.map(p => <TarjetaProyecto key={p.id} p={p} modo="tendencia" usuario={usuario} ocupado={ocupado === p.id} onReaccion={emoji => onReaccion(p, emoji)} />)}
           </AnimatedContent>
         </section>

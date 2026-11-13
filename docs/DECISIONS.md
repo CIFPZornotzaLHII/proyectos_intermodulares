@@ -3,6 +3,45 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
+### D-48 · Tarjetas sin caja, proyectos de ejemplo marcados y enlace al fork · 2026-11-13 · vigente
+Peticiones: "la pagina principal me gusta pero las tarejatas de proyecto no tanto"; tras ver el prototipo y la revisión
+con tasteskill, "Aplica todos los cambios y desplega"; y "Indica en la web que los proyectos son EJEMPLOS para que quede
+claro cuales son de usuarios. Luego cuando ya haya al menos uno de cada haz que no se vean. En la explicación de como
+publicar tu proyecto añadir enlace a github donde se indica haz FORK. La parte de enlaces utiles para que necesitan la
+galeria??". Antes se fusionaron a mano los jobs 025 (D-46) y 026 (D-47), y esta decisión hace también el 027. Se hace así:
+- **Tarjetas (sustituye a D-45).** La portada (1200×675) de fondo en una tarjeta vertical se recortaba por los lados y
+  el velo tapaba su mitad de abajo (en la del SMR se veía un destello, no el móvil); el pie juntaba diez piezas
+  pequeñas con borde. Ahora `TarjetaProyecto` es un `<article>` sin caja, sin velo y sin `SpotlightCard` (sin caja no
+  hay borde que iluminar; el destacado lo conserva). `PortadaProyecto` es el enlace a la landing en `aspect-video`, con
+  la foto entera, la insignia y el menú de tres puntos encima; al pasar el ratón la foto se acerca (`scale 1.04`) y el
+  título se pone menta. Debajo, sobre el fondo de la página: título, autoría, resumen, etiquetas como texto (siguen
+  filtrando, D-41; la activa en menta y subrayada) y el corazón de D-47 con el total y el resumen, también en la
+  galería: desaparece la fila de cinco píldoras (`Reacciones`), la galería reacciona en optimista como la portada y el
+  error lo enseña el corazón. Rejillas con `gap-x-8 gap-y-14`; Tendencias con `auto-fit`, para que dos tarjetas ocupen
+  el ancho en vez de dejar vacío el tercio derecho.
+- **Destacado:** la línea de autoría pasa de mayúsculas espaciadas a texto normal en `texto-2`.
+- **Cabecera en móvil:** por debajo de 768 px "Iniciar sesión" se queda en su icono (44 px, el texto en `sr-only`), así
+  marca, idioma y sesión caben en la primera fila a 390 px (antes la sesión bajaba a una tercera: 163 px fijos).
+- **Login:** el título va a lo ancho de las dos columnas, más corto ("Entra para reaccionar", EU "Sartu eta
+  erreakzionatu") y con `clamp(40px,7vw,96px)`: dos líneas como mucho a 1440, 768 y 390 px sin partir palabras en
+  euskera (antes, cuatro líneas a 1440).
+- **Proyecto individual** (decisión del 12/11): fuera "grupo" de la galería, el login y el buscador ("nombre" en vez de
+  "equipo"); la entradilla de la portada cambia "una defensa de cinco minutos" (ahora opcional) por "un vídeo que lo
+  cuenta". La plantilla de landing, las tres landings de ejemplo y la regla de `equipo` (1 a 6 nombres) siguen pensadas
+  para grupos: es un pendiente aparte, porque cambia lo que se pide al alumnado.
+- **Ejemplos:** `"ejemplo": true` en el `proyecto.json` de los tres del repo (el validador lo admite y exige booleano).
+  La API lo envía y `visibles()` los quita de `GET /api/proyectos` cuando cada ciclo de `CICLOS` tiene al menos un
+  proyecto sin la marca; sus landings se siguen sirviendo. La web pinta "Ejemplo" (EU "Adibidea") en índigo junto a la
+  insignia del ciclo, en la tarjeta y en el destacado, y sus landings dicen "Proyecto de ejemplo". Las cifras de la
+  portada siguen contando los ejemplos.
+- **Fork:** en la llamada a publicar, "fork de `proyectos_intermodulares`" enlaza a la página de fork de GitHub
+  (`…/proyectos_intermodulares/fork`, `FORK` en `Llamada.jsx`; el texto EU pasa a singular). En `proyectos/LEEME.md`
+  el paso 1 enlaza igual y dice "una vez" en vez de "una vez por grupo".
+- **"Enlaces útiles en tu landing"**: la ruta a la galería sobraba (la plantilla ya trae "← Todos los proyectos"); la
+  sección queda en "Imágenes de tu landing" y se añade otra que explica los ejemplos.
+- El rectángulo gris que salía en el login en las capturas de tasteskill era el `Orb` en el Chrome sin cabeza de
+  Windows; en Chromium (e2e) se pinta bien. No se toca.
+
 ### D-47 · Reaccionar desde la portada con el corazón y su abanico · 2026-11-09 · vigente
 Petición: "Reaccionar desde la portada con un botón corazón: en el bloque "Proyecto destacado" (`Destacado` en
 `Tarjeta.jsx`) y en las tres tarjetas "Destacados" de `Portada.jsx` (modo portada de `TarjetaProyecto`, hoy solo una
@@ -48,7 +87,7 @@ API deduplica `reacciones.json` por `login` + `proyecto` quedándose con la de `
 sin fecha, la última del fichero), y solo si quitó alguna reescribe el fichero y lo avisa por consola. `mias` sigue
 siendo una lista, ahora de como mucho un emoji. La web no cambia: la fila de cinco píldoras enciende como mucho una.
 
-### D-45 · La portada como fondo de las tarjetas · 2026-11-09 · vigente
+### D-45 · La portada como fondo de las tarjetas · 2026-11-09 · sustituida por D-48
 Petición: "Integrar la imagen en las tarjetas (`TarjetaProyecto` en `Tarjeta.jsx`, galería y "Destacados" de la
 portada): en vez de una franja de portada arriba y el texto debajo sobre superficie, la portada ocupa toda la tarjeta
 como fondo (`object-cover`) con un degradado de ónice desde abajo (transparente arriba, `#01010D` casi opaco en la zona

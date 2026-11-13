@@ -127,12 +127,16 @@ describe('portada', () => {
     expect(cabecera.getByRole('link', { name: 'Cómo publicar' })).toHaveClass('max-md:hidden');
     expect(cabecera.getByText('Proyectos intermodulares').parentElement).toHaveClass('max-md:sr-only');
     expect(cabecera.getByRole('navigation', { name: 'Principal' })).toHaveClass('max-md:order-last');
+    // "Iniciar sesión" se queda en su icono para que la primera fila quepa a 390 px (D-48)
+    const entrar = cabecera.getByRole('link', { name: 'Iniciar sesión' });
+    expect(entrar).toHaveClass('max-md:size-11');
+    expect(within(entrar).getByText('Iniciar sesión')).toHaveClass('max-md:sr-only');
   });
 });
 
 describe('galería', () => {
   it('filtra por ciclo y por búsqueda', async () => {
-    const buscador = () => screen.getByRole('searchbox', { name: 'Buscar por título, equipo o etiqueta' });
+    const buscador = () => screen.getByRole('searchbox', { name: 'Buscar por título, nombre o etiqueta' });
     ir('/galeria');
     render(<App />);
     await screen.findByText('Reservas de talleres');
@@ -278,44 +282,58 @@ describe('galería', () => {
     });
   });
 
-  it('sin sesión invita a entrar; con sesión reacciona, quita la reacción y bloquea el propio proyecto', async () => {
+  it('reacciona con el corazón (D-48): sin sesión lleva a entrar y vuelve a la galería; con sesión añade, cambia y quita', async () => {
     ir('/galeria');
     const { unmount } = render(<App />);
     await screen.findByText('Reservas de talleres');
-    expect(screen.getAllByText('Inicia sesión para reaccionar').length).toBe(3);
+    const entrar = screen.getAllByRole('link', { name: 'Inicia sesión para reaccionar' });
+    expect(entrar.length).toBe(3);
+    for (const a of entrar) expect(a.getAttribute('href')).toMatch(/\/entrar\?volver=\/galeria$/);
+    expect(screen.queryByRole('button', { name: /^(Me gusta|Buena idea|Ambicioso|Fuego|Me encanta)$/ })).toBeNull();
     unmount();
 
     sesion = { login: 'ane.garcia', nombre: 'Ane García', ciclo: 'DAW' };
     render(<App />);
-    await screen.findByText('Reservas de talleres');
-    expect(screen.getByText('Ane García')).toBeInTheDocument();
-    const tarjetas = screen.getAllByRole('article');
-    const propia = tarjetas.find(a => within(a).queryByText('Reservas de talleres'));
+    await screen.findByText('Ane García');
+    const articulo = titulo => screen.getAllByRole('article').find(a => within(a).queryByText(titulo));
+    const total = a => within(a).getByText(/^\d+ reacciones$/).textContent.match(/\d+/)[0];
+    const propia = articulo('Reservas de talleres');
     expect(within(propia).getByText('Es tu proyecto')).toBeInTheDocument();
-    within(propia).getAllByRole('button', { name: /Me gusta|Buena idea|Ambicioso|Fuego|Me encanta/ }).forEach(b => expect(b).toBeDisabled());
+    expect(within(propia).queryByRole('button', { name: /^(Reaccionar|Tu reacción)/ })).toBeNull();
 
-    const ajena = tarjetas.find(a => within(a).queryByText('Red segura para una asesoría'));
-    const megusta = within(ajena).getByRole('button', { name: 'Me gusta' });
-    expect(megusta.textContent).toBe('');
-    fireEvent.click(megusta);
-    await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveAttribute('aria-pressed', 'true'));
-    expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveTextContent('1');
+    const ajena = articulo('Red segura para una asesoría');
+    const corazon = within(ajena).getByRole('button', { name: 'Reaccionar' });
+    fireEvent.click(corazon);
     fireEvent.click(within(ajena).getByRole('button', { name: 'Me gusta' }));
-    await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveAttribute('aria-pressed', 'false'));
-    expect(within(ajena).getByRole('button', { name: 'Me gusta' }).textContent).toBe('');
+    expect(corazon).toHaveAccessibleName('Tu reacción: Me gusta');
+    expect(total(ajena)).toBe('4');
+    await waitFor(() => expect(corazon).toHaveAttribute('aria-busy', 'false'));
+    // una por alumno y proyecto (D-46): otra la sustituye y repetirla la quita
+    fireEvent.click(corazon);
+    fireEvent.click(within(ajena).getByRole('button', { name: 'Fuego' }));
+    expect(corazon).toHaveAccessibleName('Tu reacción: Fuego');
+    expect(total(ajena)).toBe('4');
+    await waitFor(() => expect(corazon).toHaveAttribute('aria-busy', 'false'));
+    expect(within(ajena).getByTitle('Fuego')).toHaveClass('text-menta');
+    fireEvent.click(corazon);
+    fireEvent.click(within(ajena).getByRole('button', { name: 'Fuego' }));
+    await waitFor(() => expect(corazon).toHaveAccessibleName('Reaccionar'));
+    expect(total(ajena)).toBe('3');
+    expect(peticiones.filter(p => p === 'POST reacciones').length).toBe(3);
+  });
 
-    // Una por alumno y proyecto (D-46): otra la sustituye y repetirla la quita.
-    fireEvent.click(within(ajena).getByRole('button', { name: 'Me gusta' }));
-    await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveAttribute('aria-pressed', 'true'));
-    fireEvent.click(within(ajena).getByRole('button', { name: 'Fuego' }));
-    await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Fuego' })).toHaveAttribute('aria-pressed', 'true'));
-    expect(within(ajena).getByRole('button', { name: 'Fuego' })).toHaveTextContent('1');
-    expect(within(ajena).getByRole('button', { name: 'Me gusta' })).toHaveAttribute('aria-pressed', 'false');
-    expect(within(ajena).getByRole('button', { name: 'Me gusta' }).textContent).toBe('');
-    fireEvent.click(within(ajena).getByRole('button', { name: 'Fuego' }));
-    await waitFor(() => expect(within(ajena).getByRole('button', { name: 'Fuego' })).toHaveAttribute('aria-pressed', 'false'));
-    expect(within(ajena).getByRole('button', { name: 'Fuego' }).textContent).toBe('');
-    expect(peticiones.filter(p => p === 'POST reacciones').length).toBe(5);
+  it('si el servidor falla, el corazón de la tarjeta enseña el error y el total vuelve a su valor', async () => {
+    sesion = { login: 'ane.garcia', nombre: 'Ane García', ciclo: 'DAW' };
+    vi.stubGlobal('fetch', vi.fn((url, o) => (url.endsWith('api/reacciones')
+      ? Promise.resolve({ ok: false, status: 500, json: () => Promise.resolve({ error: 'fallo' }) }) : apiFalsa(url, o))));
+    ir('/galeria');
+    render(<App />);
+    await screen.findByText('Ane García');
+    const red = screen.getAllByRole('article').find(a => within(a).queryByText('Red segura para una asesoría'));
+    fireEvent.click(within(red).getByRole('button', { name: 'Reaccionar' }));
+    fireEvent.click(within(red).getByRole('button', { name: 'Me gusta' }));
+    await waitFor(() => expect(within(red).getByRole('alert')).toHaveTextContent('fallo'));
+    expect(within(red).getByText(/^\d+ reacciones$/)).toHaveTextContent('3');
   });
 
   it('si la portada no carga, la tarjeta enseña las iniciales en vez de la imagen rota (D-22)', async () => {
@@ -330,26 +348,62 @@ describe('galería', () => {
     expect(within(tarjeta).getByText('RD')).toHaveClass('text-indigo-claro');
   });
 
-  it('la portada es el fondo de toda la tarjeta y el texto queda fuera de su enlace (D-45)', async () => {
+  it('la portada va entera en 16:9, sin caja ni velo, y el texto queda fuera de su enlace (D-48)', async () => {
     proyectos[0].portada = 'p/WG/reservas/portada.jpg';
     ir('/galeria');
     render(<App />);
     await screen.findByText('Reservas de talleres');
     const tarjeta = screen.getAllByRole('article').find(a => within(a).queryByText('Reservas de talleres'));
+    expect(tarjeta.tagName).toBe('ARTICLE');
+    expect(tarjeta.className).not.toMatch(/border|gradient|shadow/);
+    const enlace = within(tarjeta).getByRole('link', { name: 'Ver proyecto: Reservas de talleres' });
+    expect(enlace).toHaveClass('aspect-video', 'overflow-hidden');
     const imagenes = tarjeta.querySelectorAll('img');
     expect(imagenes.length).toBe(1);
     expect(imagenes[0]).toHaveClass('object-cover');
-    const capa = imagenes[0].parentElement;
-    expect(capa).toHaveClass('absolute', 'inset-0', '-z-20');
-    expect(capa.parentElement).toBe(tarjeta);   // posicionada contra la raíz de SpotlightCard
-    const enlace = within(tarjeta).getByRole('link', { name: 'Ver proyecto: Reservas de talleres' });
+    expect(enlace.contains(imagenes[0])).toBe(true);
+    expect(tarjeta.querySelector('[class*="gradient"]')).toBeNull();
     const texto = [
       within(tarjeta).getByRole('heading', { level: 3 }),
       within(tarjeta).getByText('Resumen de Reservas de talleres'),
-      ...within(tarjeta).getAllByRole('button', { name: /^(Me gusta|Buena idea|Ambicioso|Fuego|Me encanta)$/ }),
+      within(tarjeta).getByRole('button', { name: 'Filtrar por la etiqueta docker' }),
+      within(tarjeta).getByRole('link', { name: 'Inicia sesión para reaccionar' }),
     ];
-    expect(texto.length).toBe(7);
     texto.forEach(el => expect(enlace.contains(el)).toBe(false));
+    // las etiquetas son texto, sin píldora ni borde
+    expect(within(tarjeta).getByRole('button', { name: 'Filtrar por la etiqueta docker' }).className).not.toMatch(/border|rounded/);
+  });
+
+  it('los proyectos de ejemplo llevan su etiqueta junto a la del ciclo, en la galería y en el destacado (D-48)', async () => {
+    proyectos.forEach(p => { p.ejemplo = true; });
+    proyectos[2].ejemplo = false;
+    ir('/galeria');
+    const { unmount } = render(<App />);
+    await screen.findByText('Reservas de talleres');
+    const tarjeta = titulo => screen.getAllByRole('article').find(a => within(a).queryByText(titulo));
+    expect(within(tarjeta('Reservas de talleres')).getByText('Ejemplo')).toBeInTheDocument();
+    expect(within(tarjeta('Red segura para una asesoría')).getByText('Ejemplo')).toBeInTheDocument();
+    expect(within(tarjeta('TPV para la cafetería')).queryByText('Ejemplo')).toBeNull();
+    expect(document.querySelectorAll('.insignia').length).toBe(3);   // la del ciclo sigue siendo una por tarjeta
+    unmount();
+    localStorage.setItem('pi_idioma', 'eu');
+    ir('/');
+    render(<App />);
+    await screen.findByText(/erreakzio guztira/);
+    expect(screen.getAllByText('Adibidea').length).toBe(2);   // destacado y tendencias: los dos ejemplos, en euskera
+  });
+
+  it('"Haz un fork" enlaza a la página de fork del repositorio en GitHub (ES y EU)', async () => {
+    ir('/galeria');
+    const { unmount } = render(<App />);
+    const fork = await screen.findByRole('link', { name: 'fork de proyectos_intermodulares' });
+    expect(fork).toHaveAttribute('href', 'https://github.com/CIFPZornotzaLHII/proyectos_intermodulares/fork');
+    expect(fork).toHaveAttribute('target', '_blank');
+    expect(fork.closest('p')).toHaveTextContent(/^Haz un fork de proyectos_intermodulares, copia la plantilla/);
+    unmount();
+    localStorage.setItem('pi_idioma', 'eu');
+    render(<App />);
+    expect(await screen.findByRole('link', { name: 'proyectos_intermodulares biltegiaren fork bat' })).toHaveAttribute('href', 'https://github.com/CIFPZornotzaLHII/proyectos_intermodulares/fork');
   });
 });
 
@@ -513,7 +567,7 @@ describe('inicio de sesión', () => {
   it('avisa del error y, con credenciales buenas, vuelve a la galería con la sesión abierta', async () => {
     ir('/entrar?volver=/galeria');
     render(<App />);
-    await screen.findByRole('heading', { level: 1, name: 'Entra para reaccionar a los proyectos' });
+    await screen.findByRole('heading', { level: 1, name: 'Entra para reaccionar' });
     fireEvent.change(screen.getByLabelText('Usuario'), { target: { value: 'ane.garcia' } });
     fireEvent.change(screen.getByLabelText('Contraseña'), { target: { value: 'mal' } });
     fireEvent.click(screen.getByRole('button', { name: 'Entrar' }));

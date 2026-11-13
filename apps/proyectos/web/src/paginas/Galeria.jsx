@@ -6,7 +6,7 @@ import { useIdioma } from '../i18n.jsx';
 import { useSesion } from '../sesion.jsx';
 import useProyectos from '../useProyectos.js';
 import { reaccionar } from '../api.js';
-import { coincide } from '../datos.js';
+import { coincide, conReaccion } from '../datos.js';
 import Cabecera from '../componentes/Cabecera.jsx';
 import Pie from '../componentes/Pie.jsx';
 import Llamada from '../componentes/Llamada.jsx';
@@ -22,7 +22,6 @@ export default function Galeria() {
   const etiqueta = parametros.get('etiqueta') || '';
   const [consulta, setConsulta] = useState('');
   const [ocupado, setOcupado] = useState(null); // id del proyecto cuya reacción está en vuelo
-  const [error, setError] = useState('');
   const navegar = useNavigate();
 
   // Cambia un parámetro de la URL conservando el otro (ciclo y etiqueta se combinan, D-41)
@@ -34,14 +33,17 @@ export default function Galeria() {
   const visibles = lista.filter(p => (!filtro || p.ciclo === filtro) && (!etiqueta || (p.etiquetas || []).includes(etiqueta)) && coincide(p, consulta));
   const cuenta = c => lista.filter(p => !c || p.ciclo === c).length;
 
+  // Como en la portada (D-47): la reacción se ve al momento y después manda el servidor; si falla vuelve el proyecto de
+  // antes y el corazón de la tarjeta enseña el error que se le devuelve. Sin sesión el corazón ya es un enlace a entrar
   const onReaccion = async (p, emoji) => {
-    if (!usuario) return navegar('/entrar?volver=/galeria');
-    setOcupado(p.id); setError('');
+    actualizar(conReaccion(p, emoji));
+    setOcupado(p.id);
     const r = await reaccionar(p.id, emoji);
     setOcupado(null);
-    if (r.estado === 401) return navegar('/entrar?volver=/galeria');
-    if (!r.ok) return setError((r.datos && r.datos.error) || t('error_red'));
+    if (r.estado === 401) { navegar('/entrar?volver=/galeria'); return null; }
+    if (!r.ok) { actualizar(p); return (r.datos && r.datos.error) || t('error_red'); }
     actualizar(r.datos);
+    return null;
   };
 
   return (
@@ -85,14 +87,12 @@ export default function Galeria() {
           </label>
         </div>
 
-        {error && <p role="alert" className="mt-3 flex items-center gap-2 rounded-[10px] border border-error/35 bg-error/12 px-3.5 py-3 text-pequeno text-error"><Icono nombre="alerta" tam={18} grosor={2} />{error}</p>}
-
         <div className="pt-4 pb-12">
           {estado === 'cargando' && <div className="vacio">{t('cargando')}</div>}
           {estado === 'error' && <div className="vacio">{t('error_carga')}</div>}
           {estado === 'ok' && visibles.length === 0 && <div className="vacio">{lista.length ? t('sin_resultados') : t('sin_proyectos')}</div>}
           {estado === 'ok' && visibles.length > 0 && (
-            <AnimatedContent key={`${filtro}|${etiqueta}`} className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6" distance={14} duration={0.5} stagger={0.06} threshold={0.05}>
+            <AnimatedContent key={`${filtro}|${etiqueta}`} className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-x-8 gap-y-14" distance={14} duration={0.5} stagger={0.06} threshold={0.05}>
               {visibles.map(p => <TarjetaProyecto key={p.id} p={p} usuario={usuario} ocupado={ocupado === p.id} onReaccion={emoji => onReaccion(p, emoji)}
                 etiqueta={etiqueta} onEtiqueta={e => poner('etiqueta', e === etiqueta ? '' : e)} />)}
             </AnimatedContent>

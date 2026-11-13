@@ -44,11 +44,15 @@ test.describe('con sesión', () => {
   test.use({ storageState: SESION });
   test('captura: galería con sesión y una reacción puesta', async ({ page }, info) => {
     await page.goto('galeria');
-    const megusta = tarjeta(page, PROYECTOS['2SM'].titulo).getByRole('button', { name: 'Me gusta' });
-    await megusta.click();
-    await expect(megusta).toHaveAttribute('aria-pressed', 'true');
+    const t = tarjeta(page, PROYECTOS['2SM'].titulo);
+    const corazon = t.getByRole('button', { name: /^(Reaccionar|Tu reacción: .+)$/ });
+    await corazon.click();
+    await t.getByRole('button', { name: 'Me gusta', exact: true }).click();
+    await expect(corazon).toHaveAccessibleName('Tu reacción: Me gusta');
+    await expect(corazon).toHaveAttribute('aria-busy', 'false');
     await capturar(page, info, 'galeria-con-sesion');
-    await megusta.click();                // deja las reacciones como estaban
-    await expect(megusta).toHaveAttribute('aria-pressed', 'false');
+    await corazon.click();                // deja las reacciones como estaban
+    await t.getByRole('button', { name: 'Me gusta', exact: true }).click();
+    await expect(corazon).toHaveAccessibleName('Reaccionar');
   });
 });

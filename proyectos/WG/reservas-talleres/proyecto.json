@@ -19,5 +19,6 @@
     "mysql",
     "api-rest",
     "docker"
-  ]
+  ],
+  "ejemplo": true
 }

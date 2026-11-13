@@ -27,11 +27,11 @@ test('cambia a euskera sin recargar, lo recuerda tras recargar y vuelve a castel
   await expect(page.getByRole('group', { name: 'Zikloka filtratu' }).getByRole('button', { name: 'Guztiak · 3' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Hasi saioa erreakzionatzeko' }).first()).toBeVisible();
   await page.getByRole('banner').getByRole('link', { name: 'Saioa hasi' }).click();
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Sartu proiektuei erreakzionatzeko');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Sartu eta erreakzionatu');
   await expect(page.getByLabel('Erabiltzailea')).toBeVisible();
 
   await page.getByRole('group', { name: 'Hizkuntza' }).getByRole('button', { name: 'ES' }).click();
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Entra para reaccionar a los proyectos');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Entra para reaccionar');
   await expect(page.locator('html')).toHaveAttribute('lang', 'es');
   expect(await page.evaluate(() => localStorage.getItem('pi_idioma'))).toBe('es');
 });
