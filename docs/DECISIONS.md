@@ -3,7 +3,7 @@
 Formato: `### D-n · título · fecha · estado`, la más reciente arriba. En una rama de la fábrica se escribe `D-NEW` y
 el orquestador la numera al fusionar. La decisión más reciente manda sobre `SPEC.md`.
 
-### D-NEW · Reaccionar desde la portada con el corazón y su abanico · 2026-11-09 · vigente
+### D-47 · Reaccionar desde la portada con el corazón y su abanico · 2026-11-09 · vigente
 Petición: "Reaccionar desde la portada con un botón corazón: en el bloque "Proyecto destacado" (`Destacado` en
 `Tarjeta.jsx`) y en las tres tarjetas "Destacados" de `Portada.jsx` (modo portada de `TarjetaProyecto`, hoy solo una
 píldora con el total), un botón con el icono corazón que al pulsarlo despliega en abanico, animadas una tras otra, las

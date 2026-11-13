@@ -18,7 +18,7 @@ manda sobre este documento).
    **proyecto destacado** elegido al azar entre los 10 con más reacciones (botón "Enséñame otro"); **Tendencias**:
    los 3 siguientes; enlace "Ver los N proyectos"; llamada a publicar; pie. Desde el destacado y las tendencias, con
    sesión, se reacciona con el corazón y su abanico de reacciones (no al propio proyecto; sin sesión lleva a entrar),
-   sin que cambie el orden de la portada (D-NEW).
+   sin que cambie el orden de la portada (D-47).
 2. **Galería** (`/proyectos/galeria`): todas las tarjetas con filtro por ciclo (chips con recuento, `?ciclo=`),
    filtro por etiqueta (las etiquetas de cada tarjeta son botones, `?etiqueta=`, se combina con `?ciclo=`; la activa se
    ve como chip en la barra y se quita desde él), buscador (título, resumen, equipo, etiquetas), un botón "Compartir" en el menú de cada tarjeta que copia el

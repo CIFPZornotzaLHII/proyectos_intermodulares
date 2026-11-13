@@ -14,7 +14,7 @@ const SITIOS = REACCIONES.map((_, i) => {
   return { x: Math.round(116 * Math.cos(a)), y: Math.round(-116 * Math.sin(a)) };
 });
 
-// Corazón que despliega en abanico las cinco reacciones (D-NEW); disclosure como el menú de tres puntos (D-28): se
+// Corazón que despliega en abanico las cinco reacciones (D-47); disclosure como el menú de tres puntos (D-28): se
 // cierra con Escape, al pulsar fuera, al pulsar otra vez o al elegir. onReaccion(emoji) resuelve a null o al texto del
 // error. Sin usuario enlaza al login; en el proyecto propio no hay botón
 export default function Abanico({ p, usuario, onReaccion, ocupado = false, volver = '/' }) {

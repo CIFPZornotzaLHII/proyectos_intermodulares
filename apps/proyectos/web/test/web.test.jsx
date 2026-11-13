@@ -317,7 +317,7 @@ describe('galería', () => {
   });
 });
 
-describe('corazón de la portada (D-NEW)', () => {
+describe('corazón de la portada (D-47)', () => {
   const ANE = { login: 'ane.garcia', nombre: 'Ane García', ciclo: 'DAW' };
   const NOMBRES = ['Me gusta', 'Buena idea', 'Ambicioso', 'Fuego', 'Me encanta'];
   const articulo = titulo => screen.getAllByRole('article').find(a => within(a).queryByText(titulo));

@@ -26,7 +26,7 @@ export default function Portada() {
   const navegar = useNavigate();
   const [ocupado, setOcupado] = useState(null); // id del proyecto cuya reacción está en vuelo
 
-  // El orden por votos se fija al llegar la lista (D-NEW): reaccionar cambia los números en su sitio, no qué proyecto es
+  // El orden por votos se fija al llegar la lista (D-47): reaccionar cambia los números en su sitio, no qué proyecto es
   // el destacado ni qué tarjetas hay en Tendencias. Se guardan ids; los objetos se leen siempre de la lista actual
   const [orden, setOrden] = useState([]);
   const [destacadoId, setDestacadoId] = useState(null);
@@ -42,7 +42,7 @@ export default function Portada() {
   const otro = () => setDestacadoId(alAzar(top.filter(id => id !== destacadoId)));
   const tendencias = orden.filter(id => id !== destacadoId).slice(0, 3).map(proyecto);
 
-  // Optimista (D-NEW): la reacción se ve al momento con conReaccion y después manda la respuesta del servidor; si falla
+  // Optimista (D-47): la reacción se ve al momento con conReaccion y después manda la respuesta del servidor; si falla
   // vuelve el proyecto de antes (p) y el corazón enseña el error que se le devuelve
   const onReaccion = async (p, emoji) => {
     actualizar(conReaccion(p, emoji));

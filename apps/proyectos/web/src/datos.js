@@ -27,7 +27,7 @@ export const REACCIONES = [
 ];
 
 // Copia del proyecto tras pulsar `emoji`, con la regla de una reacción por alumno (job 025): la misma se quita y otra
-// sustituye a las que hubiera. Es la vista optimista de la portada; después manda la respuesta del servidor (D-NEW)
+// sustituye a las que hubiera. Es la vista optimista de la portada; después manda la respuesta del servidor (D-47)
 export const conReaccion = (p, emoji) => {
   const mias = p.mias || [];
   const quita = mias.includes(emoji);

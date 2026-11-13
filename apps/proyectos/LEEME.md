@@ -19,7 +19,7 @@ sale de la carpeta del ciclo (`2SM`, `WG`, `PG`), no de lo que escriba el alumno
 
 La portada elige el **proyecto destacado** al azar entre los 10 con más reacciones (cambia en cada visita) y debajo
 muestra los 3 siguientes. Con sesión se reacciona a ellos desde la portada con el corazón, que despliega las cinco
-reacciones en abanico; reaccionar no cambia el orden de la portada (D-NEW). "Ver todos los proyectos" lleva a la
+reacciones en abanico; reaccionar no cambia el orden de la portada (D-47). "Ver todos los proyectos" lleva a la
 galería con filtros por ciclo y buscador.
 
 ## API

@@ -140,7 +140,7 @@ export function Reacciones({ p, usuario, onReaccion, ocupado = false }) {
   );
 }
 
-// Tarjeta de la galería (con reacciones) o de "Tendencias" (corazón, total y resumen, D-NEW); las acciones van en el menú de tres puntos
+// Tarjeta de la galería (con reacciones) o de "Tendencias" (corazón, total y resumen, D-47); las acciones van en el menú de tres puntos
 export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, etiqueta, onEtiqueta, modo = 'galeria' }) {
   const { t } = useIdioma();
   const total = totalReacciones(p);
@@ -181,7 +181,7 @@ export function TarjetaProyecto({ p, usuario, onReaccion, ocupado, etiqueta, onE
 // mucha escala (título de portada en Impact, cifra grande en menta) y una sola acción menta; vídeo y código, enlaces.
 const ENLACE_DISCRETO = 'inline-flex min-h-[44px] items-center gap-2 text-cuerpo font-semibold text-texto-2 no-underline hover:text-menta';
 
-// Con sesión se reacciona con el corazón (D-NEW): su abanico sale hacia arriba, sobre el título y el texto
+// Con sesión se reacciona con el corazón (D-47): su abanico sale hacia arriba, sobre el título y el texto
 export function Destacado({ p, usuario, onReaccion, ocupado }) {
   const { t } = useIdioma();
   const [imagen, alFallar] = usePortada(p);

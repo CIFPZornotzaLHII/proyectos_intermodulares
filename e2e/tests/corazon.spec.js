@@ -1,4 +1,4 @@
-// Corazón de la portada (D-NEW): sin sesión lleva a entrar; con la sesión guardada por preparar.setup.js, el propio
+// Corazón de la portada (D-47): sin sesión lleva a entrar; con la sesión guardada por preparar.setup.js, el propio
 // proyecto no reacciona y en otro el abanico añade, persiste y quita; teclado; medidas a 390 y 1280 px; "reducir
 // movimiento". Cambiar de reacción no se prueba aquí: depende de la API del job 025. Deja las reacciones a cero.
 import { test, expect } from '@playwright/test';
